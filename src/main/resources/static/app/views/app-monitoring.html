@@ -1,0 +1,36 @@
+<div class="cont">
+	<div class="cluster-monitor">
+		<div class="row">
+			<div class="col-sm-6"> 
+				<div id="app_cpu" style="min-width:150px;height:150px"></div>
+			</div>
+			<div class="col-sm-6">
+				<div id="app_mem" style="min-width:150px;height:150px"></div>
+			</div>
+		</div>
+        <div class="mt20"></div>
+		<table class="table table-bordered table-hover">
+   <thead>
+      <tr>
+         <th class="text-center">实例</th>
+         <th class="text-center">主机IP</th>
+         <th class="text-center">实例IP</th>
+         <th class="text-center">CPU使用率</th>
+         <th class="text-center">内存使用量</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="item in appMonitor.set">
+         <td class="text-center" ng-bind="item.instanceId"></td>
+         <td class="text-center" ng-bind="(appMonitorInstance|filter:item.instanceId)[0].ip"></td>
+         <td class="text-center" ng-bind="(appMonitorInstance|filter:item.instanceId)[0].lxc_ip"></td>
+         <td class="text-center">
+            <div data-label="{{item.appCpu}}%" class="radial-bar radial-bar-{{item.appCpu}} radial-bar-xs"></div>
+         </td>
+         <td class="text-center">{{item.usedMem | number:2}}MB</td>
+      </tr>
+   </tbody>
+	    </table>
+
+	</div>
+</div>

@@ -1,0 +1,73 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">组件管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env.service({clusterid:appinfo.clusterId})">{{appinfo.clusterName}}</a>
+	      </li>
+	      <li class="active">
+	         {{appinfo.appName}}
+	      </li>
+      </ol>
+  </div>
+
+</div>
+<div class="panel">
+<div class="panel-body">
+	<div class="row">
+		<div class="col-sm-7">
+			<div class="appl pull-left">
+				<em class="fa fa-cube"></em>
+				<p ng-bind="appinfo.appName"></p>
+				<p>部署于：{{appinfo.deployTime|date:'yyyy-MM-dd HH:mm:ss'}}</p>{{abs}}
+			</div>
+			<div class="appr pull-left">
+				<p>组件状态：{{appinfo.status}}</p>
+				<p>运行集群：{{appinfo.clusterName}}</p>
+				<p>访问方式：{{appinfo.accessType}}</p>
+				<p>访问地址：<a ng-href="{{appinfo.url}}" target="_blank">{{appinfo.url}}</a></p>
+				
+			</div>
+		</div>
+		<div class="col-sm-5 app_btns">
+		   <div class="clearfix">
+				<button type="button" class="btn btn-oval btn-danger" ng-click="destroy()">卸载</button>
+	      <!-- <button class="btn btn-oval btn-info" ng-click="openRollback()">升级.回滚</button> -->
+	      <button class="btn btn-oval btn-primary" ng-click="openextend()">维护实例</button>
+				<button type="button" class="btn btn-oval btn-danger"  ng-click="stop()">停止</button>
+	      <!-- <a ui-sref="app.assembly_update({id:appinfo.versionStrategyId})" class="btn btn-oval btn-success">更新</a> -->
+				<button type="button" class="btn btn-oval btn-success"  ng-click="start()">启动</button>
+		  </div>
+		  <!-- <div class="clearfix mt20">
+			    <button type="button" class="btn btn-oval btn-info" ng-click="openRollbackTask()">查看升级.回滚进程</button>
+		  </div> -->
+		  <div class="clearfix text-right mt20">
+		      开启维护
+		       <label class="switch switch-lg">
+                     <input type="checkbox" ng-checked="extendoff" ng-model="extendoff" ng-click="openextendoff()" />
+                     <span></span>
+                </label>
+            </div>
+		</div>
+	</div>
+</div>
+</div>
+<div>
+
+	<div class="g-tablist">
+		<!-- <a ui-sref="app.appdetail.version"  ng-class="getMenuItemPropClasses('version')">版本</a> -->
+		<a ui-sref="app.deployComponent.monitor"  ng-class="getMenuItemPropClasses('monitor')">监控</a>
+		<a ui-sref="app.deployComponent.instance"  ng-class="getMenuItemPropClasses('instance')">实例</a>
+		<a ui-sref="app.deployComponent.log"  ng-class="getMenuItemPropClasses('log')">日志</a>
+		<!-- <a ui-sref="app.appdetail.events"  ng-class="getMenuItemPropClasses('events')">事件</a> -->
+		<!-- <a ui-sref="app.appdetail.control"  ng-class="getMenuItemPropClasses('control')">控制台</a> -->
+		  <!-- <a ui-sref="app.deployComponent.load"  ng-class="getMenuItemPropClasses('load')">负载</a>  --> 
+		<!-- <a ui-sref="app.appdetail.port"  ng-class="getMenuItemPropClasses('port')">端口</a> -->
+		<!-- <a ui-sref="app.appdetail.network"  ng-class="getMenuItemPropClasses('network')">外部网络</a> -->
+		<a ui-sref="app.deployComponent.scale"  ng-class="getMenuItemPropClasses('scale')">伸缩策略</a>
+	</div>
+	<div ui-view="" autoscroll="false" class="g-wrapper ng-fadeInLeftBig"></div>
+</div>
+
+ 
+ 

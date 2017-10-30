@@ -1,0 +1,28 @@
+<div class="dialog-header">
+   <h4>配置详情</h4>
+</div>
+<div class="dialog-body">
+<table class="table bg-white configtable">
+     <tr style="font-weight: bold">
+		<td style="width:25%">KEY</td>
+		<td style="width:30%">VALUE</td>
+		<td style="width:10%">type</td>
+		<td style="width:35%">描述</td>
+     </tr>
+     <tr ng-repeat="config in configlists track by $index">
+	    <td> 
+	       <span>{{config.key}}</span>
+	    </td>
+	    <td>
+	       <span>{{config.value}}</span>
+	    </td>
+	    <td>
+	       <span>{{config.type}}</span>
+	    </td>
+	    <td>
+	       <span>{{config.description}}</span>
+	    </td>
+ 
+      </tr>
+ </table>
+ </div>

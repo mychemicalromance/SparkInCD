@@ -1,0 +1,48 @@
+<div class="dialog-header">
+    <h4>创建环境</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="createclusterForm">
+      	 <div class="form-group">
+	         <label class="col-lg-4 control-label text-right">环境名称</label>
+	         <div class="col-lg-7">
+	            <input type="text" ng-model="account.name" ng-focus="envMsg()" class="form-control" maxlength="64" required="" name="name" autocomplete="off" />
+	            <span ng-show="createclusterForm.name.$dirty &amp;&amp; createclusterForm.name.$error.required" class="text-danger">请输入环境名称！</span>
+	            <span ng-show="createclusterForm.name.$dirty &amp;&amp; createclusterForm.name.$error.maxlength" class="text-danger">最多64个字符！</span>
+	            <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+	         </div>
+	     </div>
+	     <!-- <div class="form-group">
+	         <label class="col-lg-4 control-label text-right">网络种类</label>
+	         <div class="col-lg-7">
+	            <select class="form-control" ng-model="account.networkkind" ng-options="nekworkkind for nekworkkind in nekworkkindlist">
+	            
+	            </select>
+	         </div>
+	     </div> -->
+	     <!-- <div class="form-group">
+	         <label class="col-lg-4 control-label text-right">网段分配类型</label>
+	         <div class="col-lg-7">
+	            <select class="form-control" ng-model="account.networktype" ng-options="nekworktype.value as nekworktype.text for nekworktype in nekworktypelist">
+	            
+	            </select>
+	         </div>
+	     </div>  -->
+	     <!-- <div class="form-group" ng-if="account.networktype=='user_defined'">
+	         <label class="col-lg-4 control-label text-right">网段</label>
+	         <div class="col-lg-7">
+	            <input type="text" ng-model="account.network" class="form-control" required="" name="network" autocomplete="off" />
+	            <span ng-show="createclusterForm.network.$dirty &amp;&amp; createclusterForm.network.$error.required" class="text-danger">请填写自定义网络！</span>
+	            <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+	         </div>
+	     </div> -->
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-default" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-info" ng-click="createclusterFn()">创建</button>
+   <button class="btn btn-info" ng-click="createclusterFn(1)" ng-click="closeThisDialog(0)">创建并添加主机</button>
+</div>
+ 

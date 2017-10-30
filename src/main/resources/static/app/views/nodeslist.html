@@ -1,0 +1,83 @@
+<div class="tablesearch">
+   <div class="row">
+      <div class="col-sm-8">
+          <input type="text" ng-keyup="searchLabel($event)" class="form-control" placeholder="输入标签名称搜索主机" ng-model="searchval" /> 
+      </div>
+      <div class="col-sm-4">
+         <div class="g-btns pull-right"> 
+         <a ui-sref="app.nodesystem({clustername:cluster.name,clusterid:cluster.id})" class="mb-sm btn btn-info"><em class="fa fa-plus"></em> 添加主机</a>
+         <button type="button" class="mb-sm btn btn-danger" ng-click="openDelNodeFn()"><em class="fa fa-trash"></em> 删除主机</button>
+      </div>
+      </div>
+   </div>
+   
+</div>
+
+<table class="table table_title" id="nodelisttable">
+   <thead>
+      <tr>
+         <th check-all="check-all">
+            <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+         </th>
+         <th>名称</th>
+         <th>标签</th>
+         <th>IP地址</th>
+         <th>主机状态</th>
+         <th>CPU使用率</th>
+         <th>内存使用量</th>
+         <th>组件</th>
+         <th>创建时间</th>
+         <th>操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-if="!nodelistoff">
+         <td colspan="10">
+           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+         </td>
+      </tr>
+      <tr ng-repeat="item in nodeslist.rows">
+         <td>
+            <div class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" id="{{item.editable}}_{{item.id}}_{{item.monitor.running}}" save-id="{{item.editable}}_{{item.id}}_{{item.monitor.running}}" checkapp-id="checkappId" ng-checked="{{item.ischecked}}" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+         </td>
+         <td><a ui-sref="app.node({clusterid:cluster.id,nodeid:item.id})">{{item.name}}</a></td>
+         <td>
+              <span ng-click="getitemid(item,item.id,$event,$index)" ng-if="item.labels" ng-controller="FormxEditableController" editable-text="item.labels">{{item.labels}}</span>
+              <a ng-if="!item.labels" href="" class="fa fa-plus-square" ng-click="openaddLabelFn(item.id)" title="添加标签"></a>
+         </td>
+         <td>{{item.ip}}</td>
+         <td>  
+           <span class="mr-sm label" ng-class="{'label-success':item.monitor.running,'label-danger':!item.monitor.running}">{{item.monitor.running?'运行正常':'异常停止'}}</span>
+         </td>
+         <td class="text-center">
+            <div data-label="{{item.monitor.cpu}}%" class="radial-bar radial-bar-{{item.monitor.cpu}} radial-bar-xs"></div>
+         </td>
+         <td>{{item.monitor.memusage}}MB</td>
+         <td class="text-center">
+            <a href="#" ng-click="openComponentOnNode(item.ip)">{{item.app.appnum}}组件</a>
+         </td>
+         <td>{{item.timestamp}}</td>
+         <td>
+            <button class="btn btn-danger btn-sm" ng-click="openDelNodeFn(item.editable+'_'+item.id,$index,item.monitor.running)">
+               <em class="fa fa-trash"></em>
+            </button>
+         </td>
+      </tr>
+      <tr ng-show="nodelistoff">
+         <td colspan="10">
+            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+         </td>
+      </tr>
+   </tbody>
+</table>
+

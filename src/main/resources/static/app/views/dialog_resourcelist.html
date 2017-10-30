@@ -1,0 +1,46 @@
+<div class="dialog-header">
+    <h4>选择资源</h4>
+</div>
+<div class="dialog-body">
+	<div class="row">
+		<div class="col-sm-12">
+	        <div class="input-group">
+	            <input type="text" class="form-control" ng-keyup="searchResource($event)" ng-model="search.val" data-parsley-ui-enabled="false" placeholder="输入资源名称搜索 " />
+	            <span class="input-group-btn">
+	              <button type="button" class="btn btn-info" ng-click="searchResource($event)">搜索</button>
+	            </span>
+	        </div>
+	    </div>
+	</div>
+	<div class="text-center">
+        <div class="ball-pulse" ng-if="loadoff">
+           <div></div>
+           <div></div>
+           <div></div>
+        </div>
+    </div>
+	<div ng-if="!resultoff">
+	    <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+	</div>
+	<div class="imagelist">
+      <div class="list-image clearfix" ng-repeat="item in resourcelist.rows" ng-show="!loadoff">
+         <a href="" class="pull-left image-pic"><img ng-src="app/images/img/{{item.pic}}.png"></a>
+         <div class="pull-left"> 
+            <p class="name"><a ui-sref="app.resource_server_detail.overview({resourceId:item.id})" target="_blank" class="text-info">{{item.resourceName}}</a></p>
+            <p class="newv">最新版本：{{item.last_version}}</p>
+         </div>
+         <div class="image-btn">
+            <button type="button" class="btn btn-info btn-sm" ng-click="closeThisDialog(0)" ng-focus="getResourceNameFn(item.resourceName,item.id)">选择 <em class="icon-cloud-upload"></em></button>
+         </div>
+         <div class="pull-right image-v">
+            <span class="date">更新时间：{{item.last_time}}</span>
+            <span class="v text-info">{{item.version_num}}个版本</span>
+         </div>
+         <div class="pos-pic">
+         </div>
+      </div>
+      <div class="pagewrap" ng-show="resultoff">
+        <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange(pageNum)"></page>
+      </div>
+  </div>
+</div>

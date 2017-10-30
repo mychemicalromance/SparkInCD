@@ -1,0 +1,32 @@
+ <div class="content-heading clearfix">
+  <h3 class="pull-left">应用列表</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.view">应用视图</a>
+	      </li>
+	      <li class="active">
+                        系统：{{appname}}
+	      </li>
+      </ol>
+  </div> 
+
+</div>
+ 
+<table class="table table_title" id="applisttable">
+	<thead>
+      <tr>
+         <th>系统名称</th>
+         <th>应用名称</th>
+         <th>应用类型</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr colspan="3">统计 storm应用数：{{stormAppNum}}，spark应用数：{{sparkAppNum}}</tr>
+      <tr ng-repeat="item in appList">
+         <td>{{item.appName}}</td>
+         <td>{{item.name}}</td>
+         <td>{{item.type}}</td>
+      </tr>
+   </tbody>
+</table>

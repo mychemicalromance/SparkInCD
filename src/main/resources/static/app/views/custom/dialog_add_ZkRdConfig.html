@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="dialog-header">
+    <h4>添加属性</h4>
+</div>
+<div class="dialog-body">
+	<textarea class="form-control" ng-model="Config"  aria-describedby="basic-addon1">
+	</textarea>
+</div>
+<div class="dialog-body">
+<pre>{{ConfigZ}}</pre>
+</div>
+
+
+<div class="dialog-footer">
+   <a class="btn btn-default" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-info" ng-click="addConfig()" >确定</button>
+</div>
+
+</body>
+</html>

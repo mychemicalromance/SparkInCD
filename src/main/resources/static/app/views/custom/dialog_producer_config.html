@@ -1,0 +1,17 @@
+<div class="dialog-header">
+    <h4>添加配置</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="createData">
+      	 <div class="form-group">
+	         <textarea rows="3" style="width:100%" ng-model="ConfigTextaarea"></textarea>
+         </div>
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-primary" ng-click="addConfigFn()">确定</button>
+</div>
+ 

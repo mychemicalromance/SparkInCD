@@ -1,0 +1,41 @@
+<div class="g-wrapper">
+  <div class="cont">
+     <div>
+        <button class="mb-sm btn btn-info" ng-click="openCreateUser()">添加用户</button>
+	</div>
+	<div class="tablesearch">
+       <input type="text" ng-keyup="searchUser($event)" class="form-control" placeholder="输入用户名搜索" ng-model="searchval" />
+    </div>
+	<table class="table">
+	  <thead>
+		  <tr>
+		  	<th>工号</th>
+		  	<th>角色</th>
+			<th>归属系统</th>
+		  	<th>操作</th> 
+		  </tr>
+	  </thead>
+	  <tbody>
+	      <tr ng-if="!listoff">
+	         <td colspan="3">
+	           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+	         </td>
+	      </tr>
+		  <tr ng-repeat="user in userlist.rows">
+		  	<td>{{user.userName}}</td>
+		  	<td>{{user.roleName}}</td>
+			<td>{{user.appName}}</td>
+		  	<td> 
+		  		<button class="btn btn-info" ng-click="modifyUser(user)">编辑</button>
+				<button class="btn btn-info" ng-click="delUser(user)">删除</button>
+		  	</td>
+		  </tr>
+		  <tr ng-show="listoff">
+	         <td colspan="3">
+	            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+	         </td>
+	      </tr>
+	  </tbody>
+	</table>
+  </div>
+</div>

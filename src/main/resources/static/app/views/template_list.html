@@ -1,0 +1,37 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">服务编排管理</h3>
+  <a ui-sref="app.createtemplate" class="mb-sm btn btn-info pull-right">新建编排</a>
+</div>
+<div class="tablesearch">
+   <input type="text" ng-keyup="searchTemplate($event)" class="form-control" placeholder="输入模板名搜索" ng-model="searchval" />
+</div>
+<table class="table table_title" id="templisttable">
+   <thead>
+      <tr>
+        <th>模板名称</th>
+        <th>描述</th>
+        <th>操作</th>
+      </tr>
+   </thead>
+   <tbody>
+   	  <tr ng-if="!templistoff">
+         <td colspan="3">
+           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+         </td>
+      </tr>
+      <tr ng-repeat="item in templist.rows">
+	  	 	<td><a ui-sref="app.templatedetail({templateid:item.UUID})">{{item.templateName}}</a></td>
+	  	 	<td>{{item.description||'无'}}</td>
+	  	 	<td>
+	  	 		<a ui-sref="app.templatedetail({templateid:item.UUID})" class="btn btn-info">查看</a>
+	  	 		<a ui-sref="app.config_template({templatename:item.templateName,templateid:item.UUID})" class="btn btn-info">配置</a>
+	  	 		<button class="btn btn-danger" ng-click="deltempresource(item.UUID)">删除</button>
+	  	 	</td>
+  	   </tr>
+      <tr ng-show="templistoff">
+         <td colspan="3">
+            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+         </td>
+      </tr>
+   </tbody>
+</table>

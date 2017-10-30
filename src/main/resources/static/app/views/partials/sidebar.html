@@ -1,0 +1,48 @@
+<script type="text/ng-template" id="sidebar-renderer.html">
+  <a ng-href="{{$state.href(item.sref, item.params)}}" title="{{item.text}}"><em ng-if="item.icon" class="{{item.icon}}"></em><span>{{(item.translate | translate) || item.text}}</span>
+  </a><ul ng-if="item.policyChild" collapse="isCollapse(pIndex)" ng-init="addCollapse(pIndex, item)" class="nav sidebar-subnav"><li ng-repeat="item in item.policyChild" ng-include="'sidebar-renderer.html'" ng-class="getMenuItemPropClasses(item)" ng-init="pIndex=(pIndex+'-'+$index); inSubmenu = true" ng-click="toggleCollapse(pIndex)"></li></ul>
+</script>
+<div class="aside-inner">
+   <!-- <div class="logo">
+      <h1 class="text-center">
+         <a href="index.jsp">
+            <img width="200" src="app/images/logo2.png" ng-attr-alt="{{app.title}}">
+         </a>
+      </h1>
+   </div> -->
+   <!-- <nav class="sidebar">
+      <ul class="nav">
+         <li ng-repeat="item in menuItems" class="{{$first?'first':''}}" ng-class="getMenuItemPropClasses(item)">
+            <a ng-if="item.sref" ng-href="#{{item.sref}}">
+               <em ng-if="item.icon" class="{{item.icon}}"></em>
+               <span ng-bind="item.text"></span>
+            </a>
+         </li>
+      </ul>
+   </nav> -->
+   <nav class="sidebar" sidebar="" sidebar-anyclick-close="">
+      <ul class="nav">
+         <!-- <li ng-repeat="item in menuItems" class="{{$first?'first':''}}" ng-class="getMenuItemPropClasses(item)">
+            <a ng-if="item.sref" ng-href="#{{item.sref}}">
+               <em ng-if="item.icon" class="{{item.icon}}"></em>
+               <span ng-bind="item.text"></span>
+            </a>
+         </li> -->
+         <li ng-class="getMenuItemPropClasses(item)" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
+      </ul>
+   </nav>
+   <ul class="nav-footer clearfix">
+      <li>
+         <!-- <a href="/cloudui/userdoc.html" target="_blank">
+            <em class="fa fa-files-o"></em>
+            <span>用户手册</span>
+         </a> -->
+      </li>
+      <li style="float:right;">
+         <a ng-click="loginout()">
+            <em class="icon-power"></em>
+            <span>退出</span>
+         </a>
+      </li>
+    </ul>
+</div>

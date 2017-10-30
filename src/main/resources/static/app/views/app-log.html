@@ -1,0 +1,46 @@
+<div class="cont">
+<form role="form" class="form-horizontal clearfix form-log">
+  <div class="col-sm-6">
+     <div class="form-group"> 
+         <label class="col-sm-3 control-label">实例名：</label> 
+         <div class="col-sm-9">
+	         <select class="form-control" ng-model="instanceId" ng-options="item.instanceId as item.instanceId for item in instances">
+	             
+	         </select>
+         </div>
+     </div>
+  </div>
+  <div class="col-sm-6">
+     <div class="form-group"> 
+         <label class="col-sm-3 control-label">关键字：</label> 
+         <div class="col-sm-9">
+             <input type="text" ng-model="keyWord" placeholder="" class="form-control">
+         </div>
+     </div>
+  </div>
+  <div class="col-sm-6">
+     <div class="form-group"> 
+         <label class="col-sm-3 control-label">日期区间：</label> 
+         <div class="col-sm-9">
+             <input type="text" ruledate ng-model="daterange"  class="form-control daterange" data-time-picker="true" data-time-picker-increment="5" data-format="YYYY/MM/DD HH:mm:ss" />
+         </div>
+     </div>
+  </div>   
+  <div class="col-sm-6">
+     <button type="button" class="btn btn-info" ng-click="querylog()">查询</button>
+
+     <button type="button" class="btn btn-info" ng-click="exportlog()">导出</button>
+  </div>    
+
+  </form>
+  <page ng-if="queryoff" page-count="pageCount" page-num="pageNum" on-page-change="onPageChange(pageNum)"></page>   
+  <div class="logcontdiv">
+     <div class="logcont">
+     </div>
+  </div>
+  
+      
+</div>
+ 
+
+

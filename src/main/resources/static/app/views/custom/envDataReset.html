@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3 class="ng-scope">环境数据重置</h3>
+	
+	<div class="panel">
+		<div class="panel-body" style="padding: 5px">
+			<!-- Zookeeper -->
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="col-sm-1">
+					<label>Zookeeper</label>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">配置：</label>
+					<div class="col-sm-3">
+						<select class="chosen-select form-control" style="width: 200px;"
+							ng-change="selEnvZKConfigClick()" ng-model="selEnvZKConf"
+							ng-options="value.confs as value.zkname for value in zkconfs">
+							<option value="">请选择配置</option>
+						</select>
+					</div>
+					<div class="col-sm-4">
+						<a href="" class="btn btn-info pull-right "
+							ng-click="addZkRedisConfig('zk')"> 添加配置 </a>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">配置详情：</label>
+					<div class="col-sm-9">
+						<input type="text" style="width: 100%" required=""
+							class="form-control" ng-model="ZookeeperConfig" disabled="true" />
+					</div>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">存储路径:</label>
+					<div class="col-sm-3">
+						<input class="form-control" type="text"
+							placeholder="/path1;/path2..." ng-model="ZookeeperPaths"
+							autocomplete="off"></input>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	
+	<div class="panel">
+		<div class="panel-body" style="padding: 5px">
+			<!-- redis -->
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="col-sm-1">
+					<label>Redis</label>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">配置：</label>
+					<div class="col-sm-3">
+						<select class="chosen-select form-control" style="width: 200px;"
+							ng-change="selEnvRDConfigClick()" ng-model="selEnvRDConf"
+							ng-options="value.confs as value.rdname for value in rdconfs">
+							<option value="">请选择配置</option>
+						</select>
+					</div>
+					<div class="col-sm-4">
+						<a href="" class="btn  btn-info pull-right"
+							ng-click="addZkRedisConfig('redis')"> 添加配置 </a>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">配置详情:</label>
+					<div class="col-sm-9">
+						<input type="text" style="width: 100%" required=""
+							class="form-control" ng-model="RedisConfig" disabled="true" />
+					</div>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">键:</label>
+					<div class="col-sm-3">
+						<input class="form-control" type="text" placeholder="key1;key2..."
+							ng-model="redisKeys" autocomplete="off"></input>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	
+	<div class="panel">
+		<div class="panel-body" style="padding: 5px">
+			<!-- 数据库 -->
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="col-sm-1">
+					<label>数据库</label>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="col-sm-9">
+					<a href="" class="btn btn-info pull-right"
+						ng-click="addResetTables()">添加库表 </a>
+				</div>
+			</fieldset>
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<table class="table" style="TABLE-LAYOUT: fixed">
+					<tbody>
+						<tr class="text-center">
+							<th class="text-center">库名</th>
+							<th class="text-center">表名</th>
+							<th class="text-center">操作</th>
+						</tr>
+						<tr class="text-center" data-ng-repeat="resetData in resetDatajson">
+							<td class="text-center" width="100px" style="word-wrap: break-word;">{{resetData.Database}}</td>
+							<td class="text-center" width="600px" style="word-wrap: break-word;">{{resetData.tableName}}</td>
+							<td>
+								<button class="btn btn-danger text-center" ng-click="detRetTabss(resetData)">删除</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+	
+	<div class="panel" >
+		<div class="panel-body" style="padding: 5px">
+			<!-- 操作---清理 -->
+			<fieldset style="margin: 5px;padding-bottom:0px">
+				<div class="text-center">
+					<button type="submit" class="btn btn-info center-block"
+						ng-click="cleanup()">清 理</button>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</body>
+</html>

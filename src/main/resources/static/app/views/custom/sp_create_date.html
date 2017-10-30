@@ -1,0 +1,138 @@
+<!DOCTYPE html><html>
+<head>
+<meta charset=" utf-8">
+<title>数据库选择</title>
+</head>
+  <body>
+	<div class="col-sm-12">
+		<div class="form-group">
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">数据库</label> 
+				<select name="type1" class="form-control" style="width: 200px;" ng-model="selectedName"
+					ng-options="y.BasesName for (x,y) in databases">
+				</select> 
+				<a href="" class="btn btn-info pull-left" ng-click="openCreateDataBase()">
+					添加数据库配置
+				</a>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">配置详情</label>
+				<textarea class="form-control" ng-model="dataBaseDetail" disabled="true" aria-describedby="basic-addon1"
+					style="width: auto;"></textarea>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">数据库表</label> <select name="type2"
+					class="form-control" style="width: 190px;"
+					ng-click="selectedTablesClick()" ng-model="selectedTables"
+					ng-options="y.TablesName for (x,y) in tablesnames"></select>
+			</div>
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>字段</th>
+						<th>类型</th>
+						<th>長度</th>
+						<th>默认值</th>
+					</tr>
+					<tr ng-repeat="tableStru in tableStrulist" ng-model="table">
+						<td>{{tableStru.field}}</td>
+						<td>{{tableStru.type}}</td>
+						<td>{{tableStru.length}}</td>
+						<td><input ng-model="$parent.conf[$index]" placeholder="默认123" type="text" name="id"></input></td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<p>注：值不设定，则随机生成</p>
+			</div>
+
+			<div class="dialog-footer">
+				<button type="submit" class="btn btn-info center-block" ng-click="addSpSenderData()"  limit-id="4_1" btnfocus>确定</button>
+			</div>
+			
+		</div>
+	</div>
+		
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html><html>
+<head>
+<meta charset=" utf-8">
+<title>数据库选择</title>
+</head>
+
+
+  <body>
+	<div class="col-sm-12">
+		<div class="form-group">
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">数据库</label> 
+				<select name="type1" class="form-control" style="width: 200px;" ng-model="selectedName"
+					ng-options="y.BasesName for (x,y) in databases">
+				</select> 
+				<a href="" class="btn btn-info pull-left" ng-click="openCreateDataBase()">
+					添加数据库配置
+				</a>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">配置详情</label>
+				<textarea class="form-control" ng-model="dataBaseDetail" aria-describedby="basic-addon1"
+					style="width: auto;"></textarea>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">数据库表</label> <select name="type2"
+					class="form-control" style="width: 190px;"
+					ng-click="selectedTablesClick()" ng-model="selectedTables"
+					ng-options="y.TablesName for (x,y) in tablesnames"></select>
+				<p>{{selectedTables.TablesName}}</p>
+			</div>
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>字段</th>
+						<th>类型</th>
+						<th>長度</th>
+						<th>默认值</th>
+					</tr>
+					<tr ng-repeat="tableStru in tableStrulist" ng-model="table">
+						<td>{{tableStru.field}}</td>
+						<td>{{tableStru.type}}</td>
+						<td>{{tableStru.length}}</td>
+						<td><input ng-model="$parent.conf[$index]" type="text"
+							value="1" name="id"></input></td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<p>注：值不设定，则随机生成</p>
+			</div>
+
+			<div class="dialog-footer">
+				<button type="submit" class="btn btn-info center-block" ng-click="addSpSenderData()"  limit-id="4_1" btnfocus>确定</button>
+			</div>
+			
+		</div>
+	</div>
+		
+</body>
+</html>
+ -->

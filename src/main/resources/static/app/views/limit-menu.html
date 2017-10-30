@@ -1,0 +1,26 @@
+<div class="g-wrapper">
+  <div class="cont">
+    <div class="head">
+        <button class="mb-sm btn btn-info pull-right" ng-click="openCreateLimit()">新建菜单</button>
+	</div>
+	<table class="table">
+	  <tr>
+	  	<th>菜单名</th>
+		<th>菜单描述</th>
+		<th>类型</th>
+		<th>父级菜单</th>
+		<th>操作</th>
+	  </tr>
+	  <tr ng-repeat="menu in menulist">
+	  	<td>{{menu.text}}</td>
+	  	<td>{{menu.sref}}</td>
+	  	<td>{{menu.type}}</td>
+	  	<td>{{menu.parent_text}}</td>
+	  	<td> 
+	  		<button class="btn btn-danger" ng-click="delLimit($index,menu.id,menu.parent_id)">删除</button>
+	  		<a class="btn btn-info" ng-click="openEditLimit(menu)">编辑</a> 
+	  	</td>
+	  </tr>
+	</table>
+  </div>
+</div>

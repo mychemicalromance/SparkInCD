@@ -1,0 +1,58 @@
+<div class="cont">
+	<div class="table-responsive">
+		<table class="table table-striped">
+              <thead>
+                 <tr>
+                    <th>实例名称</th>
+                    <th>状态</th>
+                    <th>主机IP</th>
+                    <th>实例IP</th>
+                    <!-- <th>容器名称</th> -->
+                    <th>启动时间</th>
+                    <th>实例版本</th>
+                    <th>操作</th>
+                 </tr>
+              </thead>
+              <tbody>
+              	 <tr ng-repeat="item in appInstance.rows">
+              	 	<td ng-bind="item.instanceId"></td>
+              	 	<td ng-bind="item.status"></td>
+                  <td ng-bind="item.ip"></td>
+                  <td ng-bind="item.lxcIp"></td>
+                  <!-- <td ng-bind="item.lxcName"></td> -->
+              	 	<td ng-bind="item.deployTime"></td>
+              	 	<td ng-bind="item.versionId"></td>
+              	 	<td>
+              	 	    <div dropdown="dropdown" class="btn-group">
+			            <button dropdown-toggle="" class="btn btn-default">操作 <b class="caret"></b>
+			            </button>
+			            <ul role="menu" class="dropdown-menu animated bounceIn dropdown-menu-l">
+			               <li> 
+                             <a href="#" ng-click="delInstance(item.instanceId)">删除</a>
+			               </li>
+			               <!-- <li><a ui-sref="app.appdetail.control">控制台</a>
+			               </li>  -->
+			              <!--  <li> 
+			                  <a ui-sref="app.inswarning({appId:appinfo.appId,instanceId:item.instanceId})">容器监控</a>
+			               </li> -->
+			               
+			            </ul>
+			         </div>
+              	 	</td>
+              	 	<!-- <td>
+              	 		<button ng-if="!(item.status=='ISOLATED')" class="btn btn-warning" ng-click="isolate(item.instanceId)">隔离</button>
+                        <button ng-if="(item.status=='ISOLATED')" class="btn btn-green" ng-click="unisolate(item.instanceId)">取消隔离</button>
+                        <button class="btn btn-danger" ng-click="delInstance(item.instanceId)
+                        ">删除</button>
+                    <a ui-sref="app.appdetail.control" class="btn btn-info">控制台</a>
+              	 	</td> -->
+              	 </tr>
+                 <tr>
+                   <td colspan="7">
+                    <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page> 
+                   </td>
+                 </tr>
+			  </tbody>
+        </table>
+	</div>
+</div>

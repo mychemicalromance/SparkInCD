@@ -1,0 +1,136 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">添加spark应用</h3>
+</div>
+<form name="addSparkForm" ng-submit="addSparkFn()" novalidate="" class="form-validate form-horizontal">
+<div class="panel">
+	<div class="panel-body">	 
+	 	<div class="form-validate form-horizontal">
+	 		<fieldset>
+	           <div class="form-group">
+	              <label class="col-sm-2 control-label">应用名称：</label>
+	              <div class="col-sm-6"> 
+	                 <input type="text" autocomplete="off" name="name" required="" ng-maxlength="32" ng-model="formdata.name" ng-pattern="/^([a-zA-Z0-9_.-]*[\u4E00-\u9FA5]*[a-zA-Z0-9_.-]*[\u4E00-\u9FA5]*)$/" class="form-control" validsparkname />
+                     <div><small>名字可以包含中文、英文、.、-或_，最多32个字符</small></div>
+                     <span ng-show="validateInput('name', 'required')" class="text-danger">请填写应用名称！</span> 
+                     <span ng-show="validateInput('name', 'pattern')" class="text-danger">名字不符合规则，请重新填写！</span> 
+                     <span ng-show="validateInput('name', 'maxlength')" class="text-danger">名字最多32个字符！</span> 
+                     <span ng-show="addSparkForm.name.$error.exitname" class="text-danger">应用名称已存在,请重新命名！</span>
+	              </div>
+	           </div>
+	        </fieldset>
+	        
+	        <fieldset>
+	           <div class="form-group">
+	              <label class="col-sm-2 control-label">应用描述：</label>
+	              <div class="col-sm-6"> 
+	                 <textarea type="text" name="description" ng-maxlength="64" ng-model="formdata.description" class="form-control"></textarea>
+	                 <span ng-show="validateInput('description', 'maxlength')" class="text-danger">描述最多64个字符！</span> 
+	              </div>
+	           </div>
+	        </fieldset>
+
+			<fieldset>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">spark版本：</label>
+					<div class="col-sm-2">
+						<select ng-model="formdata.sparkVersion" ng-options="item for item in sparkVersions" class="form-control"></select>
+					</div>
+				</div>
+			</fieldset>
+	        
+	        <fieldset>
+	           <div class="form-group">
+	              <label class="col-sm-2 control-label">资源包上传：</label>
+	              <div class="col-sm-6"> 
+	                  <div ng-if="isloading" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+		                   <input filestyle="" type="file" data-button-text="添加" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="uploader" class="form-control" ng-click="addfile()" />
+                           <table ng-if="uploader.queue.length" class="table">
+				                <thead>
+					               <tr>
+					                  <th>名称</th>
+					                  <th ng-show="uploader.isHTML5">大小</th>
+					                  <th ng-show="uploader.isHTML5">进度</th>
+					                  <th>状态</th>
+					                  <th>操作</th>
+					               </tr>
+					            </thead>
+				                <tbody>
+					   				<tr ng-repeat="item in uploader.queue">
+					                  <td>
+					                     <strong>{{ item.file.name }}</strong>
+					                  </td>
+					                  <td ng-show="uploader.isHTML5" nowrap="">{{ item.file.size/1024/1024|number:2 }} MB</td>
+					                  <td ng-show="uploader.isHTML5">
+					                     <div style="margin-bottom: 0;" class="progress progress-xs">
+					                        <div role="progressbar" ng-style="{ 'width': item.progress + '%' }" class="progress-bar"></div>
+					                     </div>
+					                  </td>
+					                  <td class="text-center">
+					                     <span ng-show="item.isSuccess">
+					                        <em class="fa fa-check fa-fw"></em>
+					                     </span>
+					                     <span ng-show="item.isCancel">
+					                        <em class="fa fa-ban-circle fa-fw"></em>
+					                     </span>
+					                     <span ng-show="item.isError">
+					                        <em class="fa fa-times fa-fw"></em>
+					                     </span>
+					                  </td>
+					                  <td nowrap="">
+					                     <button type="button" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess" class="btn btn-info btn-xs">
+					                        <span class="icon-cloud-upload mr"></span>上传
+					                     </button>
+					                     <button type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading" class="btn btn-warning btn-xs">
+					                        <span class="icon-close mr"></span>取消
+					                     </button>
+					                     <button type="button" ng-click="item.remove()" class="btn btn-danger btn-xs">
+					                        <span class="icon-trash mr"></span>删除
+					                     </button>
+					                  </td>
+					              </tr>
+					            </tbody>
+                             </table>
+                        </div>
+	              </div>
+	           </div>
+	        </fieldset>
+	        
+	        <fieldset ng-if="uploadData">
+	           <div class="form-group">
+	              <label class="col-sm-2 control-label">function：</label>
+	              <div class="col-sm-10"> 
+	                 <table class="table table_title">
+	                     <thead>
+	                         <tr>
+	                            <td>核心标志</td>
+	                            <td>入口function名称</td>
+	                            <td>描述</td>
+	                            <td>操作</td>
+	                         </tr>
+	                     </thead>
+	                     <tbody>
+	                     	<tr ng-repeat="fItem in uploadData.functionList">
+	                     		<td>{{fItem.functionMark}}</td>
+	                     		<td>{{fItem.functionName}}</td>
+	                     		<td>{{fItem.description}}</td>
+	                     		<td>
+	                     		   <a href="" class="btn btn-sm btn-info" ng-click="viewFunConfig(formdata.name,fItem.functionMark,fItem.functionConfigs)">配置查看</a>
+	                     		</td>
+	                     	</tr>
+	                     </tbody>
+	                 </table>
+	              </div>
+	           </div>
+           </fieldset>
+        
+	 	</div>
+	</div>
+	<div class="panel-footer text-center">
+	     <!-- <button type="submit" class="btn btn-info">取消</button> -->
+	     <button type="submit" class="btn" ng-class="{'btn-info':!isDisabled,'btn-default':isDisabled}" ng-disabled="isDisabled">
+	                 <span ng-if="!isGo">发布</span>
+	                 <span ng-if="isGo">保存</span>
+	     </button>
+	</div>
+</div>
+</form>

@@ -1,0 +1,22 @@
+<div class="dialog-header">
+    <h4><span ng-if="addoff">添加</span><span ng-if="!addoff">更新</span>系统</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="createOrUpdateAppForm">
+      	 <div class="form-group">
+	         <label class="col-lg-4 control-label text-right">系统名称：</label>
+	         <div class="col-lg-7">
+	            <input type="text" ng-model="account.name" class="form-control" required="" name="name" autocomplete="off" />
+	            <span ng-show="createOrUpdateAppForm.name.$dirty &amp;&amp; createOrUpdateAppForm.name.$error.required" class="text-danger">请输入系统名称！</span>
+	            <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+	         </div>
+	     </div>
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-default" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-info" ng-click="createOrUpdateAppFn()"><span ng-if="addoff">添加</span><span ng-if="!addoff">更新</span></button>
+</div>
+ 

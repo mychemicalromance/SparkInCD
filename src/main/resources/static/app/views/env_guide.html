@@ -1,0 +1,211 @@
+<div class="content-heading clearfix">
+
+  <h3 class="pull-left">环境搭建向导</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li ng-if="user.roleId=='1'"><a ui-sref="app.view">应用视图</a>
+	      </li>
+	      <li class="active">环境搭建向导
+	      </li>
+      </ol>
+  </div>
+
+</div>
+
+<div class="panel">
+<div class="panel-body">
+	<form form-wizard="" validate-steps="true" validate-form="" steps="4" name="envGuide" id="envGuideForm">
+		<div class="form-wizard wizard-horizontal">
+			<ol class="row">
+               <li ng-class="{'active':wizard.active(1)}" class="col-md-3">
+                  <em class="fa fa-university"></em>
+                  <h4>创建环境</h4>
+               </li>
+               <li ng-class="{'active':wizard.active(2)}" class="col-md-3">
+                  <em class="fa fa-university"></em>
+                  <h4>添加主机</h4>
+               </li>
+               <li ng-class="{'active':wizard.active(3)}" class="col-md-3">
+                  <em class="fa fa-university"></em>
+                  <h4>部署服务</h4>
+               </li>
+               <li ng-class="{'active':wizard.active(4)}" class="col-md-3">
+                  <em class="fa fa-university"></em>
+                  <h4>部署节点</h4>
+               </li>
+            </ol>
+            <div ng-show="wizard.active(1)" id="step1">
+            	<div class="form-validate form-horizontal">
+            		<fieldset>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">环境名称：</label>
+                          <div class="col-sm-6"> 
+                                <input type="text" ng-focus="envMeg()" class="form-control" name="envName" ng-model="formdata.envName" placeholder="给环境起一个新名字" data-parsley-trigger="blur" data-parsley-group="step1" data-parsley-required="true" data-parsley-required-message="请填写环境名称！" data-parsley-minlength="1" data-parsley-minlength-message="请填写环境名称！"/>
+                                <span ng-show="exitauthMsg" class="text-danger">{{exitauthMsg}}</span>
+                          </div>
+                        </div>
+                    </fieldset>
+            	</div>
+            	<ul class="pager"> 
+	                <li class="next"><a href="#" ng-click="createEnv(wizard)">下一步<span>&rarr;</span></a>
+	                </li>
+                </ul>
+            </div>
+            <div ng-show="wizard.active(2)" id="step2">
+                
+            	<table class="table">
+            		<thead>
+            			<tr>
+            				<th colspan="6">
+            				    主机列表
+            				    <a href="#" ng-click="openAddNode()" class="btn btn-info pull-right">添加主机</a>
+            				</th>
+            			</tr>
+            		</thead>
+            	</table>
+            	<table class="table table_title" id="nodelisttable">
+   <thead>
+      <tr>
+         <th>主机名称</th>
+         <th>主机IP</th>
+         <th>系统类型</th>
+         <th>主机标签</th>
+         <!-- <th>链接主机</th> -->
+         <th>操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="item in nodeslist.rows">
+         <td><a ui-sref="app.node({clusterid:cluster.id,nodeid:item.id})">{{item.name}}</a></td>
+         <td>{{item.ip}}</td>
+         <td>{{item.os_version}}</td>
+         <td>{{item.labels}}</td>
+         <!-- <td></td> -->
+         <td>
+            <button class="btn btn-danger btn-sm" ng-click="openDelNodeFn(item.editable+'_'+item.id,$index,item.monitor.running)">
+               <em class="fa fa-trash"></em>
+            </button>
+         </td>
+      </tr>
+      <tr ng-show="nodelistoff">
+         <td colspan="6"> 
+            <page ng-if="pagenode" page-count="pageCount" page-num="pageNum" on-page-change="onPageChange(pageNum)"></page>
+         </td>
+      </tr>
+   </tbody>
+</table> 
+            	<ul class="pager">
+                    <!-- <li class="previous">
+                         <a href="#" ng-click="wizard.go(1);">
+                            <span>&larr; 上一步</span>
+                         </a>
+                    </li> -->
+                    <li class="next">
+                    	<a href="#" ng-click="setService(wizard)">下一步<span>&rarr;</span></a>
+                    </li>
+                 </ul>
+            </div>
+            <div ng-show="wizard.active(3)" id="step3">
+            	  <div class="form-validate form-horizontal">
+            		<fieldset>
+	                    <div class="form-group">
+	                      <label class="col-sm-2 control-label"> 编排模板：</label>
+	                      <div class="col-sm-6"> 
+	                         <select class="form-control" ng-model="formdata.temp" ng-options="temp_item as temp_item.templateName for temp_item in tempList">	 
+                             </select>
+	                      </div>
+	                    </div>
+	                </fieldset>
+	                <fieldset>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 服务名称：</label>
+                          <div class="col-sm-6"> 
+                              <input type="text" class="form-control" name="templatename" ng-model="formdata.templatename" placeholder="给服务起一个新名字" data-parsley-trigger="blur" data-parsley-group="step3" data-parsley-required="true" data-parsley-required-message="请填写服务名称！" />
+                          </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 配置参数：</label>
+                          <div class="col-sm-6"> 
+                              <table class="table table-bordered">
+					              <tr style="font-weight: bold">
+					                <th style="width:50%">名称</th>
+					                <th style="width:50%">值</th>
+					              </tr>
+					              <tr ng-repeat="param in paramlist track by $index" tooltip="{{param.placeholder}}">
+					                <td>
+					                  <input class="form-control" disabled="" type="text" placeholder="KEY" ng-model="param.key">
+					                </td>
+					                <td>
+					                  <input class="form-control" type="text" placeholder="VAL" ng-model="param.val" data-parsley-trigger="blur" data-parsley-group="step3" data-parsley-required="true" data-parsley-required-message="请填写VALUE！">
+					                </td>
+					              </tr>
+					          </table>
+                          </div>
+                        </div>
+                    </fieldset>
+                    <fieldset ng-if="componentList.length>0">
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 组件实例数：</label>
+                          <div class="col-sm-10"> 
+                              <table class="table table-bordered">
+					              <tr style="font-weight: bold">
+					                <th style="width:50%">组件名称</th>
+					                <th style="width:50%">实例数</th>
+					              </tr>
+					              <tr ng-repeat="componentItem in componentList track by $index">
+					                <td>
+					                    {{componentItem.key}}
+					                </td>
+					                <td>
+					                  <input class="form-control" type="number" min="1" ng-model="componentItem.val" data-parsley-trigger="blur" data-parsley-group="step1" data-parsley-required="true" data-parsley-required-message="请填写实例数！" data-parsley-min-message="最小实例数为1！" data-parsley-type-message="请输入正确的数字格式！">
+					                </td>
+					              </tr>
+					          </table>
+                          </div>
+                        </div>
+                    </fieldset>
+            	</div>  
+            	<ul class="pager">
+                    <!-- <li class="previous">
+                         <a href="#" ng-click="wizard.go(2);">
+                            <span>&larr; 上一步</span>
+                         </a>
+                    </li> -->
+                    <li class="next">
+                    	<a href="#" ng-click="getNodes(wizard);">部署<span>&rarr;</span></a>
+                    </li>
+                 </ul>
+            </div>
+            <div ng-show="wizard.active(4)" id="step4">
+            	<table class="table">
+                	<thead>
+                		<tr>
+                			<th>组件</th>
+                			<th>节点</th>
+                		</tr>
+                	</thead>
+                	<tbody>
+                		<tr ng-repeat="serveritem in serverNodes.detail track by $index">
+                			<td>{{serveritem.appName}}</td>
+                			<td>{{serveritem.nodes}}</td>
+                		</tr>
+                	</tbody>
+                </table>  
+                 <ul class="pager">
+                    <!--<li class="previous">
+                         <a href="#" ng-click="wizard.go(3);">
+                            <span>&larr; 上一步</span>
+                         </a>
+                   --> </li> 
+                    <li>
+                       <button type="submit" class="btn btn-info" ng-click="finishDeploy()">完成</button>
+                    </li>
+                 </ul> 
+            </div>
+		</div>
+	</form>
+</div>
+</div>

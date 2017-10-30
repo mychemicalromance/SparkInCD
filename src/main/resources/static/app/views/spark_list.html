@@ -1,0 +1,43 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">spark应用管理</h3>
+  <a ui-sref="app.spark_add" class="btn btn-info pull-right">
+  	<em class="fa fa-plus"></em>
+    添加spark应用
+  </a>
+</div>
+<div class="tablesearch">
+   <input type="text" ng-keyup="searchApp($event)" class="form-control" placeholder="输入应用名搜索" ng-model="searchval" />
+</div> 
+<table class="table table_title" id="applisttable">
+	<thead>
+      <tr>
+         <th>应用名称</th>
+         <th>spark版本</th>
+         <th>创建时间</th>
+         <th>操作</th>
+      </tr>
+   </thead>
+   <tbody>
+   	  <tr ng-if="!listoff">
+         <td colspan="4">
+           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+         </td>
+      </tr> 
+      <tr ng-repeat="appItem in applist.rows">
+      	 <td ng-bind="appItem.name"></td>
+         <td ng-bind="appItem.sparkVersion"></td>
+      	 <td ng-bind="appItem.updateTime"></td>
+      	 <td>
+      	 	<a href="#" ui-sref="app.spark_config({id:appItem.id,name:appItem.name})" class="btn btn-info">配置管理</a>
+      	 	<button class="btn btn-info" ng-click="openResourceUpgrade(appItem.id,appItem.name)">升级</button>
+      	 	<button class="btn btn-info" ng-click="downloadFn(appItem.id)">下载</button>
+      	 	<a ui-sref="app.spark_monitor({appId:appItem.id,appName:appItem.name})" class="btn btn-info">运行监控</a>
+      	 </td>
+      </tr>
+      <tr ng-show="listoff">
+         <td colspan="4">
+            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+         </td>
+      </tr> 
+   </tbody>
+</table>

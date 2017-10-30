@@ -1,0 +1,15 @@
+<ul class="dropdown-menu dropdown-menu-right menu" id="dropmenu">
+  <li class="dropdown-submenu dropdown-appmenu" ng-repeat="item in myApp" ng-init="itemindex=$index">
+      <a tabindex="0" ng-click="verFn(item.APP_ID,itemindex,$event)">{{item.APP_NAME}}</a>
+      <ul class="dropdown-menu verul">
+        <li class="dropdown-submenu dropdown-vermenu" ng-repeat="version in versionsData" ng-init="versionindex=$index">
+            <a tabindex="0" vid="{{version.versionId}}" ng-click="envFn(item.APP_ID,version.id,versionindex,$event)">{{version.versionId}}</a>
+            <ul class="dropdown-menu envul">
+                <li class="dropdown-submenu dropdown-envmenu" ng-repeat="env in envsData"  ng-init="envindex=$index">
+		         	<a tabindex="0" ng-click="envvalFn(item.APP_NAME,version.versionId,env.var_key)">{{env.var_key}}</a>
+		         </li> 
+            </ul>
+        </li>
+      </ul>   
+  </li>
+</ul>

@@ -1,0 +1,80 @@
+<!-- START Top Navbar-->
+<nav role="navigation" class="navbar topnavbar">
+   <!-- START navbar header-->
+   <div class="navbar-header">
+      <a href="javascript:;" class="navbar-brand">
+         <div class="brand-logo">
+            
+               <img src="app/images/logo.png" width="200" alt="App Logo" class="img-responsive">
+            
+         </div>
+         <div class="brand-logo-collapsed">
+            
+                <img src="app/images/logo-single.png" alt="App Logo" class="img-responsive">
+            
+         </div>
+      </a>
+   </div>
+   <!-- END navbar header-->
+   <!-- START Nav wrapper-->
+   <div class="nav-wrapper">
+      <!-- START Left navbar-->
+      <ul class="nav navbar-nav">
+         <li>
+            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+            <a href="#" trigger-resize="" ng-click="app.layout.isCollapsed = !app.layout.isCollapsed" class="hidden-xs">
+               <em class="fa fa-navicon"></em>
+            </a>
+         </li>
+         <!-- env--> 
+         <li ng-if="user.roleId!=='1'">
+            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+            <a href="#">
+                                     当前环境：{{app.choseenv.name}}
+            </a>
+         </li>
+         <!-- env-->
+         <!-- app-->
+         <!-- <li ng-if="user.roleId=='1'">
+            Button used to collapse the left sidebar. Only visible on tablet and desktops
+
+            <a href="#"> 
+                                        当前应用：{{app.appsession.appName}}
+            </a>
+         </li> -->
+         <!-- app-->
+      </ul>
+      <!-- END Left navbar-->
+      <!-- START Right Navbar--> 
+      <ul class="nav navbar-nav navbar-right">
+          
+
+           <li ng-if="user.roleId=='1'" class="mr20">
+               <form class="form-inline">
+                   当前系统：
+                   
+                   <select class="form-control" ng-change="changeApp(app.choseapp)" ng-model="app.choseapp" ng-options="appinfo as appinfo.app_name for appinfo in appList">
+                       
+                   </select>
+               </form>
+           </li>  
+
+           <li ng-if="user.roleId!=='1'" class="mr20">
+               
+               <form>
+                                              
+                   <select class="form-control" ng-change="changeEnv(app.choseenv)" ng-model="app.choseenv" ng-options="env as env.name for env in envList">
+                       
+                   </select>
+               </form>
+           </li>
+            
+           <!-- <li ng-if="user.roleId=='2'" class="addenv">
+              <a href="" class="btn btn-info">添加环境</a>
+           </li>  -->
+      </ul>
+      <!-- END Right Navbar-->
+   </div>
+   <!-- END Nav wrapper-->
+</nav>
+<!-- END Top Navbar-->

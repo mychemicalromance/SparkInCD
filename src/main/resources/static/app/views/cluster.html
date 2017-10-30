@@ -1,0 +1,56 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">环境管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env_list">环境列表</a>
+	      </li>
+	      <li class="active">{{cluster.name}}<a href="" ng-click="openchangeCluster(cluster.name)"><em class="text-success icon-note"></em></a>
+	      </li>
+      </ol>
+  </div>
+
+</div>
+<div class="panel g-panel">
+	<div class="panel-heading clearfix">
+		<div class="pull-left">
+			<p>
+				<span>主机数量:{{cluster.host_num}}</span>
+				<!-- <span>环境状态:</span>  -->
+				<!-- <span>网络种类:{{cluster.network_kind}}</span> -->
+				<!-- <span>网段:{{cluster.network=='default'?'默认':cluster.network}}</span> -->
+			</p>
+		</div>
+		<div class="pull-right">
+		    
+			<a ui-sref="app.nodesystem({clustername:cluster.name,clusterid:cluster.id})" class="mb-sm btn btn-info">
+	            <em class="fa fa-plus"></em>
+				添加主机
+			</a>
+			
+			<button class="btn btn-sm btn-info" ng-click="opendeploy(cluster.id,cluster.name,cluster.host_num)">
+			 	<i class="icon-eye"></i>
+			 	部署服务
+			 </button>
+			
+			<button class="mb-sm btn btn-danger" ng-click="opendelCluster(cluster.id)">
+				<em class="fa fa-trash"></em>
+				删除环境
+			</button>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="g-tablist">
+		<a ui-sref="app.env.nodes"  ng-class="getMenuItemPropClasses('nodes')">主机列表</a>
+		<a ui-sref="app.env.service"  ng-class="getMenuItemPropClasses('service')">服务列表</a>
+		<a ui-sref="app.env.monitor"  ng-class="getMenuItemPropClasses('monitor')">环境监控</a>
+	    <!-- <a ui-sref="app.env.user"  ng-class="getMenuItemPropClasses('user')">用户列表</a> -->
+	</div>
+	<div ui-view="" autoscroll="false" class="g-wrapper ng-fadeInLeftBig"></div>
+</div>
+
+
+
+ 

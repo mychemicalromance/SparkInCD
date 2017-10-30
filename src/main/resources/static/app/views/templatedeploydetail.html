@@ -1,0 +1,54 @@
+ <div class="content-heading clearfix">
+  <h3 class="pull-left">组件管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env.service({clusterid:tempdetail.clusterId})">{{tempdetail.clusterName}}</a>
+	      </li>
+	      <li class="active">
+	               组件列表
+	      </li>
+      </ol>
+  </div>
+
+</div>
+
+<div class="g-wrapper">
+	<div class="cont">
+	    <div class="table-responsive">
+		<table class="table table-striped">
+              <thead>
+                 <tr>
+                    <th>组件名称</th>
+                    <th>所属服务</th>
+                    <th>当前状态</th>
+                    <th>更新时间</th>
+                    <!-- <th>所属集群</th> -->
+                    <th>实例个数</th>
+                    <th>操作</th>
+                 </tr>
+              </thead>
+              <tbody>
+              	 <tr ng-repeat="item in tempapp">
+              	 	<td><a ui-sref="app.deployComponent.monitor({appid:item.appId})">{{item.appName}}</a></td>
+              	 	<td>
+              	 	    {{tempdetail.name}}
+              	 	</td>
+              	 	<td style="font-size:12px;">
+			           <span class="circle circle-lg circle-success" ng-class="{'circle-danger':item.status=='NODE_STOPPED','circle-info':item.status=='DEPLOYED','circle-warning':item.status=='FREE'}"></span>{{item.status}}
+			        </td>
+              	 	<td>{{item.updateTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              	 	<!-- <td>{{item.clusterName}}</td> -->
+              	 	<td><span class="badge badge-green">{{item.instancesNumber}}</span></td>
+              	 	<td>
+              	 	   <button class="btn btn-danger btn-sm" ng-click="delComponet($index,item.appId)">
+			              <em class="fa fa-trash"></em>
+			           </button>
+              	 	</td>
+              	 </tr>
+
+			  </tbody>
+        </table>
+	</div>
+	</div>
+</div>

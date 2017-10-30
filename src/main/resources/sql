@@ -1,0 +1,168 @@
+-- spark应用表
+
+DROP TABLE IF EXISTS `ma_spark`;
+CREATE TABLE `ma_spark` (
+`id`  VARCHAR(64) NOT NULL,  -- 应用id
+`name`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,            -- 应用名称
+`description`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,     -- 应用描述
+`update_time`  DATETIME NULL DEFAULT NULL ,   -- 更新时间
+`userId` INT(64) DEFAULT NULL,        -- 用户id
+`user_app_id` INT(64) DEFAULT NULL,  -- 用户_应用id
+PRIMARY KEY (`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+-- spark应用function表
+
+DROP TABLE IF EXISTS `ma_spark_function`;
+CREATE TABLE `ma_spark_function` (
+`id`  VARCHAR(64) NOT NULL,  -- 应用function id
+`sparkId`  VARCHAR(64) NULL DEFAULT NULL,  -- 应用id
+`function_mark`  VARCHAR(64) NULL DEFAULT NULL,  -- 应用标识
+`function_name`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,                -- 应用function 名称
+`description`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,     -- spark function描述
+
+`update_time`  DATETIME NULL DEFAULT NULL ,-- 更新时间
+`resource_verId`  VARCHAR(64) NULL DEFAULT NULL, -- 资源版本id
+`configId`  BIGINT(22) NULL DEFAULT NULL, -- 配置id
+`submit_command`  TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,                -- 提交命令
+`params` VARCHAR(64) NULL DEFAULT NULL,  -- 命令参数
+PRIMARY KEY (`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+
+
+-- spark应用实例表
+
+DROP TABLE IF EXISTS `ma_spark_instance`;
+CREATE TABLE `ma_spark_instance` (
+`uuid`  VARCHAR(64) NOT NULL,  -- 非空
+`id`  VARCHAR(64) NULL DEFAULT NULL,  -- spark应用实例id
+`sparkId`  VARCHAR(64) NULL DEFAULT NULL,  -- 应用id
+`name`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,                -- 实例名 
+`description`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,  -- 实例描述 "应用名_配置名"
+`USERID`  INT(32) NULL DEFAULT NULL , -- 用户id
+`functionId`  VARCHAR(64) NULL DEFAULT NULL,  -- 应用functionId
+`status`  VARCHAR(64) NULL DEFAULT NULL,  -- 应用状态
+`conf_versionId`  INT(32) NULL DEFAULT NULL,  -- 配置版本id
+`update_time`  DATETIME NULL DEFAULT NULL ,-- 更新时间
+`ui_link`  VARCHAR(200) NULL DEFAULT NULL,  -- UI链接
+`detail_link`  VARCHAR(200) NULL DEFAULT NULL,  -- 详情链接
+`errorlog` TEXT
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+-- ma_spark_instance 增加唯一索引
+ALTER TABLE `ma_spark_instance` ADD UNIQUE ( `sparkId`,`functionId`,`conf_versionId` );
+
+-- spark应用province-code映射关系表
+
+DROP TABLE IF EXISTS `ma_spark_province`;
+CREATE TABLE `ma_spark_province` (
+`name` VARCHAR(64) NOT NULL, -- 名称
+`code`  VARCHAR(300)   NULL DEFAULT NULL  -- 编码
+)ENGINE=INNODB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1;
+
+INSERT  INTO `ma_spark_province`(`name`,`code`) VALUES ('北京分公司','110000'),('天津分公司','120000'),('河北分公司','130000'),
+('总公司','000000'),('山西分公司','140000'),('内蒙古分公司','150000'),('辽宁分公司','210000'),('大连分公司','210200'),
+('吉林分公司','220000'),('黑龙江分公司','230000'),('上海分公司','310000'),('江苏分公司','320000'),('浙江分公司','330000'),
+('宁波分公司','330200'),('安徽分公司','340000'),('福建分公司','350000'),('厦门分公司','350200'),('江西分公司','360000'),
+('山东分公司','370000'),('青岛分公司','370200'),('河南分公司','410000'),('湖北分公司','420000'),('湖南分公司','430000'),
+('广东分公司','440000'),('深圳分公司','440200'),('广西分公司','450000'),('海南分公司','460000'),('四川分公司','510000'),
+('贵州分公司','520000'),('云南分公司','530000'),('陕西分公司','610000'),('甘肃分公司','620000'),('青海分公司','630000'),
+('宁夏分公司','640000'),('新疆分公司','650000'),('重庆分公司','660000'),('西藏分公司','850000');
+
+-- spark应用实例任务表
+DROP TABLE IF EXISTS `ma_spark_task`;
+CREATE TABLE `ma_spark_task` (
+`id` VARCHAR(64) NOT NULL, -- uuid
+`message`  TEXT ,  -- 消息
+`update_time`  DATETIME NULL DEFAULT NULL ,-- 更新时间
+PRIMARY KEY (id)
+)ENGINE=INNODB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1;
+
+-- spark2.1增加版本
+ALTER TABLE `ma_spark_task` ADD `sparkVersion` VARCHAR(16) DEFAULT NULL;
+-- spark2.1增加版本
+ALTER TABLE `ma_spark` ADD `sparkVersion` VARCHAR(16) DEFAULT NULL;
+-- spark2.1增加版本
+ALTER TABLE `ma_spark_instance` ADD `sparkVersion` VARCHAR(16) DEFAULT NULL;
+-- spark资源表
+DROP TABLE IF EXISTS `sv_spark_version`;
+CREATE TABLE `sv_spark_version` (
+`ID` VARCHAR(64) NOT NULL, -- 资源版本id
+`PACKAGE_PATH`  VARCHAR(300)   NULL DEFAULT NULL , -- 资源路径
+`VERSION_NAME`  VARCHAR(100)  NULL DEFAULT NULL , -- 版本名称
+`sparkId` VARCHAR(64) NULL DEFAULT NULL, -- spark 应用id
+PRIMARY KEY (`ID`)
+)ENGINE=INNODB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1;
+
+-- spark2.1新增一列
+ALTER TABLE sv_spark_version ADD `MD5` VARCHAR(128) DEFAULT NULL;
+
+-- 配置相关表有如下四个，其中app_configs_client 已弃用
+-- 配置版本表
+
+DROP TABLE IF EXISTS `app_config_version`;
+CREATE TABLE `app_config_version` (
+`id`  INT(32) NOT NULL AUTO_INCREMENT ,
+`configId`  INT(32) NULL DEFAULT NULL ,
+`version`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`last_update_time`  DATETIME NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=INNODB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1
+
+;
+
+-- 配置表
+
+DROP TABLE IF EXISTS `app_configs`;
+CREATE TABLE `app_configs` (
+`id`  INT(32) NOT NULL AUTO_INCREMENT ,
+`name`  VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`USERID`  INT(32) NULL DEFAULT NULL ,
+`APPID`  INT(32) NOT NULL DEFAULT 0 ,
+`type`  VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`description`  TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=INNODB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1;
+
+-- app_configs_client 已弃用
+
+DROP TABLE IF EXISTS `app_configs_client`;
+CREATE TABLE `app_configs_client` (
+`id`  INT(32) NOT NULL AUTO_INCREMENT ,
+`clientUrl`  VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`configId`  INT(32) NOT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=INNODB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1;
+
+
+-- 配置版本包含的配置项表
+
+DROP TABLE IF EXISTS `app_configs_instance`;
+CREATE TABLE `app_configs_instance` (
+`id`  BIGINT(64) NOT NULL AUTO_INCREMENT ,
+`versionId`  INT(32) NOT NULL COMMENT '配置id' ,
+`key`  VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '键' ,
+`value`  VARCHAR(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '值' ,
+`type`  VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`description`  TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=INNODB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1;
+

@@ -1,0 +1,46 @@
+<div class="cont">
+	<div class="head">
+		<div class="row">
+			<div class="col-sm-4">
+				<form>
+	                 <div class="input-group">
+	                     <input type="text" class="form-control" ng-model="keyword" placeholder="输入名称搜索 " />
+	                     <span class="input-group-btn">
+	                        <button type="button" class="btn btn-default" ng-click="searchV()">搜索</button>
+	                     </span>
+	                  </div>
+				</form>
+			</div>
+
+			
+		</div>
+	</div>
+	<div class="body">
+	  <table class="table table-bordered mt20">
+	  <thead>
+	   <tr>
+	      <th>版本</th>
+	      <th>注册时间</th>
+	      <th>描述</th>
+	      <th>操作</th>
+	   </tr>
+	  </thead>
+	  <tbody>
+	   <tr ng-repeat="item in resourcevlist.rows">
+	      <td>{{item.tag}}</td>
+	      <td>{{item.createDate}}</td>
+	      <td>{{item.description||'无'}}</td>
+	      <td>
+	         <button class="btn btn-info" ng-click="dialogresourcev(item,'topo')">编辑</button>
+	         <button class="btn btn-danger" ng-click="delversion(item.id,'topo')">删除</button>
+	      </td>
+	   </tr>
+	   <tr>
+           <td colspan="4">
+              <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+           </td>
+       </tr>
+      </tbody>
+	</table> 
+	</div>
+</div>

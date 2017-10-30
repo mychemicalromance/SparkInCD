@@ -1,0 +1,105 @@
+ <div class="content-heading clearfix">
+  <h3 class="pull-left">服务配置管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env.service({clusterid:$stateParams.args.clusterId})">{{$stateParams.args.clusterName}}</a>
+	      </li>
+	      <li class="active">
+	      	 {{curversion.templateName}}
+          </li>
+      </ol>
+  </div>
+
+</div>
+<div class="panel-config-server">
+   <div class="config-server-header clearfix">
+        <div class="arrow arrow_left pull-left" ng-click="moveLeft()">
+        
+        </div>
+        <div class="arrow arrow_right pull-left" ng-click="moveRight()">
+        
+        </div>
+        <div class="listdiv pull-right">
+	   		<ul class="clearfix" id="listul">
+	   			<li ng-class="{active:vitem.inUse}" ng-click="changeVersion(vitem)" ng-repeat="vitem in serverVersionList track by $index">
+	              <div class="label label-danger" ng-bind="vitem.version"></div>
+	              <p ng-bind="vitem.generateTimestamp"></p>
+	              <div class="user">{{curversion.userName}}</div>
+	   			</li>
+	   		</ul>
+   		</div>
+   </div>
+   <div class="config-server-nav clearfix">
+        <div class="config-server-nav_l pull-left">
+        	<select class="form-control" ng-model="curversion" ng-options="vitem as vitem.version for vitem in serverVersionList">
+            </select>
+            <div class="label label-danger" ng-bind="curversion.version"></div>
+            <em></em>
+            <p>{{curversion.userName}} 撰写 {{curversion.generateTimestamp}}</p>
+        </div>
+        <div class="config-server-nav_r pull-right">
+            <button class="btn btn-info" ng-click="delConfig(curversion.id)">删除</button>
+            <button class="btn btn-info" ng-click="updateConfig()">保存</button>
+             
+        </div>
+   </div>
+   <div class="config-server-body">
+   		<ul class="configlist-server">
+   		    <li ng-repeat="configitem in versionDetail track by $index" ng-init="outindex=$index">
+   		    	<a href="" class="configlist-server-headr" ng-bind="configitem.name" ng-click="configitem.show=!(configitem.show)"></a>
+   		    	<div class="table-responsive mb-lg" ng-show="configitem.show">
+                    <table class="table bg-white configtable">
+                <tr style="font-weight: bold">
+	             <td style="width:25%">KEY</td>
+	             <td style="width:30%">VALUE</td>
+	             <td style="width:10%">type</td>
+	             <td style="width:20%">描述</td>
+	             <td style="width:15%">操作</td>
+	           </tr>
+	           <tr ng-repeat="detailitem in configitem.detail track by $index" ng-init="innerindex=$index">
+	               <td> 
+	                  <span editable-text="detailitem.key" e-name="key" e-form="rowform"  e-required="">{{detailitem.key}}</span>
+	               </td>
+	               <td>
+	                  <span editable-text="detailitem.value" e-name="value" e-form="rowform"  e-required="">{{detailitem.value}}</span>
+	               </td>
+	               <td>
+	                  <span editable-text="detailitem.type" e-name="type" e-form="rowform"  e-required="">{{detailitem.type}}</span>
+	               </td>
+	               <td>
+	                  <span editable-text="detailitem.description" e-name="description" e-form="rowform"  e-required="">{{detailitem.description}}</span>
+	               </td>
+	          
+	               <td style="white-space: nowrap">
+	                  <!-- form-->
+	                  <form editable-form="" name="rowform" ng-show="rowform.$visible" onbeforesave="saveConfig($data, detailitem.id)" shown="inserted == detailitem" class="form-buttons form-inline">
+	                     <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+	                        <em class="fa fa-save"></em>
+	                     </button>
+	             
+	                  </form>
+	                  <div ng-show="!rowform.$visible" class="buttons">
+	                     <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+	                        <em class="fa fa-pencil"></em>
+	                     </button>
+	                     <button ng-click="removeConfig(outindex,innerindex)" title="Delete" class="btn btn-sm btn-danger">
+	                        <em class="fa fa-trash"></em>
+	                     </button>
+	                  </div>
+	               </td>
+	                 </tr>
+            </table>
+            <form ng-show="false" method="post" action="app/pages/download2.jsp" name="outform" id="outform">
+               <input name="data" required="" ng-model="out_data">
+               <input name="filename" required="" ng-model="out_filename">
+            </form>
+            <div class="mt20">
+                <button ng-click="addConfig(outindex)" class="btn btn-info">添加配置</button>
+            </div>
+      </div>
+   		    </li>
+   			
+   		</ul>
+   </div>
+</div>

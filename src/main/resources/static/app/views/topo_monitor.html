@@ -1,0 +1,33 @@
+<h3>storm应用监控
+   <div class="pull-right" style="width:210px" ng-if="user.roleId=='1'">
+        <small style="font-size:12px; padding:10px 0;" class="pull-left">当前环境：</small>
+        <select style="width:150px;" class="form-control pull-left" ng-model="data.curenv" ng-options="env.id as env.name for env in envlist"></select>
+   </div>
+</h3>
+<div class="panel">
+	<div class="panel-body">
+		<table class="table table_title">
+			<thead>
+				<tr> 
+					<th>名称</th>
+					<th>状态</th>
+					<th>已运行时间</th>
+					<th>主节点</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="topoMonitor in topoMonitorList">
+					<td>{{topoMonitor.name}}</td>
+					<td>{{topoMonitor.status}}</td>
+					<td>{{topoMonitor.uptime_secs}}</td>
+					<td>{{topoMonitor.host}}</td>
+					<td>
+					    <button class="btn btn-info" ng-click="killTopoFn(topoMonitor.name,topoMonitor.host,$index)">卸载</button>
+					    <a class="btn btn-info" target="_blank" ng-href="{{topoMonitor.uiUrl}}">查看stormUI</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

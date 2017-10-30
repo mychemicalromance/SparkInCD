@@ -1,0 +1,121 @@
+<div class="dialog-header">
+    <h4>部署服务</h4>
+</div>
+<div class="dialog-body">
+	<form form-wizard="" validate-steps="true" validate-form="" steps="2" name="deployTemp" id="deployTempForm" ng-submit="deployTempFn()">
+		<div class="form-wizard wizard-horizontal">
+			<!-- <ol class="row">
+               <li ng-class="{'active':wizard.active(1)}" class="col-md-6">
+                  <em class="fa fa-university"></em>
+                  <h4>服务部署第一步</h4>
+               </li>
+               <li ng-class="{'active':wizard.active(2)}" class="col-md-6">
+                  <em class="fa fa-university"></em>
+                  <h4>服务部署第二步</h4>
+               </li>
+            </ol> -->
+            <div ng-show="wizard.active(1)" id="step1">
+                <div class="form-validate form-horizontal">
+                	<fieldset>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">环境名称：</label>
+                          <div class="col-sm-6"> 
+                               {{stateParams.clusterName}}
+                          </div>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset>
+	                    <div class="form-group">
+	                      <label class="col-sm-2 control-label"> 编排模板：</label>
+	                      <div class="col-sm-6"> 
+	                         <select class="form-control" ng-model="formdata.temp" ng-options="temp_item as temp_item.templateName for temp_item in tempList">	 
+                             </select>
+	                      </div>
+	                    </div>
+	                </fieldset>
+	                
+	                <fieldset>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 服务名称：</label>
+                          <div class="col-sm-6"> 
+                              <input type="text" class="form-control" name="templatename" ng-model="formdata.templatename" placeholder="给服务起一个新名字" data-parsley-trigger="blur" data-parsley-group="step1" data-parsley-required="true" data-parsley-required-message="请填写服务名称！" />
+                          </div>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset ng-if="paramlist.length>0">
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 配置参数：</label>
+                          <div class="col-sm-10"> 
+                              <table class="table table-bordered">
+					              <tr style="font-weight: bold">
+					                <th style="width:50%">名称</th>
+					                <th style="width:50%">值</th>
+					              </tr>
+					              <tr ng-repeat="param in paramlist track by $index" tooltip="{{param.placeholder}}">
+					                <td>
+					                  <input class="form-control" disabled="" type="text" placeholder="KEY" ng-model="param.key">
+					                </td>
+					                <td>
+					                  <input class="form-control" type="text" placeholder="VAL" ng-model="param.val" data-parsley-trigger="blur" data-parsley-group="step1" data-parsley-required="true" data-parsley-required-message="请填写VALUE！">
+					                </td>
+					              </tr>
+					          </table>
+                          </div>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset ng-if="componentList.length>0">
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 组件实例数：</label>
+                          <div class="col-sm-10"> 
+                              <table class="table table-bordered">
+					              <tr style="font-weight: bold">
+					                <th style="width:50%">组件名称</th>
+					                <th style="width:50%">实例数</th>
+					              </tr>
+					              <tr ng-repeat="componentItem in componentList track by $index">
+					                <td>
+					                    {{componentItem.key}}
+					                </td>
+					                <td>
+					                  <input class="form-control" type="number" min="1" ng-model="componentItem.val" data-parsley-trigger="blur" data-parsley-group="step1" data-parsley-required="true" data-parsley-required-message="请填写实例数！" data-parsley-min-message="最小实例数为1！" data-parsley-type-message="请输入正确的数字格式！">
+					                </td>
+					              </tr>
+					          </table>
+                          </div>
+                        </div>
+                    </fieldset>
+	                
+                </div>
+            	<ul class="pager">  
+                  <li class="next"><a href="#" ng-click="getNodes(wizard)">部署<span>&rarr;</span></a>
+                  </li>
+                </ul>
+            </div>
+            <div ng-show="wizard.active(2)" id="step2">
+                <table class="table">
+                	<thead>
+                		<tr>
+                			<th>组件</th>
+                			<th>节点</th>
+                		</tr>
+                	</thead>
+                	<tbody>
+                		<tr ng-repeat="serveritem in serverNodes.detail track by $index">
+                			<td>{{serveritem.appName}}</td>
+                			<td>{{serveritem.nodes}}</td>
+                		</tr>
+                	</tbody>
+                </table>
+
+            	<ul class="pager">
+                    <li>
+                       <button type="submit" class="btn btn-info" ng-click="finishDeploy(closeThisDialog)">完成</button>
+                    </li>
+                 </ul>
+            </div>
+		</div>
+	</form>
+</div>

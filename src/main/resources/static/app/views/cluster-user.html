@@ -1,0 +1,67 @@
+<div class="cont">
+   <div class="head">
+      <div class="row">
+
+         <div class="col-sm-6 col-sm-offset-6 text-right">
+            
+            <button type="submit" class="btn btn-labeled btn-info" ng-click="addOldUser()">
+               <span class="btn-label">
+                  <em class="fa fa-plus"></em>
+               </span>添加用户
+            </button>
+
+            <button type="submit" class="btn btn-labeled btn-danger" ng-click="openDelUserFn()">
+               <span class="btn-label">
+                  <em class="fa fa-trash-o"></em>
+               </span>删除用户
+            </button>
+   
+         </div>
+
+      </div>
+   </div>
+
+   <div class="body panel">
+      <table class="table table-bordered table-hover mt20" id="userlisttable">
+         <thead>
+            <tr>
+               <th check-all="check-all" width="5%">
+                  <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+                     <label>
+                        <input type="checkbox" />
+                        <span class="fa fa-check"></span>
+                     </label>
+                  </div>
+               </th>
+               <th width="20%">名称</th>
+               <th>操作</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr ng-repeat="item in userlist.rows">
+                <td>
+                  <div class="checkbox c-checkbox">
+                     <label>
+                        <input type="checkbox" id="{{item.ID}}" save-id="{{item.ID}}" checkapp-id="checkappId" ng-checked="{{item.ischecked}}" />
+                        <span class="fa fa-check"></span>
+                     </label>
+                  </div>
+               </td>
+               <td>{{item.USERID}}</td>
+               <td>
+                  <button type="button" ng-click="openDelUserFn(item.ID,$index)" title="删除" class="btn btn-sm btn-danger">
+                     <em class="fa fa-trash-o"></em>
+                  </button>
+               </td>
+            </tr>
+            <tr>
+               <td colspan="3">
+                  <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+               </td>
+            </tr>
+         </tbody>
+       </table>
+   </div>
+
+</div>
+

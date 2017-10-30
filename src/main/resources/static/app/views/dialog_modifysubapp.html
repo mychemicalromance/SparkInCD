@@ -1,0 +1,35 @@
+<div class="dialog-header">
+    <h4>更新成员系统</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="modifySubAppForm">
+          <div class="form-group">
+              <label class="col-lg-3 control-label text-right">成员系统</label>
+              <div class="col-lg-8">
+                  <label class="col-lg-3 control-label text-left">{{subAppName}}</label>
+              </div>
+          </div>
+
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">请选择环境</label>
+           <div class="col-lg-8">
+               <select ng-show="hasEnvs" id="optionalEnvs" required=""
+                       data-placeholder="请选择环境"
+                       name="envs" ng-model="envs" multiple="multiple"
+                       class="chosen-select form-control">
+               </select>
+               <p ng-show="!hasEnvs">没有可用环境</p>
+               <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+               <span ng-show="modifySubAppForm.envs.$dirty &amp;&amp; modifySubAppForm.envs.$error.required"
+                     class="text-danger">请选择至少一个环境</span>
+           </div>
+         </div>
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-primary" ng-click="modifySubAppFn()">确定</button>
+</div>
+ 

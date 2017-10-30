@@ -1,0 +1,26 @@
+<h3>Maven组件</h3>
+<!-- <div class="tablesearch">
+   <input type="text" ng-keyup="searchMavenComp($event)" class="form-control" placeholder="输入组件名搜索" ng-model="searchMC" />
+</div> -->
+<div class="cont">
+	<div class="list-group-item" ng-repeat="item in mavenCompList">
+		<div style="font-weight: bold;">
+			<span>名称：{{item.mname}}</span>
+		</div>
+		<div style="margin:10px;margin-left: 20px;border:1px dashed #eee;background-color: #fafbfc;padding:2px">
+			 <span>
+			 	<div>&lt;dependency&gt;</div>
+				<div style="margin-left: 10px">&lt;groupId&gt;{{item.groupid}}&lt;/groupId&gt;</div>
+				<div style="margin-left: 10px">&lt;artifactId&gt;{{item.artifactid}}&lt;/artifactId&gt;</div>
+				<div style="margin-left: 10px">&lt;version&gt;{{item.version}}&lt;/version&gt;</div>
+				<div>&lt;/dependency&gt;</div>
+			 </span>
+		</div>
+		<div style="color:#a1a2a3;">
+			<div><span>描述：{{item.description}}</span></div>
+		</div>
+	</div>
+	<div ng-if="!mavenCompListoff" class="list-group-item">
+		<div class="noresult"><em class="icon-info"></em> {{warninginfo}}</div>
+	</div>
+</div>

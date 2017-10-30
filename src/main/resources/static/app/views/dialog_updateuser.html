@@ -1,0 +1,46 @@
+<div class="dialog-header">
+    <h4>更改用户配额</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="updateUserForm">
+         
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">CPU</label>
+           <div class="col-lg-8">
+              <input type="number" ng-model="user.cpu" class="form-control" required="" name="cpu" min="0" autocomplete="off" />
+              <span ng-show="updateUserForm.cpu.$dirty &amp;&amp; updateUserForm.cpu.$error.number" class="text-danger">请输入数字！</span>
+              <span ng-show="updateUserForm.cpu.$dirty &amp;&amp; updateUserForm.cpu.$error.required" class="text-danger">请输入cpu！</span>
+              <span ng-show="updateUserForm.cpu.$dirty &amp;&amp; updateUserForm.cpu.$error.min" class="text-danger">请输入正确的cpu个数！</span>
+           </div>
+         </div>
+         
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">内存</label>
+           <div class="col-lg-8">
+              <input type="number" ng-model="user.memory" class="form-control" required="" name="memory" min="0" autocomplete="off" />
+              <span ng-show="updateUserForm.memory.$dirty &amp;&amp; updateUserForm.memory.$error.number" class="text-danger">请输入数字！</span>
+              <span ng-show="updateUserForm.memory.$dirty &amp;&amp; updateUserForm.memory.$error.required" class="text-danger">请输入内存！</span>
+              <span ng-show="updateUserForm.memory.$dirty &amp;&amp; updateUserForm.memory.$error.min" class="text-danger">请输入正确的内存值！</span>
+           </div>
+         </div>
+         
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">磁盘</label>
+           <div class="col-lg-8">
+              <input type="number" ng-model="user.disk" class="form-control" required="" name="disk" min="0" autocomplete="off" />
+              <span ng-show="updateUserForm.disk.$dirty &amp;&amp; updateUserForm.disk.$error.number" class="text-danger">请输入数字！</span>
+              <span ng-show="updateUserForm.disk.$dirty &amp;&amp; updateUserForm.disk.$error.required" class="text-danger">请输入磁盘！</span>
+              <span ng-show="updateUserForm.disk.$dirty &amp;&amp; updateUserForm.disk.$error.min" class="text-danger">请输入正确的磁盘数！</span>
+              <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+           </div>
+         </div>
+
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-primary" ng-click="updateUserFn()">确定</button>
+</div>
+ 

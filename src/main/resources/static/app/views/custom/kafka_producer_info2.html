@@ -1,0 +1,77 @@
+<form name="formkafkasendmsg" ng-submit="sendData()" novalidate="" class="form-validate form-horizontal">
+	<div class="panel">
+       <div class="panel-body" style="padding: 5px">
+       		<fieldset style="margin: 5px;padding-bottom:0px">
+             <div class="form-group">
+                <label class="col-sm-2 control-label">配置：</label>
+                <div class="col-sm-3">
+                   	<select id="kafkaConfig" name="kafkaConfig"
+						class="chosen-select form-control" ng-change="selectedConfigClick()" ng-model="selectedConfig"
+						ng-options="value.info as value.conf for value in confignames">
+						<option value="">请选择配置</option>
+					</select> 
+                </div>
+                <div class="col-sm-3">
+                   	<a href="#" ng-click="addKafkaConfig()" class="btn btn-info" >添加配置</a>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset style="margin: 5px;padding-bottom:0px">
+             <div class="form-group">
+                <label class="col-sm-2 control-label">配置详情：</label>
+                <div class="col-sm-9">
+                   <input type="text" style="width:100%" required=""  class="form-control" ng-model="sendConfigTarea2" disabled="true"/>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset style="margin: 5px;padding-bottom:0px">
+             <div class="form-group">
+                <label class="col-sm-2 control-label">Topic：</label>
+                <div class="col-sm-3">
+                   <input type="text" name="topic" required="" class="form-control" ng-model="sendTopic" />
+                </div>
+             </div>
+          </fieldset>
+          <fieldset style="margin: 5px;padding-bottom:0px">
+             <div class="form-group">
+                <label class="col-sm-2 control-label">Key：</label>
+                <div class="col-sm-3">
+                   <input type="text" name="key" class="form-control" ng-model="sendKey" style="float:left;"/>
+                </div>
+                <div><span class="text-muted">主键可以为空！</span></div>
+             </div>
+          </fieldset>
+          <fieldset style="margin: 5px;padding-bottom:0px">
+             <div class="form-group">
+                <label class="col-sm-2 control-label">消息内容：</label>
+                <div class="col-sm-9">
+                   <textarea rows="5" style="width: 100%" required="" ng-model="sendMsgInfo"></textarea>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset style="margin: 5px;padding-bottom:0px">
+             <div class="form-group">
+                <label class="col-sm-2 control-label">重复次数：</label>
+                <div class="col-sm-3">
+                   <input type="text" name="loopNum" class="form-control" ng-model="sendLoopNum" placeholder="默认1次"/>
+                </div>
+                <label class="col-sm-2 control-label">时间间隔：</label>
+                <div class="col-sm-3">
+                   <input type="text" name="jgtime" class="form-control" ng-model="SendJGTime" placeholder="默认0毫秒" style="float:left;"/>
+                </div>
+                <div><span class="text-muted">毫秒</span></div>
+             </div>
+          </fieldset>
+          <!-- <fieldset>
+             <div class="form-group" style="text-align: center;">
+             	<a href="#" ng-click="sendData()" class="btn btn-lg btn-info">
+				 	发  送
+			    </a>
+             </div>
+          </fieldset> -->
+          <div class="panel-footer text-center"> 
+	          <button type="submit" class="btn btn-default" ng-disabled="!formkafkasendmsg.$valid" ng-class="{'btn-default':!formkafkasendmsg.$valid,'btn-info':formkafkasendmsg.$valid}" disabled="disabled">发  送</button> 
+	       </div>
+       </div>
+	</div>
+</form>

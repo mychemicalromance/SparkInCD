@@ -1,0 +1,85 @@
+<div class="content-heading clearfix">
+
+  <h3 class="pull-left">{{resourceVesionData.resourceName}}资源包</h3>
+  
+  <div class="headbread pull-left" ng-if="typeval=='assembly'">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.listassembly">服务介质列表</a>
+	      </li>
+	      <li><a ui-sref="app.assembly_version({assemblyid:id})">服务介质版本列表</a>
+	      </li>
+	      <li class="active">资源包
+	      </li>
+      </ol>
+  </div>
+  
+  <div class="headbread pull-left" ng-if="typeval=='topo'">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.topology_list">应用组件列表</a>
+	      </li>
+	      <li>
+	         <a ui-sref="app.topology_versionlist({id:id})">应用组件版本列表</a>
+          </li>
+	      <li class="active">资源包
+	      </li>
+      </ol>
+  </div>
+  
+</div>
+
+<div class="panel-config-server">
+	<!-- <div class="config-server-header">
+   		<ul class="clearfix">
+   			<li class="active" ng-repeat="vitem in configversionList track by $index">
+              <div class="label label-danger" ng-bind="vitem.version"></div>
+              <p ng-bind="vitem.last_update_time"></p>
+              <div class="user">用户</div>
+   			</li>
+   		</ul>
+   </div> -->
+   <div class="config-server-nav clearfix">
+        <div class="config-server-nav_l pull-left"> 
+            <p>更新时间： {{resourceVesionData.last_time}}</p>
+        </div>  
+        <div class="config-server-nav_r pull-right">
+            <!-- <button class="btn btn-danger btn-sm" ng-click="delForVersion('topo')">删除</button> -->
+            <button type="button" class="btn btn-info btn-sm" ng-click="editVersion(id,resourceVesionData)">编辑</button> 
+        </div>
+   </div>
+   
+   <div class="form-horizontal mt20">
+        <fieldset>
+	         <div class="form-group">
+	            <label class="col-sm-2 control-label">资源包名称：</label>
+	            <div class="col-sm-6">
+	                <label class="form-control-static">{{packageName}}</label>
+	            </div>
+	         </div>
+        </fieldset>
+        <!-- <fieldset>
+	         <div class="form-group">
+	            <label class="col-sm-2 control-label">描述：</label>
+	            <div class="col-sm-6">
+	                <label class="form-control-label"> </label>
+	            </div>
+	         </div>
+        </fieldset> -->
+        <fieldset>
+	         <div class="form-group">
+	            <label class="col-sm-2 control-label">启动端口：</label>
+	            <div class="col-sm-6">
+	                <label class="form-control-static">{{resourceVesionData.startPort||'无'}}</label>
+	            </div>
+	         </div>
+        </fieldset>
+        <fieldset>
+	         <div class="form-group">
+	            <label class="col-sm-2 control-label">启动参数：</label>
+	            <div class="col-sm-6">
+	                <label class="form-control-static">{{resourceVesionData.startScript||'无'}}</label>
+	            </div>
+	         </div>
+        </fieldset>
+   </div>
+   
+</div>

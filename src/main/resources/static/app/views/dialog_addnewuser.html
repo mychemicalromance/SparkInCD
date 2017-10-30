@@ -1,0 +1,63 @@
+<div class="dialog-header">
+    <h4>添加新用户</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="addNewUserForm" method="post">
+      	 <div class="form-group">
+	         <label class="col-lg-3 control-label text-right">用户名</label>
+	         <div class="col-lg-8">
+	            <input type="text" ng-model="user.name" class="form-control" required="" name="name" autocomplete="off" />  
+	            <span ng-show="addNewUserForm.name.$dirty &amp;&amp; addNewUserForm.name.$error.required" class="text-danger">请输入用户名！</span>
+	         </div>
+	       </div>
+
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">密码</label>
+           <div class="col-lg-8">
+              <input type="password" placeholder="密码：由8-16位的数字、字母、特殊字符(不含空格)组成" ng-model="user.password" class="form-control" required="" ng-pattern="/^(?![A-Za-z]+$)(?![A-Z\d]+$)(?![A-Z\W]+$)(?![a-z\d]+$)(?![a-z\W]+$)(?![\d\W]+$)\S{8,16}$/" name="password" autocomplete="off" />
+              <span ng-show="addNewUserForm.password.$dirty &amp;&amp; addNewUserForm.password.$error.required" class="text-danger">请输入密码！</span>
+              <span ng-show="addNewUserForm.password.$dirty &amp;&amp; addNewUserForm.password.$error.pattern" class="text-danger">请输入8-16位的数字、字母、特殊字符(不含空格)组成的密码！</span>
+              <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+           </div>
+         </div>
+         
+         <!-- <div class="form-group">
+           <label class="col-lg-3 control-label text-right">CPU(个)</label>
+           <div class="col-lg-8">
+              <input type="number" ng-model="user.cpu" class="form-control" required="" name="cpu" min="0" autocomplete="off" />
+              <span ng-show="addNewUserForm.cpu.$dirty &amp;&amp; addNewUserForm.cpu.$error.number" class="text-danger">请输入数字！</span>
+              <span ng-show="addNewUserForm.cpu.$dirty &amp;&amp; addNewUserForm.cpu.$error.required" class="text-danger">请输入cpu！</span>
+              <span ng-show="addNewUserForm.cpu.$dirty &amp;&amp; addNewUserForm.cpu.$error.min" class="text-danger">请输入正确的cpu个数！</span>
+           </div>
+         </div>
+         
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">内存(M)</label>
+           <div class="col-lg-8">
+              <input type="number" ng-model="user.memory" class="form-control" required="" name="memory" min="0" autocomplete="off" />
+              <span ng-show="addNewUserForm.memory.$dirty &amp;&amp; addNewUserForm.memory.$error.number" class="text-danger">请输入数字！</span>
+              <span ng-show="addNewUserForm.memory.$dirty &amp;&amp; addNewUserForm.memory.$error.required" class="text-danger">请输入内存！</span>
+              <span ng-show="addNewUserForm.memory.$dirty &amp;&amp; addNewUserForm.memory.$error.min" class="text-danger">请输入正确的内存值！</span>
+           </div>
+         </div>
+         
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">磁盘(G)</label>
+           <div class="col-lg-8">
+              <input type="number" ng-model="user.disk" class="form-control" required="" name="disk" min="0" autocomplete="off" />
+              <span ng-show="addNewUserForm.disk.$dirty &amp;&amp; addNewUserForm.disk.$error.number" class="text-danger">请输入数字！</span>   
+              <span ng-show="addNewUserForm.disk.$dirty &amp;&amp; addNewUserForm.disk.$error.required" class="text-danger">请输入磁盘！</span>
+              <span ng-show="addNewUserForm.disk.$dirty &amp;&amp; addNewUserForm.disk.$error.min" class="text-danger">请输入正确的磁盘数！</span>
+              <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+           </div>
+         </div> -->
+
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-primary" ng-click="addNewUserFn()">确定</button>
+</div>
+ 

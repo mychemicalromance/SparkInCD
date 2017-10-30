@@ -1,0 +1,68 @@
+ <div class="content-heading clearfix">
+  <h3 class="pull-left">成员系统管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.view">应用视图</a>
+	      </li>
+	      <li class="active">
+              系统：{{appname}}
+	      </li>
+      </ol>
+  </div>
+     <a href="" class="btn btn-info pull-right" ng-click="deleteSubApps()">
+         <em class="fa fa-minus"></em>
+         删除成员系统
+     </a>
+     <a href="" class="btn btn-info pull-right" ng-click="addSubApp()">
+         <em class="fa fa-plus"></em>
+         添加成员系统
+     </a>
+
+</div>
+
+ <table class="table table_title" id="applisttable">
+     <thead>
+     <tr>
+         <th check-all="check-all" checkapp-id="checkappId">
+             <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+                 <label>
+                     <input type="checkbox" />
+                     <span class="fa fa-check"></span>
+                 </label>
+             </div>
+         </th>
+         <th>成员系统名称</th>
+         <th>操作</th>
+     </tr>
+     </thead>
+     <tbody>
+     <tr ng-if="!applistoff">
+         <td colspan="3">
+             <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+         </td>
+     </tr>
+     <tr ng-repeat="item in applist.rows">
+         <td>
+             <div class="checkbox c-checkbox">
+                 <label>
+                     <input type="checkbox" id="{{item.subUserAppId+'&'+item.subAppName}}" save-id="{{item.id}}"
+                            checkapp-id="checkappId" ng-checked="{{item.ischecked}}"/>
+                     <span class="fa fa-check"></span>
+                 </label>
+             </div>
+         </td>
+         <td>{{item.subAppName}}</td>
+         <td>
+             <button class="btn btn-info" ng-click="modifySubApp(item)">编辑</button>
+             <button class="btn btn-info" ng-click="delSubApp(item)">删除</button>
+         </td>
+     </tr>
+
+     <tr ng-show="applistoff">
+         <td colspan="3">
+             <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+         </td>
+     </tr>
+     </tbody>
+ </table>

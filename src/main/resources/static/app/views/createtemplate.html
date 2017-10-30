@@ -1,0 +1,122 @@
+ <div class="content-heading clearfix">
+
+  <h3 class="pull-left">新建编排</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.template_list">编排模板列表</a>
+	      </li>
+	      <li class="active">
+	      	 新建模板
+          </li>
+      </ol>
+  </div>
+
+</div>
+<form name="formValidate" ng-submit="submitForm()" novalidate="" class="form-validate form-horizontal">
+<div class="panel panel-default">
+  <div class="panel-body">
+     
+      <fieldset>
+           <div class="form-group">
+              <label class="col-sm-2 control-label"><span class="text-danger">*</span>模板名称</label>
+              <div class="col-sm-6">
+                 <input type="text" name="templateName" required="" class="form-control" ng-model="templateName" ng-maxlength="20" />
+                 <span ng-show="validateInput('templateName', 'required')" class="text-danger">模板名称不能为空！</span>
+                 <span ng-show="validateInput('templateName', 'maxlength')" class="text-danger">最大20位字符 ！</span>
+              </div>
+           </div>
+      </fieldset>
+
+      <fieldset>
+         <div class="form-group">
+            <label class="col-sm-2 control-label">模板描述</label>
+            <div class="col-sm-6">
+               <textarea class="form-control" name="description" ng-model="description" ng-maxlength="20"></textarea>
+               <span ng-show="validateInput('description', 'maxlength')" class="text-danger">最大20位字符 ！</span>
+            </div>
+         </div>
+      </fieldset>
+      
+      <fieldset>
+         <div class="form-group">
+            <label class="col-sm-2 control-label">服务编排</label>
+            <div class="col-sm-10">
+               <div class="panel-info">
+                   <div class="panel-heading">选择组件</div>
+               </div>
+               <div class="search-control">
+                   <input type="text" ng-model="search.searchappval" ng-keyup="searchApp($event)" placeholder="搜素组件" class="form-control">
+               </div>
+              <table class="table table-bordered" id="applisttable">
+          <thead>
+             <tr>
+                <th check-all="check-all">
+                <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+                   <label>
+                      <input type="checkbox" />
+                      <span class="fa fa-check"></span>
+                   </label>
+                </div>
+                </th>
+                <th>组件名称</th>
+                <th>组件版本</th>
+             </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="item in applist.rows">
+                  <td>
+                 <div class="checkbox c-checkbox">
+                    <label> 
+                       <input type="checkbox" ng-model="item.ischecked" id="{{item.appId+'&'+item.versionid}}" save-id="{{item.appId+'&'+item.appName+'&'+item.appName}}" checkapp-id="checkappId" ng-checked="{{item.ischecked}}" />
+                       <span class="fa fa-check"></span>
+                    </label>
+                 </div>
+               </td>
+               <td><a ui-sref="app.appdetail.version({appid:item.appId})" ng-bind="item.appName"></a>
+               </td>
+               <td>  
+                  <assembly-version ng-if="item.ischecked" assembly-id="item.appId" version-id="item.versionid"></assembly-version>
+               </td>
+               </tr>
+               <tr>
+                <td colspan="3">
+                   <page page-count="apppageCount" page-num="apppageNum" on-page-change="onappPageChange(apppageNum)"></page>
+                </td>
+            </tr>
+          </tbody>
+                </table>
+                
+               </div>
+               
+
+              <div class="col-sm-10 col-sm-offset-2">
+                  <a href="" class="btn btn-info form-control mt20" ng-click="addappFn(checkappId)">添加</a>
+              </div>
+         </div>
+      </fieldset>
+      
+      <fieldset ng-repeat="item in appchosearr track by $index">
+         <div class="form-group">
+            <label class="col-sm-2 control-label">{{item.name}}</label>
+            <div class="col-sm-1">
+               <a href="" class="btn btn-info">设置依赖</a>
+            </div>
+            <div class="col-sm-8">
+               <select id="st{{$index}}" name="deps" ng-model="item.dep" multiple="multiple" class="chosen-select form-control">     
+                        
+               </select> 
+            </div>
+         </div>
+      </fieldset>
+
+  </div>
+  <div class="panel-footer text-center"> 
+        <button type="submit" class="btn" ng-click="createTemp()" ng-disabled="!formValidate.$valid" ng-class="{'btn-default':!formValidate.$valid,'btn-info':formValidate.$valid}">创建模板</button> 
+
+        
+  </div>
+
+</div>
+
+ </form>

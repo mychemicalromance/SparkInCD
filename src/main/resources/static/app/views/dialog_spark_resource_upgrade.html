@@ -1,0 +1,112 @@
+<div class="dialog-header">
+    <h4>升级资源包</h4>
+</div>
+<form name="upgradeForm" ng-submit="upgradeFn()" novalidate="" class="form-validate form-horizontal">
+<div class="dialog-body">
+	<fieldset>
+        <div class="form-group">
+           <label class="col-sm-2 control-label">类型：</label>
+           <div class="col-sm-3"> 
+                 <label class="radio-inline c-radio" tooltip="增量包只上传spark应用程序jar包，平台只加载jar文件">
+                     <input id="type1" type="radio" name="type" value="increment" checked="checked" />
+                     <span class="fa fa-circle"></span>jar包升级</label>
+           </div>
+           <div class="col-sm-3"> 
+               <label class="radio-inline c-radio" tooltip="全量包升级上传zip包，加载应用jar和依赖jar
+平台只保留最新版本的包">
+                     <input id="type2" type="radio" name="type" value="full" />
+                     <span class="fa fa-circle"></span>jar包+配置</label>
+           </div>
+        </div>
+     </fieldset>
+     
+     <fieldset>
+          <div class="form-group">
+             <label class="col-sm-2 control-label">资源包上传：</label>
+             <div class="col-sm-6"> 
+                 <div ng-if="isloading" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+                   <input filestyle="" type="file" data-button-text="添加" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="uploader" class="form-control" ng-click="addfile()" />
+                         <table ng-if="uploader.queue.length" class="table">
+		                <thead>
+			               <tr>
+			                  <th>名称</th>
+			                  <th ng-show="uploader.isHTML5">大小</th>
+			                  <th ng-show="uploader.isHTML5">进度</th>
+			                  <th>状态</th>
+			                  <th>操作</th>
+			               </tr>
+			            </thead>
+		                <tbody>
+			   				<tr ng-repeat="item in uploader.queue">
+			                  <td>
+			                     <strong>{{ item.file.name }}</strong>
+			                  </td>
+			                  <td ng-show="uploader.isHTML5" nowrap="">{{ item.file.size/1024/1024|number:2 }} MB</td>
+			                  <td ng-show="uploader.isHTML5">
+			                     <div style="margin-bottom: 0;" class="progress progress-xs">
+			                        <div role="progressbar" ng-style="{ 'width': item.progress + '%' }" class="progress-bar"></div>
+			                     </div>
+			                  </td>
+			                  <td class="text-center">
+			                     <span ng-show="item.isSuccess">
+			                        <em class="fa fa-check fa-fw"></em>
+			                     </span>
+			                     <span ng-show="item.isCancel">
+			                        <em class="fa fa-ban-circle fa-fw"></em>
+			                     </span>
+			                     <span ng-show="item.isError">
+			                        <em class="fa fa-times fa-fw"></em>
+			                     </span>
+			                  </td>
+			                  <td nowrap="">
+			                     <button type="button" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess" class="btn btn-info btn-xs">
+			                        <span class="icon-cloud-upload mr"></span>上传
+			                     </button>
+			                     <button type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading" class="btn btn-warning btn-xs">
+			                        <span class="icon-close mr"></span>取消
+			                     </button>
+			                     <button type="button" ng-click="item.remove()" class="btn btn-danger btn-xs">
+			                        <span class="icon-trash mr"></span>删除
+			                     </button>
+			                  </td>
+			              </tr>
+			            </tbody>
+                           </table>
+                      </div>
+             </div>
+          </div>
+       </fieldset>
+       
+       <fieldset ng-if="uploadData">
+	           <div class="form-group">
+	              <label class="col-sm-2 control-label">function：</label>
+	              <div class="col-sm-10"> 
+	                 <table class="table table_title">
+	                     <thead>
+	                         <tr>
+	                            <td>核心标志</td>
+	                            <td>入口function名称</td>
+	                            <td>描述</td>
+	                            <td>操作</td>
+	                         </tr>
+	                     </thead>
+	                     <tbody>
+	                     	<tr ng-repeat="fItem in uploadData.functionList">
+	                     		<td>{{fItem.functionMark}}</td>
+	                     		<td>{{fItem.functionName}}</td>
+	                     		<td>{{fItem.description}}</td>
+	                     		<td>
+	                     		   <a href="" class="btn btn-sm btn-info" ng-click="viewFunConfig(formdata.name,fItem.functionMark,fItem.functionConfigs)">配置查看</a>
+	                     		</td>
+	                     	</tr>
+	                     </tbody>
+	                 </table>
+	              </div>
+	           </div>
+           </fieldset>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn" ng-class="{'btn-info':!isDisabled,'btn-default':isDisabled}" ng-disabled="isDisabled">升级</button>
+</div>
+</form>

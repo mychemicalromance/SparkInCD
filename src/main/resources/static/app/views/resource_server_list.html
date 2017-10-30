@@ -1,0 +1,35 @@
+<h3>服务介质资源管理</h3>
+<div class="g-wrapper">
+<div class="cont">
+    <div class="tablesearch">
+       <input type="text" ng-keyup="searchResource($event)" class="form-control" placeholder="输入名称搜索" ng-model="searchval" />
+    </div>
+    <div class="loader-demo" ng-if="loadoff">
+         <div class="ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+         </div>
+    </div>
+    <div ng-if="!resultoff">
+    	<p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+    </div>
+	<div class="list-image clearfix" ng-repeat="item in serverResourceList.rows" ng-show="!loadoff">
+	   <a href="" class="pull-left image-pic"><img ng-src="app/images/img/{{item.pic}}.png"></a>
+	   <div class="pull-left">
+	      <p class="name"><a ui-sref="app.resource_server_detail.overview({resourceId:item.id})" class="text-info">{{item.resourceName}}</a></p>
+	      <p class="newv">最新版本：{{item.last_version}}</p>
+	   </div>
+	   <div class="pull-right image-v">
+	      <span class="date">更新时间：{{item.last_time}}</span>
+	      <span class="v text-info">{{item.version_num}}个版本</span>
+	   </div>
+	   <div class="pos-pic">
+	   </div>
+	</div>
+	
+	<div class="pagewrap" ng-show="resultoff">
+		<page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange(pageNum)"></page>
+	</div>
+</div>
+</div>

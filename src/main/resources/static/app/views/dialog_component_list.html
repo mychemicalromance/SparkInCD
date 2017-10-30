@@ -1,0 +1,25 @@
+<div class="dialog-header">
+    <h4>组件</h4>
+</div>
+<div class="">
+	<table class="table table_title">
+		<!-- <thead>
+	      <tr>
+	         
+	         <th>组件名称</th>
+	         <th>操作</th>
+	      </tr>
+	    </thead> -->
+	    <tbody>
+	        <tr ng-repeat="item in list">
+	        	<td><a ui-sref="app.deployComponent.monitor({appid:item.appId})" target="_blank">{{item.appName}}</a></td>
+	        	<!-- <td>
+	        		<button class="btn btn-danger btn-sm" ng-click="delFn($index,item.appId)">
+	                	<em class="fa fa-trash"></em>
+	                </button>
+	        	</td> -->
+	        </tr>
+	    </tbody>
+	</table>
+</div>
+ 

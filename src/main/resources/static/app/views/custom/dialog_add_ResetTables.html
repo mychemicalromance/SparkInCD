@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div class="dialog-header">
+		<h4>添加数据库表</h4>
+	</div>
+<div class="dialog-body">
+
+	<div class="form-group">
+		<div class="input-group col-xs-12">
+			<label class="input-group-addon">配置:</label> 
+			<select class="chosen-select form-control" ng-change="selEnvDBConfigClick()" ng-model="selEnvDBConf"
+				ng-options="value.confs as value.dbname for value in dbconfs">
+				<option value="">请选择配置</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="input-group col-xs-12">
+			<label class="input-group-addon">配置详情:</label>
+			<textarea class="form-control" ng-model="rdataBaseConfig" aria-describedby="basic-addon1" placeholder="driver;address;use;password " style="width:320px">
+			</textarea>
+			<a href="" class="btn btn-info pull-left" ng-click="rdataBaseConCli()"> 连接 </a>
+		</div>
+	</div>
+	
+	
+	
+	<div class="form-group">
+		<div class="input-group col-xs-12">
+			<label class="input-group">数据库表:</label> 
+			<label class="checkbox-inline" data-ng-repeat="z in tablenames">
+			<input class="checkbox" type="checkbox" name="favoriteColors" ng-model="selectedtables" ng-checked="master" ng-click="chk(z,selectedtables)">
+			{{z}}
+			</label>
+		</div>
+	</div>
+</div>
+	<div class="dialog-footer">
+		<a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+		<button type="submit" class="btn btn-primary" ng-click="addResetTablesList()" >确定</button>
+	</div>
+</body>
+</html>

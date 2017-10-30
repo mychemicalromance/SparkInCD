@@ -1,0 +1,41 @@
+ <div class="content-heading clearfix">
+  <h3 class="pull-left">选择操作系统</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env_list">环境列表</a>
+	      </li>
+	      <li><a ui-sref="app.env.nodes({clusterid:clusterid})">{{clustername}}</a>
+	      </li>
+	      <li class="active">选择操作系统
+	      </li>
+      </ol>
+  </div> 
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<p>我已有一台主机</p>
+		<p class="text-muted">请选择主机上的操作系统类型</p>
+		<div class="systems">
+			<a ui-sref="app.addnode({clustername:clustername,clusterid: clusterid,os_version:'ubuntu'})" class="btn btn-oval btn-default">Ubuntu</a>
+			<a ui-sref="app.addnode({clustername:clustername,clusterid: clusterid,os_version:'centos'})" class="btn btn-oval btn-default">CentOS</a>
+		</div>                                            
+	</div>
+</div>
+
+<div class="notices">
+	<h4>
+		<em class="fa fa-exclamation-circle"></em>
+		在您添加主机之前，请检查以确保您的环境满足下述条件：
+	</h4>
+	<p>
+		使用64位 Linux 系统，已经通过测试的操作系统： CentOS 7+ 和 Ubuntu 14.04+；<br/>
+		推荐 Ubuntu 使用 AUFS 或 CentOS 使用 Device Mapper 作为 Docker 文件系统(生产环境使用 Device Mapper)；<br/>
+		开启 iptables-nat (如何开启 iptables)；
+	</p>
+</div>
+
+
+

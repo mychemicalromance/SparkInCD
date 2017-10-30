@@ -1,0 +1,70 @@
+<h3>服务介质管理</h3>
+<div class="breadcont clearfix">
+   <ol class="breadcrumb pull-left">
+      <li class="active">服务介质列表
+      </li>
+   </ol>
+   <div class="breadbtn pull-right">
+       <!-- <button class="btn btn-info" ng-click="outtemplate()">导出</button> -->
+       <a href="#" ng-click="addAssembly(appList.length)" class="btn btn-info"><em class="fa fa-plus"></em> 添加服务介质</a>
+   </div>
+</div>
+<div class="tablesearch">
+   <input type="text" ng-keyup="searchApp($event)" class="form-control" placeholder="输入服务介质名搜索" ng-model="searchval" />
+</div>
+<table class="table table_title" id="applisttable">
+   <thead>
+      <tr> 
+         <th check-all="check-all" checkapp-id="checkappId">
+         <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+            <label>
+               <input type="checkbox" />
+               <span class="fa fa-check"></span>
+            </label>
+         </div>
+         </th>
+         <th>服务介质名称</th>
+         <th>服务介质描述</th>
+         <!-- <th>当前状态</th> -->
+         <th>更新时间</th>
+         <!-- <th>所属集群</th>
+         <th>实例个数</th> -->
+         <th>操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-if="!applistoff">
+         <td colspan="5">
+           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+         </td>
+      </tr>
+      <tr ng-repeat="item in applist.rows">
+         <td>
+            <div class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" id="{{item.appId+'&'+item.appName}}" save-id="{{item.appId+'&'+item.appName}}" checkapp-id="checkappId" ng-checked="{{item.ischecked}}" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+         </td>
+         <td><a ui-sref="app.assembly_version({assemblyid:item.appId})" ng-bind="item.appName"></a></td>
+         <td ng-bind="item.description||'无'"></td>
+         <!-- <td style="font-size:12px;">
+           <span class="circle circle-lg circle-success" ng-class="{'circle-danger':item.status=='NODE_STOPPED','circle-info':item.status=='DEPLOYED','circle-warning':item.status=='FREE'}"></span>{{item.status}}
+         </td> -->
+         <td ng-bind="item.updateTime|date:'yyyy-MM-dd HH:mm:ss'"></td>
+         <!-- <td ng-bind="item.clusterName||'无'"></td>
+         <td><span class="badge badge-green">{{item.instancesNumber}}</span></td> -->
+         <td>
+             <button class="btn btn-danger btn-sm" ng-click="delApp($index,item.appId)">
+                <em class="fa fa-trash"></em>
+             </button>
+         </td>
+      </tr>
+      <tr ng-show="applistoff">
+         <td colspan="5">
+            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+         </td>
+      </tr>
+   </tbody>
+</table>

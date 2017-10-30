@@ -1,0 +1,22 @@
+<div class="dialog-header">
+    <h4>重命名环境</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="changeclusterNameForm">
+      	 <div class="form-group">
+	         <label class="col-lg-3 control-label text-right">环境名称</label>
+	         <div class="col-lg-8">
+	            <input type="text" ng-model="account.name" class="form-control" required="" name="name" autocomplete="off" />
+	            <span ng-show="changeclusterNameForm.name.$dirty &amp;&amp; changeclusterNameForm.name.$error.required" class="text-danger">请输入环境名称！</span>
+	            <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+	         </div>
+	     </div>
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <button type="submit" class="btn btn-primary" ng-click="changeclusterNameFn()">完成</button>
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+</div>
+ 

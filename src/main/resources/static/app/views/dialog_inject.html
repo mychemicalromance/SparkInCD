@@ -1,0 +1,22 @@
+<div class="dialog-header">
+    <h4>导入</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <p>将key=value数据粘贴到此处即可，备注信息请以#开头</p>
+      <div>
+          type:
+          <input type="form-control" ng-model="type">
+      </div>
+      <form name="injectForm">
+      	 <textarea ng-model="content" class="form-control" style="height:300px;">
+            
+         </textarea>  
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <button type="submit" class="btn btn-primary" ng-click="injectFn()"  limit-off="false">确定</button>
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+</div>
+ 

@@ -1,0 +1,233 @@
+ <div class="content-heading clearfix">
+  <h3 class="pull-left">主机管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env_list">环境列表</a>
+	      </li>
+	      <li><a ui-sref="app.env.nodes({clusterid:node.cluster_id})">{{node.cluster_name}}</a>
+	      </li>
+	      <li class="active">
+	      	 <span ng-controller="FormxEditableController" editable-text="node.name" class="nodename">{{node.name}}</span>
+          </li>
+      </ol>
+  </div>
+
+</div>
+<div class="panel">
+	<div class="panel-heading clearfix">
+		<h4 class="pull-left">主机</h4>
+		<div class="btns pull-right">
+			<!-- <button class="btn">维护主机</button> -->
+			<!-- <button ng-if="node.editable" class="btn btn-success" ng-click="openMoveNodeFn()">移动主机</button>  -->
+			<button ng-disabled="!node.editable" class="btn btn-danger" ng-click="delNodeFn(node.id)">删除主机</button>
+		</div>
+	</div>
+ 
+	<div class="panel-body">
+		<div class="node-info clearfix">
+			<div class="node-info-harf">
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						主机名
+					</div>
+					<div class="node-info-value">
+						<span ng-controller="FormxEditableController" editable-text="node.name" class
+						="nodename">{{node.name}}</span> 
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						主机标签
+					</div>
+					<div class="node-info-value">
+		                <span ng-if="node.labels" ng-controller="FormxEditableController" editable-text="node.labels" id="nodelabels">{{node.labels}}</span>
+					    <a ng-if="!node.labels" href="" class="fa fa-plus-square" ng-click="openaddLabelFn()" id="addnode" title="添加标签"></a>
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						IP地址
+					</div>
+					<div class="node-info-value" ng-bind="node.ip">
+						 
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						所属环境
+					</div>
+					<div class="node-info-value" ng-bind="node.cluster_name">
+						 
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						创建时间
+					</div>
+					<div class="node-info-value" ng-bind="node.timestamp">
+						 
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						系统版本
+					</div>
+					<div class="node-info-value" ng-bind="node.os_version">
+					 
+					</div>
+				</div>
+			</div>
+
+			<div class="node-info-harf">
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						CPU核数
+					</div> 
+					<div class="node-info-value">
+					   <span ng-controller="FormxEditableController" editable-text="node.cpu" id
+						="nodecpu">{{node.cpu}}</span>  
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						内存总量
+					</div>
+					<div class="node-info-value">
+						 <span ng-controller="FormxEditableController" editable-text="node.memory" id
+						="nodememory">{{node.memory}}</span>  
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						磁盘
+					</div>
+					<div class="node-info-value">
+						 <span ng-controller="FormxEditableController" editable-text="node.disk" id
+						="nodedisk">{{node.disk}}</span>  
+					</div>
+				</div>
+				
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						docker版本
+					</div>
+					<div class="node-info-value" ng-bind="node.docker_version">
+						 
+					</div>
+				</div>
+				<div class="node-info-row clearfix">
+					<div class="node-info-name">
+						agent版本
+					</div>
+					<div class="node-info-value" ng-bind="node.agent_version">
+					 
+					</div>
+				</div>
+				 
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div class="panel">
+	<div class="panel-body">
+		<h4>组件</h4> 
+		<ul>
+			<li ng-repeat="componentitem in componetList track by $index">
+			   <a ui-sref="app.deployComponent.monitor({appid:componentitem.appId})">{{componentitem.appName}}</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="panel">
+	<div class="panel-body">
+		<div class="row"> 
+			<div class="col-sm-2">
+				<div class="pull-left">
+					<h4>主机状态</h4> 
+				    <p ng-bind="nodeMonitor.running?'运行正常':'异常停止'" class="text-success text-bold"></p>
+			    </div>
+			</div>
+
+			<!-- <div class="col-sm-2">
+				 <div class="pull-left">
+					<h4>在线时长</h4>
+				    <p ng-bind="node.online" class="text-success text-bold"></p>
+			    </div>
+			</div> -->
+
+			<div class="col-sm-3">     
+			    <div class="roudchart pull-left text-center">
+			      <div id="node_cpu" style="min-width:150px;height:150px"></div>
+                  <p>CPU</p>
+                </div>
+			</div>
+
+			<div class="col-sm-3"> 
+			    <div class="roudchart pull-left text-center">
+                    <div id="node_mem" style="min-width:150px;height:150px"></div>
+                    <p>内存</p>
+                </div>
+			</div>
+
+			<div class="col-sm-4">
+				<ul class="molist clearfix">
+					<!-- <li>
+						<span ng-bind=""></span>
+						<p>磁盘IOPS(读)</p>
+					</li> -->
+					<li>
+						<span ng-bind="nodeMonitor.dickOutput+'MB'"></span> 
+						<p>磁盘吞吐量(读)</p>
+					</li>
+					<li>
+						<span ng-bind="nodeMonitor.netInput+'KB'"></span>
+						<p>网络带宽(进)</p>
+					</li>
+				</ul>
+				<ul class="molist clearfix">
+					<!-- <li>
+						<p>磁盘IOPS(写)</p>
+						<span ng-bind=" "></span>		
+					</li> -->
+					<li>
+						<p>磁盘吞吐量(写)</p>
+						<span ng-bind="nodeMonitor.diskInput+'MB'"></span>						
+					</li>
+					<li>
+						<p>网络带宽(出)</p>
+						<span ng-bind="nodeMonitor.netOutput+'KB'"></span>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<div class="clearfix panel">
+    <div class="col-lg-12">
+       <h4>CPU使用率</h4> 
+       <div id="cpucontainer" style="width:100%;height:300px;margin:0 auto;"></div>
+    </div>
+
+    <div class="col-lg-12">
+      <h4>内存使用量</h4>
+      <div id="memcontainer" style="width:100%;height:300px;margin:0 auto;"></div>
+    </div>
+
+    <div class="col-lg-12">
+      <h4>磁盘吞吐量</h4>
+      <div id="dickcontainer" style="width:100%;height:300px;margin:0 auto;"></div>
+    </div>
+
+    <div class="col-lg-12">
+      <h4>网络带宽</h4>
+      <div id="netcontainer" style="width:100%;height:300px;margin:0 auto;"></div>
+    </div>
+</div>
+

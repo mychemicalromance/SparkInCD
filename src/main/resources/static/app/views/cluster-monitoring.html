@@ -1,0 +1,38 @@
+<div class="cont">
+	<div class="cluster-monitor">
+		<div class="row">
+			<div class="col-sm-6">
+				<div id="cluster_cpu" style="min-width:150px;height:150px"></div>
+			</div>
+			<div class="col-sm-6">
+				<div id="cluster_mem" style="min-width:150px;height:150px"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="cont">
+<div class="body panel">
+		<table class="table table-bordered table-hover">
+   <thead>
+      <tr>
+         <th>组件名称</th>
+         <th>实例个数</th>
+         <th>CPU使用率</th>
+         <th>内存使用量</th>
+      </tr>
+   </thead>
+   <tbody> 
+      <tr ng-repeat="item in clusterappMonitor">
+         <td ng-bind="item.appname"></td>
+         <td ng-bind="item.instnum"> </td>
+         <td class="text-center">
+            <div data-label="{{item.monitor.appCpu}}%" class="radial-bar radial-bar-{{item.monitor.appCpu}} radial-bar-xs"></div>
+         </td>
+         <td>{{item.monitor.appMemUsage}}MB</td>
+      </tr>
+   </tbody>
+	    </table>
+	</div>
+</div>
+

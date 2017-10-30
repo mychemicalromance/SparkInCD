@@ -1,0 +1,38 @@
+
+<div class="g-wrapper ng-scope">
+	<div class="cont">
+		<div class="head">
+			<label class="col-sm-2 control-label" style="width:50px;margin:0px;padding:0px;">Topic：</label>
+			<div class="col-sm-4">
+				<select id="kafkaTopicSel" data-placeholder="选择Topic" name="kafkaTopic"
+					class="chosen-select form-control" ng-change="selectedTopicClick()" ng-model="selectedTopic"
+					ng-options="y.TopicName for (x,y) in topicnames">
+				</select>
+			</div>
+			<div class="col-sm-3">
+				<a href="#" ng-click="upConfFun()" class="btn btn-info" style="margin-right:30px">编辑配置</a>
+				<a href="#" ng-click="refreshFun()" class="btn btn-info">刷新</a>
+			</div>
+		</div>
+		<div style="height:20px"><textarea ng-hide="true" ng-model="consumConf"></textarea></div>
+		<table class="table table-bordered mt20">
+			<thead>
+				<tr>
+					<th>Partitions</th>
+					<th>LogSize</th>
+					<th>Consumer Offset</th>
+					<th>Lag</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="ng-scope"
+					ng-repeat="list in listOffset">
+					<td>{{list.partitions}}</td>
+					<td>{{list.logsize}}</td>
+					<td>{{list.comoffset}}</td>
+					<td>{{list.lag}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

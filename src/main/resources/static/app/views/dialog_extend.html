@@ -1,0 +1,62 @@
+<div class="dialog-header">
+    <h4>维护组件实例</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="entendForm">
+         <table class="table">
+             <tr>
+                 <th>版本</th>
+                 <th>实例数</th>
+             </tr>
+             <tr ng-if="curv">
+             	 <td>{{curv.versionNumber}}( 当前版本 )</td>
+             	 <td>
+             	    <input type="number" ng-model="account.curscaleCount" class="form-control" min="1" required="" name="curscaleCount" autocomplete="off" />
+	                <span ng-show="entendForm.curscaleCount.$dirty &amp;&amp; entendForm.curscaleCount.$error.required" class="text-danger">请输入实例数！</span>
+	                <span ng-show="entendForm.curscaleCount.$dirty &amp;&amp; entendForm.curscaleCount.$error.min" class="text-danger">最小实例数为1！</span>
+	                <span ng-show="entendForm.curscaleCount.$dirty &amp;&amp; entendForm.curscaleCount.$error.number" class="text-danger">请输入正确的数字！</span>
+	                <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+             	 </td>
+             </tr>
+             <tr ng-if="otherv">
+             	 <td>{{otherv.versionNumber}}</td>
+             	 <td>
+             	    <input type="number" ng-model="account.otherscaleCount" class="form-control" min="1" required="" name="otherscaleCount" autocomplete="off" />
+	                <span ng-show="entendForm.otherscaleCount.$dirty &amp;&amp; entendForm.otherscaleCount.$error.required" class="text-danger">请输入实例数！</span>
+	                <span ng-show="entendForm.otherscaleCount.$dirty &amp;&amp; entendForm.otherscaleCount.$error.min" class="text-danger">最小实例数为1！</span>
+	                <span ng-show="entendForm.otherscaleCount.$dirty &amp;&amp; entendForm.otherscaleCount.$error.number" class="text-danger">请输入正确的数字！</span>
+	                <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+             	 </td>
+             </tr>
+         </table>
+      	 <!-- <div class="form-group" ng-if="curv"> 
+      	     <label class="col-lg-3 control-label text-right">{{curv.versionNumber}}( 当前版本 )</label>
+	         <label class="col-lg-3 control-label text-right">实例数</label>
+	         <div class="col-lg-6">
+	            <input type="number" ng-model="account.scaleCount" class="form-control" min="1" required="" name="scaleCount" autocomplete="off" />
+	            <span ng-show="entendForm.scaleCount.$dirty &amp;&amp; entendForm.scaleCount.$error.required" class="text-danger">请输入实例数！</span>
+	             <span ng-show="entendForm.scaleCount.$dirty &amp;&amp; entendForm.scaleCount.$error.min" class="text-danger">最小实例数为1！</span>
+	             <span ng-show="entendForm.scaleCount.$dirty &amp;&amp; entendForm.scaleCount.$error.number" class="text-danger">请输入正确的数字！</span>
+	            <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+	         </div>
+	     </div>
+	     <div class="form-group" ng-if="otherv">
+	         <label class="col-lg-3 control-label text-right">{{otherv.versionNumber}}</label>
+	         <label class="col-lg-3 control-label text-right">实例数</label>
+	         <div class="col-lg-6">
+	            <input type="number" ng-model="account.scaleCount" class="form-control" min="1" required="" name="scaleCount" autocomplete="off" />
+	            <span ng-show="entendForm.scaleCount.$dirty &amp;&amp; entendForm.scaleCount.$error.required" class="text-danger">请输入实例数！</span>
+	             <span ng-show="entendForm.scaleCount.$dirty &amp;&amp; entendForm.scaleCount.$error.min" class="text-danger">最小实例数为1！</span>
+	             <span ng-show="entendForm.scaleCount.$dirty &amp;&amp; entendForm.scaleCount.$error.number" class="text-danger">请输入正确的数字！</span>
+	            <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+	         </div>
+	     </div> -->
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <button type="submit" class="btn btn-primary" ng-click="extendFn()">确定</button>
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+</div>
+ 

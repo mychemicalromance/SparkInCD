@@ -1,0 +1,42 @@
+<div class="content-heading clearfix">
+
+  <h3 class="pull-left">资源管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.resource_topo_list">资源列表</a>
+	      </li>
+	      <li class="active">
+	      	{{resourceDetail.resourceName}}
+          </li>
+      </ol>
+  </div>
+
+</div>
+<div class="panel">
+<div class="panel-body">
+	<div class="row">
+		<div class="col-sm-10">
+			<div class="appl pull-left">
+				<em class="fa fa-cube"></em>
+				<p>{{resourceDetail.resourceName}}</p>
+			</div>
+
+			<div class="appr pull-left">
+				<p></p>
+				<p>最近更新时间：{{resourceDetail.last_time|date:'yyyy-MM-dd HH:mm:ss'}}</p>
+				<p>最新版本:{{resourceDetail.last_version}}</p>
+				<p>版本数：{{resourceDetail.version_num}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div>
+	<div class="g-tablist">
+		<a ui-sref="app.resource_topo_detail.overview"  ng-class="getMenuItemPropClasses('overview')">资源概述</a>
+		<a ui-sref="app.resource_topo_detail.version"  ng-class="getMenuItemPropClasses('version')">版本列表</a>
+	</div>
+	<div ui-view="" autoscroll="false" ng-class="app.viewAnimation" class="g-wrapper"></div>
+</div>

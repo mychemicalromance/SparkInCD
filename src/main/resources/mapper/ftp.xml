@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ftp">
+	<!-- 检查公有包资源 -->
+	<select id="checkPublicResource" parameterType="java.util.Map" resultType="java.util.Map">
+		select  ID,RESOURCE_NAME,RESOURCE_TYPE,DESCRIPTION from sv_resource re
+		where re.RESOURCE_TYPE='app' 
+		and re.RESOURCE_NAME=#{resourceName}
+	</select>
+	<!-- 检查私有包资源 -->
+	<select id="checkPrivateResource" parameterType="java.util.Map" resultType="java.util.Map">
+		select re.ID,USERID,APPID ,RESOURCE_NAME,RESOURCE_TYPE,DESCRIPTION from sv_reg,sv_resource re
+		where sv_reg.RESOURCEID=re.ID
+		and re.RESOURCE_NAME=#{resourceName}
+		and re.RESOURCE_TYPE='topo'
+		and sv_reg.APPID=#{appId}
+		and sv_reg.USERID=#{userId}
+	</select>
+	<select id="checkVersion" parameterType="java.util.Map" resultType="int">
+		select count(*) from sv_version 
+		where RESOURCE_ID=#{resourceId}
+		and VERSION_NAME=#{versionName}
+	</select>
+	<!-- 检查包是否被注册过 -->
+	<select id="checkPackage" parameterType="java.lang.String" resultType="int">
+		select * from sv_version
+		where PACKAGE_PATH=#{packagePath}
+	</select>
+	
+	<!-- getResourceList -->
+	<select id="getPublicResourceList" parameterType="java.util.Map" resultType="java.util.Map">
+	select  sv_resource.ID as id,tmp.version_num,tmp.last_id,v.VERSION_NAME as last_version,v.CREATED_DATE as last_time,sv_resource.RESOURCE_NAME as resourceName
+	from 
+		sv_resource  ,
+		(select  RESOURCE_ID as resourceId,count(RESOURCE_ID) as version_num, max(id) as last_id from sv_version GROUP BY sv_version.RESOURCE_ID ) tmp,
+		sv_version v
+	where tmp.resourceId=sv_resource.ID
+	and v.id=last_id
+	and sv_resource.RESOURCE_TYPE='app'
+	<if test="keyword != null and keyword != '' ">
+		and sv_resource.RESOURCE_NAME like '%${keyword}%'
+	</if>
+	limit #{startNum},#{pageSize}
+	</select>
+	<select id="getPublicResourceNum" parameterType="java.util.Map" resultType="int">
+	select  count(sv_resource.ID) as num
+	from  sv_resource  
+	where  	sv_resource.RESOURCE_TYPE='app'
+	<if test="keyword != null and keyword != '' ">
+		and sv_resource.RESOURCE_NAME like '%${keyword}%'
+	</if>
+	 
+	</select>
+	<select id="getUserResourceList" parameterType="java.util.Map" resultType="java.util.Map">
+		select  sv_resource.ID as id,tmp.version_num,tmp.last_id,v.VERSION_NAME as last_version,v.CREATED_DATE as last_time,sv_resource.RESOURCE_NAME as resourceName
+		from 
+			sv_reg,
+			sv_resource  ,
+			(select  RESOURCE_ID as resourceId,count(RESOURCE_ID) as version_num, max(id) as last_id from sv_version GROUP BY sv_version.RESOURCE_ID ) tmp,
+			sv_version v
+		where tmp.resourceId=sv_resource.ID
+		and v.id=last_id
+		and sv_resource.RESOURCE_TYPE='topo'
+		and sv_reg.RESOURCEID=sv_resource.ID
+		and sv_reg.APPID=#{appId}
+		and sv_reg.USERID in
+		<foreach collection="userId" item="userId" open="("  separator="," close=")">
+			#{userId}
+		</foreach>
+		<if test="keyword != null and keyword != '' ">
+			and sv_resource.RESOURCE_NAME like '%${keyword}%'
+		</if>
+		limit #{startNum},#{pageSize}
+	
+	</select>
+	<select id="getUserResourceNum" parameterType="java.util.Map" resultType="int">
+		select  count(sv_resource.ID) as num
+		from 
+			sv_reg,
+			sv_resource  
+		where sv_resource.RESOURCE_TYPE='topo'
+		and sv_reg.RESOURCEID=sv_resource.ID
+		and sv_reg.APPID=#{appId}
+		and sv_reg.USERID in
+		<foreach collection="userId" item="userId" open="("  separator="," close=")">
+			#{userId}
+		</foreach>
+		<if test="keyword != null and keyword != '' ">
+			and sv_resource.RESOURCE_NAME like '%${keyword}%'
+		</if>
+		
+	</select>
+	<!-- 添加资源 -->
+	
+	
+	<insert id="addResource" parameterType="java.util.Map">
+		insert into sv_resource ( RESOURCE_NAME ,RESOURCE_TYPE,DESCRIPTION,IS_DOCKER_RESOURCE) VALUES
+		(#{resourceName},#{resourceType},#{resourceDescription},0)
+		<selectKey resultType="int" keyProperty="id">
+			select LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<insert id="addResourceReg" parameterType="java.util.Map">
+		insert into sv_reg (RESOURCEID,USERID,APPID) values
+		(#{resourceId},#{userId},#{appId})
+		<selectKey resultType="int" keyProperty="id">
+			select LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<!-- 添加版本 -->
+	<insert id="addVersion" parameterType="java.util.Map">
+		insert into sv_version ( RESOURCE_ID,PACKAGE_PATH,RESOURCE_PATH,VERSION_NAME,DESCRIPTION,CREATED_DATE,`STATUS`,AUDIT_PASSED,
+		DEPLOY_TIMEOUT,START_TIMEOUT,STOP_TIMEOUT,DESTROY_TIMEOUT,ACCESS_PORT,START_SCRIPT_PATH,REGISTRY_ID)
+		VALUES
+		(#{resourceId},#{packagePath},#{sourcePath},#{versionName},#{description},now(),'3','Y',#{deployTimeout},#{startTimeout},#{stopTimeout},
+		#{destroyTimeout},#{startPort},#{command},3)
+		<selectKey resultType="int" keyProperty="id">
+			select LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<!-- 版本列表 -->
+	<select id="getVersionList" parameterType="java.util.Map" resultType="java.util.Map">
+		select v.ID as id,r.ID as resourceId,v.VERSION_NAME as tag,v.DESCRIPTION as description,r.DESCRIPTION as resourceDescription ,CREATED_DATE as createDate,PACKAGE_PATH as packagePath,
+		DEPLOY_TIMEOUT as deploy_timeout,START_TIMEOUT as start_timeout,STOP_TIMEOUT as stop_timeout,DESTROY_TIMEOUT as destroy_timeout,
+		ACCESS_PORT as startPort,START_SCRIPT_PATH as startScript ,REGISTRY_ID
+		from sv_version v,sv_resource r
+		where v.RESOURCE_ID=r.ID
+		and v.RESOURCE_ID=#{resourceId}
+		<if test="keyword != null and keyword != '' ">
+				and v.VERSION_NAME like '%${keyword}%'
+			</if>
+		order by v.CREATED_DATE desc
+		limit #{startNum},#{pageSize}
+	</select>
+	<select id="getVersionNum" parameterType="java.util.Map" resultType="int"> 
+		select count(v.ID) as num
+		from sv_version v,sv_resource r
+		where v.RESOURCE_ID=r.ID
+		and v.RESOURCE_ID=#{resourceId}
+		<if test="keyword != null and keyword != '' ">
+				and v.VERSION_NAME like '%${keyword}%'
+		</if>
+	</select>
+	<!-- 获取版本详情 -->
+	<select id="getVersionInfo" parameterType="int" resultType="java.util.Map">
+		select v.DESCRIPTION as description,v.ID as id,v.VERSION_NAME as versionName,v.RESOURCE_ID as resourceId,r.RESOURCE_NAME as resourceName,v.RESOURCE_PATH as sourcePath,tmp.num ,
+		CREATED_DATE as last_time ,v.PACKAGE_PATH as packagePath, START_SCRIPT_PATH as startScript,v.ACCESS_PORT as startPort,
+		v.DEPLOY_TIMEOUT  as deploy_timeout,v.START_TIMEOUT as start_timeout,v.STOP_TIMEOUT as stop_timeout,v.DESTROY_TIMEOUT as destroy_timeout,
+		v.REGISTRY_ID , v.OTHERID
+		from sv_version v,(select RESOURCE_ID as rid,count(ID) as num from sv_version group by RESOURCE_ID ) tmp,sv_resource r
+		where v.ID=#{versionId}
+		and v.RESOURCE_ID=tmp.rid
+		and r.ID=v.RESOURCE_ID
+	</select>
+	<!-- 更新版本信息 -->
+	<update id="updateVersionInfo" parameterType="java.util.Map" >
+		update sv_version set 
+		ACCESS_PORT=#{startPort} ,
+		START_SCRIPT_PATH=#{startScript},
+		DEPLOY_TIMEOUT=#{deployTimeout},
+		START_TIMEOUT=#{startTimeout},
+		STOP_TIMEOUT=#{stopTimeout},
+		DESTROY_TIMEOUT=#{destroyTimeout},
+		DESCRIPTION=#{description}
+		where ID=#{versionId}
+		
+	</update>
+	<!-- 获取资源信息 -->
+	<select id="getResourceInfo" parameterType="int" resultType="java.util.Map">
+		select  sv_resource.ID as id,tmp.version_num,tmp.last_id,v.VERSION_NAME as last_version,v.CREATED_DATE as last_time,sv_resource.RESOURCE_NAME as resourceName
+		,  sv_resource.DESCRIPTION as description	
+		from 
+		sv_resource  ,
+		(select  RESOURCE_ID as resourceId,count(RESOURCE_ID) as version_num, max(id) as last_id from sv_version GROUP BY sv_version.RESOURCE_ID ) tmp,
+		sv_version v
+	where tmp.resourceId=sv_resource.ID
+	and v.id=last_id
+	 	and sv_resource.ID=#{resourceId}
+	</select>
+	<!-- 删除资源--><!-- delete reg -->
+	<delete id="deleteResource" parameterType="int">
+		delete from sv_resource where ID=#{resourceId};
+		
+	</delete>
+	<delete id="deleteReg" parameterType="int">
+		delete from sv_reg where RESOURCEID=#{resourceId}
+	</delete>
+	
+	<!-- 删除版本 -->
+	<delete id="deleteVersion" parameterType="int">
+	delete from sv_version where ID=#{versionId}
+	</delete>
+	
+	<!-- topo配置提取保存 -->
+	<insert id="setTopoConfig" parameterType="java.util.Map">
+		insert into sv_topo_configs (id,configs,`type`,names) 
+		values
+		(#{configId},#{configs},#{typoType},#{topoNames})
+	</insert>
+	<!-- 配置topo连接 -->
+	<update id="connectConfigToTopo" parameterType="java.util.Map">
+		update sv_version set OTHERID=#{configId}
+		where id=#{resourceVersionId}
+	</update>
+	<!-- topo配置获取 -->
+	<select id="getTopoConfig" parameterType="int" resultType="java.util.Map">
+		select configs  ,`type`,names from sv_topo_configs tc, sv_version v
+		where v.OTHERID=tc.id
+		and v.id=#{resourceVersionId}
+	</select>
+	
+	<insert id="saveSparkPackage" parameterType="java.util.Map">
+		INSERT INTO sv_spark_version (ID,PACKAGE_PATH,MD5) values(#{id},#{packagePath},#{md5})
+	</insert>
+
+	<select id="queryByPackagePath" resultType="java.lang.String">
+		SELECT ID FROM sv_spark_version where PACKAGE_PATH = #{packagePath}
+	</select>
+	
+	<!-- 获取版本详情 -->
+	<select id="getSparkVersionInfo" parameterType="java.lang.String" resultType="java.util.Map">
+		select v.ID as id,v.VERSION_NAME as versionName,v.sparkId,v.PACKAGE_PATH as packagePath,v.MD5 as md5
+		from sv_spark_version v where v.ID=#{versionId}
+	</select>
+	<update id="updateSparkVersionInfo" parameterType="java.util.Map">
+		update sv_spark_version 
+		<trim prefix="SET" suffixOverrides="," suffix=" where id=#{versionId}">
+			<if test="sparkId != null and sparkId != ''">
+				sparkId = #{sparkId},
+			</if>
+			<if test="packagePath != null and packagePath != ''">
+				PACKAGE_PATH = #{packagePath},
+			</if>
+			<if test="md5 != null and md5 != '' ">
+				MD5 = #{md5}
+			</if>
+		</trim>
+	</update>
+	<select id="findBySparkId" parameterType="java.lang.String" resultType="java.util.Map">
+		select * from sv_spark_version where sparkId = #{id}
+	</select>
+</mapper>

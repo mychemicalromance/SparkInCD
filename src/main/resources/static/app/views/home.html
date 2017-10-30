@@ -1,0 +1,146 @@
+<h3>主页</h3>
+<!-- START widgets box-->
+<div class="row" ng-if="user.roleId=='1'">
+   <div class="col-lg-4 col-sm-6">
+      <div class="panel widget bg-purple">
+         <div class="row row-table">
+            <div class="col-xs-4 text-center bg-purple-dark pv-lg">
+               <em class="icon-globe fa-3x"></em>
+            </div>
+            <div class="col-xs-8 pv-lg">
+               <div class="h2 mt0">{{appMonitor.appCount}}
+               </div>
+               <div class="text-uppercase">系统数</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+   <div class="col-lg-4 col-sm-6">
+      <div class="panel widget bg-primary">
+         <div class="row row-table">
+            <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+               <em class="icon-cloud-upload fa-3x"></em>
+            </div>
+            <div class="col-xs-8 pv-lg">
+               <div class="h2 mt0">{{appMonitor.clusterCount}}</div>
+               <div class="text-uppercase">环境数</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+   <div class="col-lg-4 col-md-6">
+      <div class="panel widget bg-green">
+         <div class="row row-table">
+            <div class="col-xs-4 text-center bg-green-dark pv-lg">
+               <em class="icon-bubbles fa-3x"></em>
+            </div>
+            <div class="col-xs-8 pv-lg">
+               <div class="h2 mt0">{{appMonitor.nodeCount}}</div>
+               <div class="text-uppercase">主机数</div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>
+
+<div class="row" ng-if="user.roleId!=='1'">
+   
+   <div class="col-lg-6 col-sm-6">
+      <div class="panel widget bg-primary">
+         <div class="row row-table">
+            <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+               <em class="icon-cloud-upload fa-3x"></em>
+            </div>
+            <div class="col-xs-8 pv-lg">
+               <div class="h2 mt0">{{clusterMonitor.nodeCount}}</div> 
+               <div class="text-uppercase">主机数</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+   <div class="col-lg-6 col-sm-6">
+      <div class="panel widget bg-success">
+         <div class="row row-table">
+            <div class="col-xs-4 text-center bg-success-dark pv-lg">
+               <em class="icon-cloud-upload fa-3x"></em>
+            </div>
+            <div class="col-xs-8 pv-lg">
+               <div class="h2 mt0">{{clusterMonitor.zuJianCount}}</div>
+               <div class="text-uppercase">应用组件数</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+</div>
+
+<div class="panel" ng-if="user.roleId=='1'">
+	<div class="tablesearch">
+	   <input type="text" ng-keyup="searchCluster($event)" class="form-control" placeholder="输入环境名称搜索" ng-model="search.searchval" />
+	</div>
+	<table class="table table_title" id="envmonitorlisttable">
+		<thead>
+	      <tr>
+	         <th>序号</th>
+	         <th>环境名称</th>
+	         <th>所属系统</th>
+	         <th>主机</th>
+	         <th>服务</th>
+	         <th>应用组件</th>
+	      </tr>
+	   </thead>
+       <tbody>
+	   	  <tr ng-if="!envMonitorlistoff">
+	         <td colspan="6">
+	           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+	         </td>
+	      </tr>
+          <tr ng-repeat="item in envMonitorlist.rows">
+          	 <td ng-if="user.roleId=='1'">{{$index+1}}</td>
+      	     <td>{{item.name}}</td>
+      	     <td>{{item.app_name}}</td>
+      	     <td><span class="circle circle-lg text-left" ng-class="{'circle-success':item.nodeState=='normal','circle-danger':item.nodeState=='error','circle-warning':item.nodeState=='warning'}"></span></td>
+      	     <td><span class="circle circle-lg text-left" ng-class="{'circle-success':item.serverState=='normal','circle-danger':item.serverState=='error','circle-warning':item.serverState=='warning'}"></span></td>
+      	     <td><span class="circle circle-lg text-left" ng-class="{'circle-success':item.appState=='normal','circle-danger':item.appState=='error','circle-warning':item.appState=='warning'}"></span></td>
+          </tr>
+	      <tr ng-show="envMonitorlistoff">
+	         <td colspan="2">
+	             <span class="circle circle-success circle-lg text-left"></span>正常
+	             <span class="circle circle-danger circle-lg text-left"></span>错误
+	             <span class="circle circle-warning circle-lg text-left"></span>警告
+	         </td>
+	         <td colspan="4">
+	            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange(pageNum)"></page>
+	         </td>
+	      </tr>
+   </tbody>
+</table>
+</div>
+
+<div class="panel" ng-if="user.roleId!=='1'">
+	<table class="table table_title" id="envmonitorlisttable">
+		<thead>
+	      <tr>
+	         <th>环境名称</th>
+	         <th>主机</th>
+	         <th>服务</th>
+	         <th>应用</th>
+	      </tr>
+	   </thead>
+       <tbody> 
+       	  <tr>
+      	     <td><span class="text-primary">{{curEnv.name}}</span></td>
+      	     <td>
+      	         <span class="circle circle-lg text-left" ng-class="{'circle-success':curEnv.nodeState=='normal','circle-danger':curEnv.nodeState=='error','circle-warning':curEnv.nodeState=='warning'}"></span>
+      	     </td>
+      	     <td><span class="circle circle-lg text-left" ng-class="{'circle-success':curEnv.serverState=='normal','circle-danger':curEnv.serverState=='error','circle-warning':curEnv.serverState=='warning'}"></span></td>
+      	     <td><span class="circle circle-lg text-left" ng-class="{'circle-success':curEnv.appState=='normal','circle-danger':curEnv.appState=='error','circle-warning':curEnv.appState=='warning'}"></span></td>
+          </tr>	
+       </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,201 @@
+/* ========================================================================
+   Component: layout
+ ========================================================================== */
+body,
+.wrapper > section {
+  background-color: #f5f7fa;
+}
+.wrapper > .aside {
+  background-color: #136781;
+}
+/* ========================================================================
+   Component: top-navbar
+ ========================================================================== */
+.topnavbar {
+  background-color: #fff;
+}
+.topnavbar .navbar-header {
+  background-color: transparent;
+  background-image: -webkit-linear-gradient(left, #1797be 0%, #23b7e5 100%);
+  background-image: -o-linear-gradient(left, #1797be 0%, #23b7e5 100%);
+  background-image: linear-gradient(to right, #1797be 0%, #23b7e5 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1797be', endColorstr='#ff23b7e5', GradientType=1);
+}
+@media only screen and (min-width: 768px) {
+  .topnavbar .navbar-header {
+    background-image: none;
+  }
+}
+.topnavbar .navbar-nav > li > a,
+.topnavbar .navbar-nav > .open > a {
+  color: #1797be;
+}
+.topnavbar .navbar-nav > li > a:hover,
+.topnavbar .navbar-nav > .open > a:hover,
+.topnavbar .navbar-nav > li > a:focus,
+.topnavbar .navbar-nav > .open > a:focus {
+  color: #0c4f63;
+}
+.topnavbar .navbar-nav > .active > a,
+.topnavbar .navbar-nav > .open > a,
+.topnavbar .navbar-nav > .active > a:hover,
+.topnavbar .navbar-nav > .open > a:hover,
+.topnavbar .navbar-nav > .active > a:focus,
+.topnavbar .navbar-nav > .open > a:focus {
+  background-color: transparent;
+}
+.topnavbar .navbar-nav > li > [data-toggle='navbar-search'] {
+  color: #ffffff;
+}
+.topnavbar .nav-wrapper {
+  background: #fff;
+  /* background-image: -webkit-linear-gradient(left, #1797be 0%, #23b7e5 100%);
+  background-image: -o-linear-gradient(left, #1797be 0%, #23b7e5 100%);
+  background-image: linear-gradient(to right, #1797be 0%, #23b7e5 100%);
+  background-repeat: repeat-x; */
+  /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1797be', endColorstr='#ff23b7e5', GradientType=1); */
+}
+@media only screen and (min-width: 768px) {
+  .topnavbar {
+    background-color: #1797be;
+    background-image: -webkit-linear-gradient(left, #1797be 0%, #23b7e5 100%);
+    background-image: -o-linear-gradient(left, #1797be 0%, #23b7e5 100%);
+    background-image: linear-gradient(to right, #1797be 0%, #23b7e5 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1797be', endColorstr='#ff23b7e5', GradientType=1);
+  }
+  .topnavbar .navbar-nav > .open > a,
+  .topnavbar .navbar-nav > .open > a:hover,
+  .topnavbar .navbar-nav > .open > a:focus {
+    box-shadow: 0 -3px 0 rgba(255, 255, 255, 0.5) inset;
+  }
+  .topnavbar .navbar-nav > li > a,
+  .topnavbar .navbar-nav > .open > a {
+    color: #000;
+  }
+  .topnavbar .navbar-nav > li > a:hover,
+  .topnavbar .navbar-nav > .open > a:hover,
+  .topnavbar .navbar-nav > li > a:focus,
+  .topnavbar .navbar-nav > .open > a:focus {
+    color: #0c4f63;
+  }
+}
+/* ========================================================================
+   Component: sidebar
+ ========================================================================== */
+.sidebar {
+  background-color: #009b63;
+}
+.sidebar .nav-heading {
+  color: #919da8;
+}
+.sidebar .nav > li > a,
+.sidebar .nav > li > .nav-item {
+  color: #e1e2e3;
+}
+.sidebar .nav > li > a:focus,
+.sidebar .nav > li > .nav-item:focus,
+.sidebar .nav > li > a:hover,
+.sidebar .nav > li > .nav-item:hover {
+  color: #fff;
+}
+.sidebar .nav > li > a > em,
+.sidebar .nav > li > .nav-item > em {
+  color: inherits;
+}
+.sidebar .nav > li.active,
+.sidebar .nav > li.open,
+.sidebar .nav > li.active > a,
+.sidebar .nav > li.open > a,
+.sidebar .nav > li.active .nav,
+.sidebar .nav > li.open .nav {
+  background-color: #fff;
+  color: #009b63;
+  font-weight:bold;
+}
+.sidebar .nav > li.active > a > em,
+.sidebar .nav > li.open > a > em {
+  color: #009b63;
+}
+.sidebar .nav > li.active {
+  border-left-color: #009b63;
+}
+.sidebar-subnav {
+  background-color: #009b63;
+}
+.sidebar-subnav > .sidebar-subnav-header {
+  color: #e1e2e3;
+}
+.sidebar-subnav > li > a,
+.sidebar-subnav > li > .nav-item {
+  color: #e1e2e3;
+}
+.sidebar-subnav > li > a:focus,
+.sidebar-subnav > li > .nav-item:focus,
+.sidebar-subnav > li > a:hover,
+.sidebar-subnav > li > .nav-item:hover {
+  color: #1797be;
+}
+.sidebar-subnav > li.active > a,
+.sidebar-subnav > li.active > .nav-item {
+  color: #1797be;
+}
+.sidebar-subnav > li.active > a:after,
+.sidebar-subnav > li.active > .nav-item:after {
+  border-color: #1797be;
+  background-color: #1797be;
+}
+
+.sidebar .nav > li.first {
+  background:#027a4f;
+  border-top:1px solid #027a4f;
+}
+
+.nav-footer { 
+  height: 40px;
+  width: 100%; 
+  position: absolute; 
+  bottom: 55px; 
+  left: 0; 
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background:url(../images/nav-footer-bg.png) no-repeat center 0 #027a4f;
+ }
+
+ .nav-footer li {
+   width: 50%; 
+   line-height: 40px;
+   text-align: center;
+   float: left;
+ }
+ .nav-footer li a {
+   color: #fff;
+   text-decoration: none;
+ }
+ .nav-footer li a em {
+    padding-right: 10px;
+  }
+/* ========================================================================
+   Component: offsidebar
+ ========================================================================== */
+.offsidebar {
+  border-left: 1px solid #cccccc;
+  background-color: #ffffff;
+  color: #515253;
+}
+
+.nav-wrapper .nav > li.addenv a { padding:6px 16px; color:#fff; }
+.btn-info:hover, .btn-info:focus, .btn-info.focus, .btn-info:active, .btn-info.active, .open > .dropdown-toggle.btn-info
+{
+	background-color:#009b63;
+	border-color:#009b63;
+}
+.btn-info {
+background-color:#009b63;
+	border-color:#009b63;	
+}
+.config_header { position:relative; }
+.config_header button { position:absolute; top:5px; right:5px; }
+

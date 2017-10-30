@@ -1,0 +1,85 @@
+ <div class="content-heading clearfix">
+  <h3 class="pull-left">配置管理 {{appName}}</h3>
+  
+  <!-- <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env.service({clusterid:$stateParams.args.clusterId})">{{$stateParams.args.clusterName}}</a>
+	      </li>
+	      <li class="active">
+	      	 {{curversion.templateName}}
+          </li>
+      </ol>
+  </div> -->
+
+</div>
+<div class="panel-config-server">
+   <div class="config-server-header clearfix">
+        <div class="arrow arrow_left pull-left" ng-click="moveLeft()">
+        
+        </div>
+        <div class="arrow arrow_right pull-left" ng-click="moveRight()">
+        
+        </div>
+        <div class="listdiv pull-right"> 
+	   		<ul class="clearfix" id="listul">
+	   			<li ng-class="{active:funItem.active}" ng-click="changeVersion(funItem,sparkFunData.functionList)" ng-repeat="funItem in sparkFunData.functionList track by $index">
+	              <div class="label label-success" ng-bind="funItem.functionMark"></div>
+	              <p ng-bind="funItem.functionName"></p>
+	   			</li>
+	   		</ul>
+   		</div>
+   </div>
+   <div class="config-server-nav clearfix">
+        <div class="config-server-nav_l pull-left">
+        	<select class="form-control" ng-model="curfun" ng-options="funItem as funItem.functionMark for funItem in sparkFunData.functionList">
+            </select>
+            <span ng-bind="curfun.functionName" style="color:#fff"></span>
+        </div>
+        <div class="config-server-nav_r pull-right">
+            <button class="btn btn-info" ng-click="updateConfig(curfun,sparkFunData.name)">批量导入</button>     
+        </div>
+   </div>
+   <div class="config-server-body">
+   		<ul class="configlist-server">
+   		    <li ng-repeat="proviceItem in proviceList track by $index" ng-init="outindex=$index">
+   		        <div class="configlist-server-headr" ng-click="proviceItem.show=!(proviceItem.show);getProviceConfigs(proviceItem.show,proviceItem);">
+   		             <a href="javascript:;"  ng-bind="proviceItem.province"></a>
+   		             <span class="pull-right" ng-bind="'更新时间：'+proviceItem.updateTime"></span>
+   		        </div>
+   		    	<div class="table-responsive mb-lg" ng-show="proviceItem.show" style="padding:20px;">
+   		    	    <h5>运行配置</h5>
+                    <table class="table bg-white configtable">
+		                <tr style="font-weight: bold">
+			             <td style="width:25%">KEY</td>
+			             <td style="width:30%">VALUE</td>
+			           </tr>
+	                   <tr ng-repeat="configitem in proviceItem.systemConfigs track by $index" ng-init="innerindex=$index">
+			               <td> 
+			                  <span>{{configitem.key}}</span>
+			               </td>
+			               <td>
+			                  <span>{{configitem.val}}</span>
+			               </td>
+	                   </tr>
+                    </table>
+                    <h5>业务配置</h5>
+                    <table class="table bg-white configtable">
+		                <tr style="font-weight: bold">
+			             <td style="width:25%">KEY</td>
+			             <td style="width:30%">VALUE</td>
+			           </tr>
+	                   <tr ng-repeat="configitem in proviceItem.serviceConfigs track by $index" ng-init="innerindex=$index">
+			               <td> 
+			                  <span>{{configitem.key}}</span>
+			               </td>
+			               <td>
+			                  <span>{{configitem.val}}</span>
+			               </td>
+	                   </tr>
+                    </table>
+               </div>
+   		    </li>
+   			
+   		</ul>
+   </div>
+</div>

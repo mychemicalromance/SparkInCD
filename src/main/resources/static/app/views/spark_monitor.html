@@ -1,0 +1,171 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">spark应用监控</h3>
+</div>
+<div class="cont">
+<form role="form" class="form-horizontal clearfix form-log">
+  <div class="row">
+       <div class="col-sm-3">
+		     <div class="form-group"> 
+		         <label class="col-sm-5 control-label">应用名称：</label> 
+		         <div class="col-sm-7">
+			         <input type="text" class="form-control" ng-model="appname">
+		         </div>
+		     </div>
+	   </div>
+	   
+	  <div class="col-sm-3">
+	     <div class="form-group"> 
+	         <label class="col-sm-5 control-label">函数标志：</label> 
+	         <div class="col-sm-7">
+		         <input type="text" class="form-control" ng-model="fnMark">
+	         </div>
+	     </div>
+	  </div> 
+	  
+	  <div class="col-sm-3">
+	     <div class="form-group"> 
+	         <label class="col-sm-5 control-label">配置名称：</label> 
+	         <div class="col-sm-7">
+		         <input type="text" class="form-control" ng-model="provincename">
+	         </div>
+	     </div>
+	  </div>
+	  
+	  <div class="col-sm-3">
+	     <div class="form-group"> 
+	         <label class="col-sm-5 control-label">状态：</label> 
+	         <div class="col-sm-7"> 
+		         <select class="form-control" ng-model="state" ng-options="stateItem.value as stateItem.text for stateItem in stateList">
+		             
+		         </select>
+	         </div>
+	     </div>
+	  </div>
+  </div>
+  <div class="row text-center">
+       <button type="button" class="btn btn-info" ng-click="querylog()">查询</button>
+  </div>
+</form>
+<div class="text-right">
+   <button class="btn btn-info" ng-click="start()">启动</button>
+   <button class="btn btn-danger" ng-click="stop()">停止</button>
+   <button class="btn btn-info" ng-click="restart()">重启</button>
+</div>
+<table class="table table_title" id="applisttable">
+   <thead>
+      <tr> 
+         <th check-all="check-all" checkapp-id="checkappId">
+         <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+            <label>
+               <input type="checkbox" />
+               <span class="fa fa-check"></span>
+            </label>
+         </div>
+         </th>
+         <th class="wordbreak" width="8%">应用名</th>
+         <th>应用系统</th>
+         <th>函数标志</th>
+         <th>配置名称</th>
+         <th class="wordbreak" width="20%">driver_name</th>
+         <!-- <th>状态</th> -->
+         <th text-align="center">用户</th>  
+         <th text-align="center">更新时间</th>  
+         <th text-align="center">UI</th>
+         <th text-align="center">详情</th>
+         <!-- <th text-align="center">错误日志</th> -->
+         <th text-align="center">操作</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-if="!listoff">
+         <td colspan="10">
+           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+         </td>
+      </tr>
+      <tr ng-repeat-start="sparkItem in sparklist.rows">
+         <td>
+            <div class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" id="{{sparkItem.uuid}}" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+         </td>
+         <td class="wordbreak">{{sparkItem.sparkName}}</td>
+         <td>{{sparkItem.appName}}</td>
+         <td>{{sparkItem.functionMark}}</td>
+         <td>{{sparkItem.configVersion}}</td>
+         <td class="wordbreak">{{sparkItem.driverName}}</td>
+         <!-- <td>
+         		<span ng-class="{'text-primary':sparkItem.status=='SUBMITTED'?true:false,'text-info':sparkItem.status=='ACCEPTED'?true:false,'text-success':sparkItem.status=='RUNNING'?true:false,'text-muted':sparkItem.status=='FINISHED'?true:false,'text-danger':sparkItem.status=='FAILED'?true:false,'text-warning':sparkItem.status=='KILLED'?true:false}">{{sparkItem.status}}</span>
+         </td> -->
+         <td>{{sparkItem.userName}}</td>
+         <td>{{sparkItem.updateTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+         <td>
+         	<a ng-href="{{sparkItem.uiLink}}" target="_blank" class="btn btn-info btn-sm">查看UI</a>
+         </td>
+         <td>
+         	<a ng-href="{{sparkItem.detailLink}}" target="_blank" class="btn btn-info btn-sm">查看详情</a>
+         </td>
+         <!-- <td>
+             <button class="btn btn-info" ng-click="sparkError(sparkItem.errorLog)">错误日志</button>
+         </td> -->
+         <td>
+             <div dropdown="dropdown" class="btn-group">
+					<button dropdown-toggle="" class="btn btn-default btn-sm">操作 <b class="caret"></b></button>
+					<ul role="menu" class="dropdown-menu animated bounceIn dropdown-menu-l dropdown-menu-color">
+					   <li> 
+					      <a href="javascript:;" class="btn btn-info" ng-click="start(sparkItem.uuid)">启动</a>
+					   </li>
+					   <li>
+					      <a href="javascript:;" class="btn btn-danger" ng-click="stop(sparkItem.uuid)">停止</a>
+					   </li> 
+					   <li>
+					     <a href="javascript:;" class="btn btn-info" ng-click="restart(sparkItem.uuid)">重启</a>
+					   </li>
+                       <li>
+                         <a href="javascript:;" class="btn btn-info" ng-click="sparkError(sparkItem.errorLog)">错误日志</a>
+                       </li>
+					</ul>
+			 </div>
+         </td>
+      </tr>
+      <tr ng-repeat-end>
+          <td class="line"></td>
+          <td colspan="10" class="line">状态：
+               <span class="label label-sk" ng-class="{'label-default':sparkItem.status,'label-green':!sparkItem.status}">
+                   <span class="sk-spinner sk-spinner-fading-circle" ng-if="!sparkItem.status">
+		               <span class="sk-circle1 sk-circle"></span>
+		               <span class="sk-circle2 sk-circle"></span>
+		               <span class="sk-circle3 sk-circle"></span>
+		               <span class="sk-circle4 sk-circle"></span>
+		               <span class="sk-circle5 sk-circle"></span>
+		               <span class="sk-circle6 sk-circle"></span>
+		               <span class="sk-circle7 sk-circle"></span>
+		               <span class="sk-circle8 sk-circle"></span>
+		               <span class="sk-circle9 sk-circle"></span>
+		               <span class="sk-circle10 sk-circle"></span>
+		               <span class="sk-circle11 sk-circle"></span>
+		               <span class="sk-circle12 sk-circle"></span>
+		            </span>
+                                                 正在提交
+               </span>
+               <span class="label" ng-class="{'label-primary':sparkItem.status=='Submitted','label-default':sparkItem.status!=='Submitted'}">提交完成</span>
+               <span class="label" ng-class="{'label-info':sparkItem.status=='ACCEPTED','label-default':sparkItem.status!=='ACCEPTED'}">申请资源</span>
+               <span class="label" ng-class="{'label-success':sparkItem.status=='RUNNING','label-default':sparkItem.status!=='RUNNING'}">正在运行</span>
+               <span class="label" ng-class="{'label-purple':sparkItem.status=='FINISHED','label-default':sparkItem.status!=='FINISHED'}">已完成</span> 
+               <span class="label" ng-class="{'label-danger':sparkItem.status=='FAILED','label-default':sparkItem.status!=='FAILED'}">失败</span>
+               <span class="label" ng-class="{'label-warning':sparkItem.status=='KILLED','label-default':sparkItem.status!=='KILLED'}">已停止</span>
+         </td>
+      </tr>
+      <tr ng-show="listoff">
+         <td colspan="11">
+            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+         </td>
+      </tr>
+   </tbody>
+</table>
+  
+      
+</div>
+ 

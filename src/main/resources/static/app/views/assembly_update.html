@@ -1,0 +1,273 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">服务介质版本管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.listassembly">服务介质列表</a>
+	      </li>
+	      <li><a ui-sref="app.assembly_version({assemblyid:assemblyInfoData.appId})">服务介质版本列表</a>
+	      </li>
+	      <li class="active">服务介质版本更新
+	      </li>
+      </ol>
+  </div>
+
+</div>
+<div class="panel">
+<div class="panel-body">
+	<form form-wizard="" validate-steps="true" validate-form="" steps="3" name="updateAssemblyForm" id="updateAssemblyForm" ng-submit="updateAssemblyFn()">
+		<div class="form-wizard wizard-horizontal">
+			<ol class="row">
+               <li ng-class="{'active':wizard.active(1)}" class="col-md-4">
+                  <em class="fa fa-university"></em>
+                  <h4>服务介质基础设置</h4>
+               </li>
+               <li ng-class="{'active':wizard.active(2)}" class="col-md-4">
+                  <em class="fa fa-university"></em>
+                  <h4>服务介质资源添加</h4>
+               </li>
+               <li ng-class="{'active':wizard.active(3)}" class="col-md-4">
+                  <em class="fa fa-edit"></em>
+                  <h4>服务介质配置添加</h4> 
+               </li>
+            </ol>
+            <div ng-show="wizard.active(1)" id="step1">
+            	<div class="form-validate form-horizontal">
+            		<fieldset>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 服务介质名称：</label>
+                          <div class="col-sm-6"> 
+                             <div class="form-control-static" ng-bind="assemblyInfoData.appName"></div>
+                          </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+	                    <div class="form-group">
+	                      <label class="col-sm-2 control-label"> 服务介质描述：</label>
+	                      <div class="col-sm-6"> 
+	                        <div class="form-control-static" ng-bind="assemblyInfoData.description||'无'"></div>
+	                      </div>
+	                    </div>
+	                </fieldset>
+                  
+                  <!-- <fieldset>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">更新机制：</label>
+                        <div class="col-sm-6">
+                           <select class="form-control" name="resourceUpdateType" ng-model="formdata.resourceUpdateType" ng-options="type.value as type.text for type in resourceUpdateTypeList">       
+                            </select>
+                        </div>
+                      </div>
+                   </fieldset> -->
+	                <fieldset>
+	                    <div class="form-group">
+                          <label class="col-sm-2 control-label"><span class="text-danger">*</span> 实例个数：</label>
+                          <div class="col-sm-4">
+                             <input class="form-control" name="replicas" ng-model="formdata.replicas" data-parsley-trigger="blur" data-parsley-group="step1" data-parsley-required="true" data-parsley-type="number" data-parsley-min="1" data-parsley-required-message="请填写实例个数" data-parsley-type-message="请输入数字格式" data-parsley-min-message="实例个数最小为1" />
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="checkbox c-checkbox" tooltip="每个主机只运行一个当前应用实例，其他应用亦可运行在这台主机">
+                                <label>
+                                   <input type="checkbox" ng-model="formdata.sameHost" />
+                                   <span class="fa fa-check"></span>1实例：1主机
+                                </label>
+                             </div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="checkbox c-checkbox" tooltip="实例独占主机资源，其他应用实例不能部署在该主机">
+                                <label>
+                                   <input type="checkbox" ng-model="formdata.shareHost" />
+                                   <span class="fa fa-check"></span>独占主机
+                                </label>
+                             </div>
+                          </div>
+	                    </div>
+	                </fieldset>
+	                <fieldset>
+                       <div class="form-group">
+                          <div class="clearfix">
+                            <label class="col-sm-2 control-label">标签：</label>
+                            <div class="col-sm-6"> 
+                               <a href="" class="btn btn-info btn-sm" ng-click="add('labelsarr')"><em class="fa fa-plus"></em> 添加标签</a>
+                            </div>
+                          </div>
+                          <div class="add-row-container mt20" data-ng-repeat="label in labelsarr track by $index">
+                             <ng-form name="envs" class="clearfix">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-3">
+                                   <input type="text" placeholder="KEY" ng-model="label.key" class="form-control" data-parsley-trigger="blur" data-parsley-group="step3" data-parsley-required="true" data-parsley-required-message="请填写KEY！">
+                                </div>
+                                <div class="col-sm-3">
+                                  <input type="text" placeholder="VALUE" ng-model="label.val" class="form-control" data-parsley-trigger="blur" data-parsley-group="step3" data-parsley-required="true" data-parsley-required-message="请填写VALUE！">
+                                </div> 
+                                <div class="col-sm-1">
+                                    <a href="" ng-click="del('labelsarr',$index)" class="text-danger"><em class="fa fa-trash"></em></a>
+                                </div>
+                             </ng-form>
+                          </div>
+                       </div>
+                     </fieldset>
+                     <fieldset>
+                       <div class="form-group">
+                          <div class="clearfix">
+                            <label class="col-sm-2 control-label">环境变量：</label>
+                            <div class="col-sm-6">
+                               <a href="" class="btn btn-info btn-sm" ng-click="add('envs')"><em class="fa fa-plus"></em> 添加环境变量</a>
+                            </div>
+                          </div>
+                          <div class="add-row-container mt20" data-ng-repeat="env in envs track by $index">
+                             <ng-form name="envs" class="clearfix">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-3">
+                                   <input type="text" placeholder="KEY" ng-model="env.key" class="form-control" data-parsley-trigger="blur" data-parsley-group="step3" data-parsley-required="true" data-parsley-required-message="请填写环境变量KEY！">
+                                </div>
+                                <div class="col-sm-7">
+                                  <input type="text" placeholder="VALUE" ng-model="env.val" class="form-control" style="width:50%; float:left;" data-parsley-trigger="blur" data-parsley-group="step3" data-parsley-required="true" data-parsley-required-message="请填写环境变量VALUE！">
+                                   
+                                  <div class="dropup pull-left" ng-click="dropopen($index,env.val)">
+                                     <button class="btn btn-info" type="button" data-toggle="dropdown" data-submenu>
+                                       选择 <span class="caret"></span>
+                                     </button>
+ 
+                                     <drop-menu my-app="applist" my-val="env.val">
+                                     </drop-menu>
+ 
+                                  </div>  
+
+                                  <a href="" ng-click="del('envs',$index)" class="text-danger"><em class="fa fa-trash"></em></a>
+
+                                </div> 
+                             </ng-form>
+                          </div>
+                       </div>
+                     </fieldset>
+                     <fieldset>
+	                    <div class="form-group">
+	                      <label class="col-sm-2 control-label">日志目录：</label>
+	                      <div class="col-sm-6">
+	                         <input type="text" name="logPaths" ng-model="formdata.logPaths" class="form-control" placeholder="日志目录" />                         
+	                      </div>
+	                   </div>
+	                 </fieldset>
+            	</div>
+             	<ul class="pager">
+                  <li class="next"><a href="#" ng-click="wizard.go(2);goResource(resourceName)">服务介质资源设置 <span>&rarr;</span></a>
+                  </li>
+                </ul>
+            </div>
+            <div ng-show="wizard.active(2)" id="step2">
+    
+                 <div class="form-validate form-horizontal">
+                   <fieldset>
+	                        <div class="form-group">
+	                          <label class="col-lg-2 control-label">资源类型：</label>
+	                          <div class="col-lg-6"> 
+	                               <div class="breadbtn">
+	                                   <a href="#" class="btn btn-info" ng-click="openResourceList()">已有资源</a>
+								        
+								                     <a href="#" class="btn btn-info" toggle-state="offsidebar-open" no-persist="no-persist" ng-click="openAddResource()">
+		                                  <em class="icon-notebook"></em>创建新资源
+		                                 </a> 
+								        
+								   </div>
+	                          </div>
+	                        </div>
+	                    </fieldset>
+                    <fieldset>
+	                        <div class="form-group">
+	                          <label class="col-lg-2 control-label">资源名称：</label>
+	                          <div class="col-lg-6"> 
+	                              <div class="form-control-static">{{resourceName}}</div>
+	                          </div>
+	                        </div>
+	                    </fieldset>
+	                    <fieldset>
+	                        <div class="form-group">
+	                          <label class="col-lg-2 control-label">资源版本：</label>
+	                          <div class="col-lg-6">
+	                             <select name="resourcetag" data-parsley-trigger="blur" data-parsley-group="step2" data-parsley-required="true" class="form-control" ng-model="formdata.resourcetag" ng-options="item as item.tag for item in resource_version">
+	                             </select>
+	                          </div>
+	                       </div>
+	                    </fieldset>
+	                    <fieldset>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">应用端口：</label>
+                        <div class="col-sm-6">
+                           <input type="text" name="accessPort" ng-model="formdata.accessPort" class="form-control" placeholder="应用访问端口" />
+                        </div>
+                      </div>
+                  </fieldset>
+	                <fieldset>
+	                   <div class="form-group">
+	                      <label class="col-sm-2 control-label"><span class=""></span>command：</label>
+	                      <div class="col-sm-6">
+	                         <input type="text" name="cmd" ng-model="formdata.cmd" class="form-control" placeholder="输入要执行的命令"/>
+	                      </div>
+	                   </div>
+	                </fieldset>
+                 </div>
+ 
+            	<ul class="pager">
+                  <li class="previous">
+              		<a href="#" ng-click="wizard.go(1)">
+                    	<span>&larr; 服务介质基础设置</span>
+                    </a>
+                  </li>
+                  <li class="next"><a href="#" ng-click="wizard.go(3,resourceName);goConfig(configName)">服务介质配置添加 <span>&rarr;</span></a>
+                  </li>
+                </ul>
+            </div>
+            <div ng-show="wizard.active(3)" id="step3">
+    
+                 <div class="form-validate form-horizontal">
+                   <fieldset>
+                      <div class="form-group">
+                          <label class="col-lg-2 control-label">配置类型：</label>
+                          <div class="col-lg-6"> 
+                               <div class="breadbtn">
+                                   <a href="#" class="btn btn-info" ng-click="openConfigList()">已有配置</a>
+                                   <a href="#" class="btn btn-info" toggle-state="offsidebar-open" no-persist="no-persist" ng-click="openAddConfig()">
+                                      <em class="icon-notebook"></em>创建新配置
+                                   </a> 
+                               </div>
+                          </div>
+                      </div>
+                   </fieldset>
+                   <fieldset>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">配置名称：</label>
+                        <div class="col-lg-6"> 
+                            <div class="form-control-static">{{configName}}</div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <fieldset>
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label">配置版本：</label>
+                            <div class="col-lg-6">
+                               <select name="tag" required="" class="form-control" ng-model="formdata.configtag" ng-options="item as item.version for item in config_version">
+                               </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <a href="#" class="btn btn-info" ng-click="openViewConfig(formdata.configtag);">查看配置</a>
+                            </div>
+                         </div>
+                    </fieldset>
+                 </div>
+ 
+                 <ul class="pager">
+                    <li class="previous">
+                         <a href="#" ng-click="wizard.go(2);goResource(resourceName)">
+                            <span>&larr; 服务介质资源添加</span>
+                         </a>
+                    </li>
+                    <li>
+                       <button type="submit" class="btn btn-info">更新</button>
+                    </li>
+                 </ul>
+            </div>
+		</div>
+	</form>
+</div>
+</div>

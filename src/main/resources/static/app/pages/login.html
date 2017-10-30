@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="userControllers">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   <meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
+   <!-- Bootstrap styles-->
+   <link rel="stylesheet" href="../../app/css/bootstrap.css">
+   <link rel="stylesheet" href="../../app/css/app.css">
+   <link rel="stylesheet" href="../../app/css/login.css">
+   <script src="../../app/js/angular-1.5.0.min.js"></script>
+   <script src="../../app/js/user.js"></script>
+   <script src="../../app/js/md5.js"></script>
+   <script src="../../app/js/security.js"></script>
+   <script>
+
+   try{
+	     window.top.location.hostname;
+	     if (top.location.hostname != window.location.hostname)
+	     {
+	      top.location.href =window.location.href;
+	     }
+	 }
+	 catch(e){
+	    top.location.href =window.location.href;
+	 }
+
+   </script>
+</head>
+
+<body class="layout-fixed">
+<div class="login_bg">
+   <div class="login-bg-cloud"></div>
+</div>
+
+<div  class="center-block wdlogin" ng-controller="LoginFormController">
+   <section>
+       <header>
+          <span class="avatar">
+            <a href="javascript:;"><img src="../../app/images/logo2.png" alt=""></a>
+          </span>
+          <!-- <h1 ng-if="false">欢迎访问数据服务平台</h1> -->
+       </header>
+       <form role="form" method="post" autocomplete="off" ng-submit="login()" name="loginForm" novalidate="" class="form-validate mb-lg">
+
+            <div class="form-group has-feedback">
+              <select class="form-control" ng-model="roletype" ng-options="role.roleId as role.text for role in roleList"></select>
+            </div>
+
+            <div class="form-group has-feedback">
+
+               <input id="exampleInputEmail1" type="text" name="account_username" placeholder="用户名" autocomplete="off" ng-model="account.username" required="" class="form-control" />
+
+               <span class="fa fa-envelope form-control-feedback text-muted"></span>
+
+               <span ng-show="loginForm.account_username.$dirty &amp;&amp; loginForm.account_username.$error.required" class="text-danger">请输入用户名</span>
+
+            </div>
+            <div class="form-group has-feedback">
+
+               <input id="exampleInputPassword1" type="password" name="account_password" placeholder="密码" ng-model="account.password" required="" class="form-control" />
+
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+
+               <span ng-show="loginForm.account_password.$dirty &amp;&amp; loginForm.account_password.$error.required" class="text-danger">请输入密码</span>
+                 
+            </div> 
+
+            <div class="form-group has-feedback" ng-if="isShow">
+                <select class="form-control" ng-model="account.project" ng-options="project.app_name as project.app_name for project in projectList"></select>    
+            </div>
+            <div class="clearfix">
+              <!--  <div class="pull-right"><a ui-sref="page.recover" class="text-muted">忘记密码?</a>
+               </div> -->
+            </div>
+            <button type="submit" class="btn btn-block btn-success mt-lg">登录</button>
+         </form>
+         <div ng-show="authMsg" class="alert alert-danger text-center">{{authMsg}}</div>
+         <!-- <p class="pt-lg text-center">还没有账号?</p><a href="register.html" class="btn btn-block btn-default">注册</a> -->
+   </section>
+</div>
+  
+</body>
+
+</html>

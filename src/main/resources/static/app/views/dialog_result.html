@@ -1,0 +1,10 @@
+<div class="dialog-header">
+    <h4>执行结果</h4>
+</div>
+<div class="logcontdiv" style="margin:0">
+  <div class="logcont">
+      <p ng-repeat="resultItem in resultData track by $index">
+                  操作时间：{{resultItem.UPDATETIME}},操作结果：{{resultItem.RESULT}}
+      </p>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<form ng-controller="addConfigCtrl" name="addConfigForm" ng-submit="submitconfigForm()" novalidate="" class="form-validate form-horizontal" ng-class="{'whirl' : app.layout.isShadow}">
+<div class="panel" style="position:relative;">
+	<div class="panel-body" style="height:600px; overflow:auto;">
+            <fieldset>
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="text-danger">*</span> 配置名称：</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="configName" required="" ng-model="configName" class="form-control" />
+                        <span ng-show="validateInput('configName', 'required')" class="text-danger">配置名称不能为空！</span>
+                    </div>
+                 </div>
+            </fieldset>
+            <fieldset>
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class=""></span>描述：</label>
+                    <div class="col-sm-6">
+                       <textarea class="form-control" ng-model="description"></textarea>  
+                    </div>
+                 </div>
+            </fieldset>
+             <fieldset>
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class=""></span>参数配置：</label>
+                    <div class="clearfix">
+                         <div class="col-sm-10">
+                             <table class="table">
+                                 <tr>
+                                     <th>KEY</th>
+                                     <th>VALUE</th>
+                                     <th>type</th>
+                                     <th>描述</th>
+                                     <th>操作</th>
+                                 </tr>
+                                 <tr ng-repeat="config in configparams track by $index">
+                                     <td>
+                                         <input type="text" class="form-control" ng-model="config.key" placeholder="KEY">
+                                     </td>
+                                     <td>
+                                         <input type="text" class="form-control" ng-model="config.value" placeholder="VALUE">
+                                     </td>
+                                     <td>
+                                         <input type="text" class="form-control" ng-model="config.type" placeholder="type">
+                                     </td>
+                                     <td>
+                                         <input type="text" class="form-control" ng-model="config.description" placeholder="描述">
+                                     </td>
+                                     <td>
+			                            <a href="" ng-click="delConfig($index)" class="text-danger"><em class="fa fa-trash"></em></a>
+			                         </td>
+                                 </tr>
+                             </table>
+                             <div class="mt20">
+		                        <a href="" class="btn btn-info" ng-click="addConfig()">添加配置参数</a>
+		                     </div>
+                         </div>
+                    </div>
+                 </div>
+            </fieldset>
+		
+	</div>
+	<div class="panel-footer text-center" style="position:fixed; bottom:0; width:100%;">
+	   <a href="#" class="btn btn-info" toggle-state="offsidebar-open" no-persist="no-persist">
+		             取消
+       </a>
+       <button type="submit" ng-disabled="!addConfigForm.$valid" class="btn" ng-class="{'btn-info':addConfigForm.$valid,'btn-default':!addConfigForm.$valid}">创建</button>
+   </div>
+</div>
+</form>

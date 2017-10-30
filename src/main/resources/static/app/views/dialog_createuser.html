@@ -1,0 +1,52 @@
+<div class="dialog-header">
+    <h4>创建用户</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="createUserForm">
+      	 <div class="form-group">
+	         <label class="col-lg-3 control-label text-right">工号</label>
+	         <div class="col-lg-8">
+	            <input type="text" ng-pattern="/^\d{8}$/" ng-model="user.name"
+                       class="form-control" required="" name="name" autocomplete="off" />
+	            <span ng-show="createUserForm.name.$dirty &amp;&amp; createUserForm.name.$error.required"
+                      class="text-danger">请输入工号！</span>
+                <span ng-show="createUserForm.name.$dirty &amp;&amp; createUserForm.name.$error.pattern"
+                      class="text-danger">请输入8位数字工号</span>
+	         </div>
+	       </div>
+
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">密码</label>
+           <div class="col-lg-8">
+              <input type="password" placeholder="密码：由8-16位的数字、字母、特殊字符(不含空格)组成"
+                     ng-pattern="/^(?![A-Za-z]+$)(?![A-Z\d]+$)(?![A-Z\W]+$)(?![a-z\d]+$)(?![a-z\W]+$)(?![\d\W]+$)\S{8,16}$/"
+                     ng-model="user.password" class="form-control" required="" name="password" autocomplete="off" />
+              <span ng-show="createUserForm.password.$dirty &amp;&amp; createUserForm.password.$error.required"
+                    class="text-danger">请输入密码！</span>
+              <span ng-show="createUserForm.password.$dirty &amp;&amp; createUserForm.password.$error.pattern"
+                    class="text-danger">请输入8-16位的数字、字母、特殊字符(不含空格)组成的密码！</span>
+           </div>
+         </div>
+
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right">应用系统</label>
+           <div class="col-lg-8">
+               <select ng-show="hasApps" id="optionalApps" required=""
+                       data-placeholder="选择应用系统"
+                       name="apps" ng-model="apps" multiple="multiple"
+                       class="chosen-select form-control">
+               </select>
+               <p ng-show="!hasApps">当前没有应用系统</p>
+               <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+               <span ng-show="createUserForm.apps.$dirty &amp;&amp; createUserForm.apps.$error.required" class="text-danger">请选择至少一个应用系统</span>
+           </div>
+         </div>
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-primary" ng-click="createUserFn()">确定</button>
+</div>
+ 

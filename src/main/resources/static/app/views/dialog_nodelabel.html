@@ -1,0 +1,33 @@
+<div class="dialog-header">
+    <h4>编辑标签</h4>
+</div>
+<form name="formlabel" id="formlabel" ng-submit="submitLabelForm()" novalidate="" class="form-validate form-horizontal">
+<div class="dialog-body">
+    <p>每一个标签为一组 Key / Value 形式的键值对。使用 Label 可以方便你通过标签进行资源管理，过滤等操作。名称由字母数字和点号组成。</p>
+    <table class="table table-bordered">
+    	<tr style="font-weight: bold">
+    		<th style="width:40%">名称</th>
+    		<th style="width:40%">值</th>
+    		<th style="width:20%">操作</th>
+    	</tr>
+    	<tr ng-repeat="label in labellist">
+    		<td>
+    			<input class="form-control" name="key" required="" type="text" placeholder="KEY" ng-model="label.key">
+    		</td>
+    		<td>
+    			<input class="form-control" name="val" required="" type="text" placeholder="VAL" ng-model="label.val">	 
+    		</td>
+    		<td>
+    		  <button ng-click="removeLabel($index)" title="Delete" class="btn btn-sm btn-danger">
+                  <em class="fa fa-trash"></em>
+               </button>
+    		</td>
+    	</tr>
+    </table>
+    <a href="" ng-click="addLabelFn()" class="btn btn-info">添加标签</a>
+</div>
+<div class="dialog-footer">
+   <button type="button" class="btn btn-primary" ng-click="submitLabelForm()">保存</button>
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+</div>
+</form>

@@ -1,0 +1,46 @@
+<div class="tablesearch">
+   <input type="text" ng-keyup="searchTemp($event)" class="form-control" placeholder="输入名称搜索" ng-model="searchval" />
+</div>
+<table class="table table_title">
+	 <thead>
+        <tr>
+           <th>服务名称</th>
+           <th>组件</th> 
+           <th>更新时间</th>
+           <th>配置</th>
+           <th>状态</th>
+           <th>操作</th>
+        </tr>
+     </thead>
+     <tbody>
+     	<tr ng-if="!listoff">
+	         <td colspan="6">
+	           	<p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+	         </td>
+        </tr>
+        <tr ng-repeat="item in templist.rows">
+	          <td>{{item.name}}</td>
+	          <td><a ui-sref="app.serverDetail({serverid:item.UUID})">{{item.appCount}}组件</a></td>
+	          <td>{{item.updateTime}}</td>
+	          <!-- <td><a ui-sref="app.config_storm({configid:item.UUID})">配置</a></td> -->
+	          <td><a href="" ng-click="ToServerConfig(cluster.name,cluster.id,item.UUID)">配置</a></td>
+	          <td>{{item.status}}</td>
+	          <td>
+	            <!-- <button class="btn btn-info" ng-click="opendeploy()">重新部署</button> -->
+	            <button class="btn btn-info" ng-click="startTemp(item.UUID)">启动</button>
+	            <button class="btn btn-danger" ng-click="stopTemp(item.UUID)">停止</button>
+	            <button class="btn btn-danger" ng-click="uninstallTemp(item.UUID)">卸载</button>
+	            <button class="btn btn-danger" ng-click="delTemp(item.UUID)">删除</button>
+	            <a href="#" ng-if="item.type=='spark'" class="btn btn-info" target="_blank" ng-href="{{item.uiurl}}">Spark UI</a>
+	            <a href="#" ng-if="item.type=='storm'" class="btn btn-info" target="_blank" ng-href="{{item.uiurl}}">Storm UI</a>
+	            <!-- <a href="#" ng-if="item.type=='spark'" class="btn btn-info" ng-click="getSparkUi(item.UUID)">Spark UI</a>
+	            <a href="#" ng-if="item.type=='storm'" class="btn btn-info" ng-click="getStormUi($event,item.UUID)">Storm UI</a> -->
+	          </td>
+         </tr>
+         <tr ng-show="listoff">
+	         <td colspan="6">
+	            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+	         </td>
+	     </tr>
+     </tbody>
+</table>

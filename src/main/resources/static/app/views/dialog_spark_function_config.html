@@ -1,0 +1,54 @@
+<div class="dialog-header">
+    <h4>查看配置详细 {{appName}}_{{funMark}}</h4>
+</div>
+<div class="dialog-body">
+    <div class="panel-config-server">
+           <div class="config-server-body">
+   		       <ul class="configlist-server">
+   		           <li ng-repeat="configitem in funConfigsList"> 
+	   		           <div class="config_header">
+	   		    		   <a href="" class="configlist-server-headr" ng-click="configitem.show=!(configitem.show)">{{configitem.province}}</a>
+	   		    	   </div>
+   		    	       <div class="table-responsive mb-lg" ng-show="configitem.show">
+   		    	           <p>运行参数配置</p>
+                           <table class="table bg-white configtable">
+				                <tr style="font-weight: bold">
+					                <td style="width:25%">KEY</td>
+					                <td style="width:30%">VALUE</td>
+					            </tr>
+	                            <tr ng-repeat="systemItem in configitem.systemConfigs">
+					               <td> 
+					                  <span>{{systemItem.key}}</span>
+					               </td>
+					               <td>
+					                  <span>{{systemItem.val}}</span>
+					               </td>
+	                            </tr>
+                           </table>
+                      </div>
+                      <div class="table-responsive mb-lg" ng-show="configitem.show">
+   		    	           <p>业务配置</p>
+                           <table class="table bg-white configtable">
+				                <tr style="font-weight: bold">
+					                <td style="width:25%">KEY</td>
+					                <td style="width:30%">VALUE</td>
+					            </tr>
+	                            <tr ng-repeat="serviceItem in configitem.serviceConfigs">
+					               <td> 
+					                  <span>{{serviceItem.key}}</span>
+					               </td>
+					               <td>
+					                  <span>{{serviceItem.val}}</span>
+					               </td>
+	                            </tr>
+                           </table>
+                      </div>
+   		         </li>
+   		    </ul>
+          </div>
+       </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">关闭</a>
+</div>
+ 

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "ibatis-3-mapper.dtd">
+    
+<mapper namespace="spark">
+
+	<resultMap id="sparkApp" type="spark">
+		<result column="ID" property="id" javaType="java.lang.String"/>
+		<result column="NAME" property="name" javaType="java.lang.String"/>
+        <result column="DESCRIPTION" property="description" javaType="java.lang.String"/>
+        <result column="UPDATE_TIME" property="modifyTime" javaType="java.util.Date"/>
+	</resultMap>
+	<resultMap id="sparkApp1" type="spark">
+		<result column="ID" property="id" javaType="java.lang.String"/>
+		<result column="NAME" property="name" javaType="java.lang.String"/>
+        <result column="DESCRIPTION" property="description" javaType="java.lang.String"/>
+        <result column="UPDATE_TIME" property="modifyTime" javaType="java.util.Date"/>
+        <result column="USERID" property="userId" javaType="java.lang.Integer"/>
+		<result column="sparkVersion" property="sparkVersion" javaType="java.lang.String"/>
+        <association column="ID" property="functionList" select="spark.listSparkFunction"/>
+	</resultMap>
+	<resultMap id="sparkFunction" type="sparkFunction">
+		<result column="ID" property="id" javaType="java.lang.String"/>
+		<result column="SPARKID" property="sparkId" javaType="java.lang.String"/>
+        <result column="FUNCTION_NAME" property="functionName" javaType="java.lang.String"/>
+        <result column="FUNCTION_MARK" property="functionMark" javaType="java.lang.String"/>
+        <result column="UPDATE_TIME" property="modifyTime" javaType="java.util.Date"/>
+		<result column="DESCRIPTION" property="description" javaType="java.lang.String"/>
+        <result column="RESOURCE_VERID" property="resourceVerId" javaType="java.lang.String"/>
+        <result column="CONFIGID" property="configId" javaType="java.lang.Integer"/>
+        <result column="SUBMIT_COMMAND" property="submitCommand" javaType="java.lang.String"/>
+        <result column="PARAMS" property="params" javaType="java.lang.String"/>
+	</resultMap>
+	<resultMap id="sparkInstance" type="sparkInstance">
+	    <result column="UUID" property="uuid" javaType="java.lang.String"/>
+		<result column="ID" property="id" javaType="java.lang.String"/>
+		<result column="SPARKID" property="sparkId" javaType="java.lang.String"/>
+        <result column="NAME" property="driverName" javaType="java.lang.String"/>
+        <result column="USERID" property="userId" javaType="java.lang.Integer"/>
+        <result column="FUNCTIONID" property="functionId" javaType="java.lang.String"/>
+        <result column="STATUS" property="status" javaType="java.lang.String"/>
+        <result column="UPDATE_TIME" property="modifyTime" javaType="java.util.Date"/>
+		<result column="DESCRIPTION" property="description" javaType="java.lang.String"/>
+        <result column="CONF_VERSIONID" property="confVersionId" javaType="java.lang.Integer"/>
+        <result column="UI_LINK" property="uiLink" javaType="java.lang.String"/>
+        <result column="DETAIL_LINK" property="detailLink" javaType="java.lang.String"/>
+        <result column="ERRORLOG" property="errorLog" javaType="java.lang.String"/>
+		<result column="sparkVersion" property="sparkVersion" javaType="java.lang.String"/>
+	</resultMap>
+	
+	
+	<sql id="CountCondtion_Name">
+		<if test=" name != null and name != '' ">
+			and spark.name like '%${name}%'
+		</if>
+	</sql>
+	<sql id="CountCondtion_userIds">
+		<if test=" userIds != null and userIds != '' ">
+			and	spark.USERID in 
+			<foreach collection="userIds" index="index" item="userId" open="("  separator="," close=")">
+			 	#{userId}
+			</foreach>
+		</if>
+	</sql>
+	<sql id="CountCondtion_userAppId">
+		<if test=" userAppId != null and userAppId != '' ">
+			and spark.USER_APP_ID = #{userAppId}
+		</if>
+	</sql>
+	<sql id="Condtion_Name">
+		<if test=" objCondition != null and objCondition.name != null and objCondition.name != '' ">
+			and spark.name like '%${objCondition.name}%'
+		</if>
+	</sql>
+	<sql id="Condtion_userIds">
+		<if test=" objCondition != null and objCondition.userIds != null and objCondition.userIds != '' ">
+			and	spark.USERID in 
+			<foreach collection="objCondition.userIds" index="index" item="userId" open="("  separator="," close=")">
+			 	#{userId}
+			</foreach>
+		</if>
+	</sql>
+	<sql id="Condtion_userAppId">
+		<if test=" objCondition.userAppId != null and objCondition.userAppId != '' ">
+			and spark.USER_APP_ID = #{objCondition.userAppId}
+		</if>
+	</sql>
+	<select id="countSpark" parameterType="spark" resultType="java.lang.Integer">
+		select count(1) from ma_spark spark
+		<trim prefix="where" prefixOverrides="and">
+		  <include refid="CountCondtion_Name"/>
+		   <include refid="CountCondtion_userIds"/>
+		    <include refid="CountCondtion_userAppId"/>
+		</trim>
+	</select>
+	<select id="listSparkApps" parameterType="page" resultMap="sparkApp">
+		select * from ma_spark spark
+		<trim prefix="where" prefixOverrides="and">
+		    <include refid="Condtion_Name"/>
+		    <include refid="Condtion_userIds"/>
+		    <include refid="Condtion_userAppId"/>
+		</trim> 
+		order by update_time DESC limit #{startRowNum},#{pageSize}
+	</select>
+	<select id="checkSpark" parameterType="java.lang.String" resultType="java.lang.Boolean">
+		select if(count(1) !=0,true,false) as exist from ma_spark spark
+		where spark.name=#{name}
+	</select>
+	<select id="findSparkById" parameterType="java.lang.String" resultMap="sparkApp1">
+	   select * from ma_spark spark where spark.id=#{id}
+	</select>
+	
+	<select id="listSparkInstances" parameterType="page" resultType="java.util.Map">
+	select tmp3.*,ai.userid as userName from (
+		select ms.name as sparkName,tmp2.* from (
+               select tmp1.*,version as configVersion
+		        from(
+					SELECT msi.uuid,
+					msi.id,
+					msi.sparkId,
+					msi.functionId,
+					msf.function_name AS functionName ,
+					msf.function_mark AS functionMark ,
+					msi.name AS driverName,
+					msi.update_time AS updateTime ,
+					msi.USERID,
+					msi.conf_versionId,msi.status,
+					msi.ui_link AS uiLink,
+					msi.detail_link AS detailLink,
+					msi.errorlog AS errorLog,
+					ca.APP_NAME AS appName
+					FROM ma_spark_instance msi LEFT JOIN ma_spark_function msf ON msi.functionId = msf.id
+					LEFT JOIN ma_spark mspa ON msi.sparkId = mspa.id
+					LEFT JOIN cl_app ca ON mspa.user_app_id = ca.APP_ID
+		        ) tmp1
+				left join app_config_version acv on tmp1.conf_versionId = acv.id) tmp2 
+                                   left join ma_spark ms on tmp2.sparkId = ms.id
+		<trim prefix="where" prefixOverrides="and">
+		    <if test =" objCondition != null and objCondition.sparkName != null and objCondition.sparkName != ''"  >
+    	       and ms.name like '%${objCondition.sparkName}%'
+    	    </if>
+		    <if test =" objCondition != null and objCondition.sparkId != null and objCondition.sparkId != ''"  >
+    	       and tmp2.sparkId=#{objCondition.sparkId}
+    	    </if>
+    	    <if test =" objCondition != null and objCondition.functionMark != null and objCondition.functionMark != ''"  >
+    	       and tmp2.functionMark like '%${objCondition.functionMark}%'
+    	    </if>
+    	    <if test =" objCondition != null and objCondition.configVersion != null and objCondition.configVersion != ''"  >
+    	       and tmp2.configVersion like '%${objCondition.configVersion}%'
+    	    </if>
+    	    <if test =" objCondition != null and objCondition.status != null and objCondition.status != '' and objCondition.status != 'ALL'"  >
+    	       and tmp2.status=#{objCondition.status}
+    	    </if>
+    	    <if test =" objCondition != null and objCondition.functionId != null and objCondition.functionId != ''"  >
+    	       and tmp2.functionId=#{objCondition.functionId}
+    	    </if>
+    	    <if test=" objCondition != null and objCondition.userIds != null ">
+			    and	tmp2.USERID in 
+			    <foreach collection="objCondition.userIds" index="index" item="userId" open="("  separator="," close=")">
+			 	   #{userId}
+			   </foreach>
+		    </if>
+		    <if test=" objCondition != null and objCondition.userAppId != null and objCondition.userAppId != '' ">
+			   and ms.USER_APP_ID = #{objCondition.userAppId}
+		    </if>
+		</trim>
+		order by concat(tmp2.updateTime,tmp2.configVersion,tmp2.functionMark,sparkName)
+		 DESC limit #{startRowNum},#{pageSize} 
+		
+		) tmp3 left join accounts_info ai on ai.id=tmp3.userid
+	</select>
+	
+	<select id="countSparkInstance" parameterType="java.util.Map" resultType="java.lang.Integer">
+	   select count(1) from (
+		select ms.name as sparkName,tmp2.* from (
+               select tmp1.*,version as configVersion
+		        from(
+		        select msi.sparkId,msi.functionId,msf.function_name as functionName ,msf.function_mark as functionMark ,
+			     msi.name as driverName, msi.update_time as updateTime ,msi.USERID,
+			      msi.conf_versionId,msi.status,msi.ui_link as uiLink,msi.detail_link as detailLink
+				from ma_spark_instance msi left join ma_spark_function msf 
+				on msi.functionId = msf.id) tmp1 
+				left join app_config_version acv on tmp1.conf_versionId = acv.id) tmp2 
+                                   left join ma_spark ms on tmp2.sparkId = ms.id	
+		<trim prefix="where" prefixOverrides="and">
+		    <if test =" sparkName != null and sparkName != ''"  >
+    	      and ms.name like '%${sparkName}%'
+    	    </if>
+		    <if test =" sparkId != null and sparkId != ''"  >
+    	       and tmp2.sparkId =#{sparkId}
+    	    </if>
+    	    <if test =" functionMark != null and functionMark != ''"  >
+    	       and tmp2.functionMark like '%${functionMark}%'
+    	    </if>
+    	    <if test =" configVersion != null and configVersion != ''"  >
+    	       and tmp2.configVersion like '%${configVersion}%'
+    	    </if>
+    	    <if test =" status != null and status != '' and status != 'ALL'"  >
+    	       and tmp2.status like '%${status}%'
+    	    </if>
+    	    <if test =" functionId != null and functionId != ''"  >
+    	       and tmp2.functionId=#{functionId}
+    	    </if>
+    	    <if test=" userIds != null and userIds != null ">
+			    and	tmp2.USERID in 
+			    <foreach collection="userIds" index="index" item="userId" open="("  separator="," close=")">
+			 	   #{userId}
+			   </foreach>
+		    </if>
+		    <if test=" userAppId != null and userAppId != '' ">
+			   and ms.USER_APP_ID = #{userAppId}
+		    </if>
+		</trim> 
+		) tmp3
+	</select>
+	<select id="findFunctionById" parameterType="java.lang.String" resultMap="sparkFunction">
+	   select * from ma_spark_function msf where msf.id=#{value}
+	</select>
+	<select id="listSparkInstancesByfunctionId" parameterType="java.lang.String" resultType="java.util.Map">
+	   select * from ma_spark_instance msi where msi.functionId=#{value}
+	</select>
+
+	<insert id="saveSparkInstance" parameterType="java.util.Map">
+		insert into ma_spark_instance
+		(uuid,id,sparkId,name,USERID,functionId,conf_versionId,update_time,errorlog,sparkVersion)
+		values
+		(#{uuid},#{id},#{sparkId},#{name},#{userId},#{functionId},#{confVersionId},#{updateTime},#{errorlog},#{sparkVersion})
+	</insert>
+
+	<update id="updateSparkInstance" parameterType="java.util.Map">
+		UPDATE ma_spark_instance
+		<trim prefix="SET" suffixOverrides="," suffix=" where sparkId=#{sparkId}
+			and functionId = #{functionId} and conf_versionId = #{confVersionId}">
+			<if test="id != null and id != ''">
+				id = #{id},
+			</if>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="uiLink != null and uiLink != ''">
+				ui_link = #{uiLink},
+			</if>
+			<if test="detailLink != null and detailLink != ''">
+				detail_link = #{detailLink},
+			</if>
+			<if test="status != null and status != ''">
+				status = #{status},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime},
+			</if>
+			<if test="errorlog != null">
+				errorlog = #{errorlog},
+			</if>
+		</trim>
+	</update>
+
+	<update id="updateSparkInstanceConfVersion" parameterType="java.util.Map">
+		UPDATE ma_spark_instance SET conf_versionId = #{confVersionId} where uuid = #{uuid}
+	</update>
+
+	<insert id="saveSpark" parameterType="java.util.Map">
+		insert into ma_spark (id,name,description,update_time,userid,user_app_id,sparkVersion)
+		values(#{sparkId},#{name},#{description},now(),#{userId},#{userAppId},#{sparkVersion})
+	</insert>
+	
+	<insert id="saveSparkFunction" parameterType="java.util.Map">
+		insert into ma_spark_function (id,sparkId,function_mark,function_name,description,
+			update_time,resource_verId,configId)
+		values(#{fuctionId},#{sparkId},#{functionMark},#{functionName},#{description},now(),
+		    #{resourceVerId},#{configId})
+	</insert>
+	<select id="listSparkFunction" parameterType="java.lang.String" resultMap="sparkFunction">
+	   select * from ma_spark_function msf where msf.sparkId=#{value}
+	</select>
+	
+	<select id="findSparkInstanceById" parameterType="java.lang.String" resultMap="sparkInstance">
+	   select * from ma_spark_instance msi where msi.id=#{value}
+	</select>
+
+	<select id="findSparkInstance" parameterType="java.util.Map" resultMap="sparkInstance">
+		select * from ma_spark_instance msi where msi.sparkId = #{sparkId}
+		and msi.functionId = #{functionId} and msi.conf_versionId = #{confVersionId}
+	</select>
+
+	<select id="getSparkProvince" resultType="java.util.Map">
+	   select * from ma_spark_province
+	</select>
+	<delete id="deleteSparkFun">
+		delete from ma_spark_function where id=#{funId}
+	</delete>
+	<delete id="deleteSparkInstanceByFunId">
+		delete from ma_spark_instance where functionId=#{funId}
+	</delete>
+	<insert id="addSparkMessages" parameterType="java.util.HashMap">
+		insert into ma_spark_task (id,message,update_time,sparkVersion)
+		values
+		<foreach collection="messages" index="index" item="message"
+			separator=",">
+		(#{message.id},#{message.message},now(),#{message.sparkVersion})
+		</foreach>
+	</insert>
+	<delete id="deleteSparkMessages">
+		delete from ma_spark_task where 
+		id in 
+		<foreach collection="list" index="index" item="item" open="(" close=")"
+			separator=",">
+		#{item}
+		</foreach>
+	</delete>
+	<select id="listSparkTask" resultType="java.util.Map">
+	 	select * from ma_spark_task
+		where sparkVersion = #{sparkVersion}
+		order by update_time
+	 	limit 0,#{maxCount}
+	</select>
+
+	<select id="listAllSparkInstanceInApp" resultType="java.util.Map">
+		SELECT
+		CONCAT(ms.name,'_',msf.function_mark,'_',acv.version) AS sparkInstanceName,ai.USERID
+		FROM ma_spark_instance msi
+		LEFT JOIN ma_spark_function msf ON msi.functionId = msf.id
+		LEFT JOIN app_config_version acv ON acv.id = msi.conf_versionId
+		LEFT JOIN ma_spark ms ON ms.id=msi.sparkId
+		LEFT JOIN accounts_info ai ON ai.ID = msi.USERID
+		WHERE msi.sparkId IN (SELECT id FROM ma_spark WHERE user_app_id = #{userAppId})
+	</select>
+	<select id="findUserAppNameById" resultType="java.lang.String">
+		SELECT APP_NAME FROM cl_app WHERE APP_ID=#{userAppId}
+	</select>
+	<select id="findSparkInstanceByUUId" parameterType="java.lang.String" resultMap="sparkInstance">
+	   select * from ma_spark_instance msi where msi.uuid=#{value}
+	</select>
+</mapper>

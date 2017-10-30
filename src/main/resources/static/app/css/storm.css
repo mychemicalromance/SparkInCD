@@ -1,0 +1,17 @@
+.panel-config-server{ background: #fff; padding: 2px; border-radius: 4px; }
+.panel-config-server ul,.panel-config-server p { margin: 0; padding: 0; }
+.panel-config-server li { list-style: none; }
+.config-server-header { margin: 20px 0; }
+.config-server-header li { width: 200px; height:100px; border: 1px solid #d0d7dc; border-radius: 5px; float: left; list-style: none;
+   position: relative; padding: 30px 0 0 0; margin-right: 20px;
+ }
+ .config-server-header .label { position: absolute; top: 4px; left: 4px; }
+ .config-server-header .user { position: absolute; top: 4px; right: 4px; }
+ .config-server-header p { margin: 0; padding: 0; text-align: center; word-wrap:break-word; overflow:hidden; }
+ .config-server-header li.active { background: #e6f1f6; }
+
+ .config-server-nav { height: 40px; padding: 0 2px; background: #4d4d4d; line-height: 40px; }
+ .config-server-nav_l p { color: #fff; display: inline; }
+ .config-server-nav_l .form-control { width: 200px; display: inline; margin-top: 2px; }
+
+ .configlist-server-headr { height: 40px; line-height: 40px; padding: 0 10px; margin-top: 20px; background: #f0f0f0; color: #0071bd; display: block; }

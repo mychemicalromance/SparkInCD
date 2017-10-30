@@ -1,0 +1,47 @@
+<div class="dialog-header">
+    <h4>修改密码</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form method="post" name="modifyUserForm">
+
+      	 <div class="form-group">
+	         <label class="col-lg-3 control-label text-right">工号</label>
+	         <div class="col-lg-8">
+                 <label class="control-label text-left">{{userInfo.userName}}</label>
+	         </div>
+	      </div>
+
+	      <div class="form-group">
+           <label class="col-lg-3 control-label text-right">新密码</label>
+           <div class="col-lg-8">
+              <input type="password" ng-model="password"
+                     placeholder="为空则不修改用户密码"
+                     class="form-control"
+                     ng-pattern="/(^(?![A-Za-z]+$)(?![A-Z\d]+$)(?![A-Z\W]+$)(?![a-z\d]+$)(?![a-z\W]+$)(?![\d\W]+$)\S{8,16}$)|(^$)/"
+                     name="password" autocomplete="off" />
+           	  <span ng-show="modifyUserForm.password.$dirty &amp;&amp; modifyUserForm.password.$error.pattern"
+                    class="text-danger">请输入8-16位的数字、字母、特殊字符(不含空格)组成的密码！</span>
+           </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-3 control-label text-right">应用系统</label>
+              <div class="col-lg-8">
+                  <select ng-show="hasApps" id="optionalApps" required=""
+                          data-placeholder="选择应用系统"
+                          name="apps" ng-model="apps" multiple="multiple"
+                          class="chosen-select form-control">
+                  </select>
+                  <p ng-show="!hasApps">当前没有应用系统</p>
+                  <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+              </div>
+          </div>
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-primary" ng-click="modifyUserFn()">确定</button>
+</div>
+ 

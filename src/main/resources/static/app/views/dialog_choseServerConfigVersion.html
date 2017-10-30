@@ -1,0 +1,22 @@
+<div class="dialog-header">
+    <h4>选择配置</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="choseConfigForm">
+	     <div class="form-group">
+	         <label class="col-lg-4 control-label text-right">配置</label>
+	         <div class="col-lg-7"> 
+	            <select class="form-control" ng-model="config" ng-options="configitem.id as configitem.version for configitem in configlist">
+	            
+	            </select>
+	         </div>
+	     </div>
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-default" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" class="btn btn-info" ng-click="startServer()">确定</button>
+</div>
+ 

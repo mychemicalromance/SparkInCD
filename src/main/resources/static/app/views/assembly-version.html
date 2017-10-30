@@ -1,0 +1,44 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">服务介质版本管理</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.listassembly">服务介质列表</a>
+	      </li>
+	      <li class="active">服务介质版本列表
+	      </li>
+      </ol>
+  </div>
+
+</div>
+<div class="panel">
+	<div class="table-responsive">
+		<table class="table table-striped">
+        <thead>
+           <tr>
+              <th>版本</th>
+              <th>更新时间</th>
+              <th>操作</th>
+           </tr>
+        </thead>
+        <tbody>
+        	 <tr ng-repeat="item in appVersion.rows">
+        	 	<td>{{item.versionNumber}}</td>
+        	 	<td>{{item.updateTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        	 	<td>
+                 <a ui-sref="app.assembly_update({id:item.id})" class="btn btn-info">添加新版本</a>
+                <!--  <button class="btn btn-info" ng-click="openChoseCluster(item,appinfo)">部署</button>  -->
+        	     <button class="btn btn-danger" ng-click="delVersion(item.instancesNumber,item.id)">删除</button>
+        	 	 <a ui-sref="app.resource_component_version_detail({resourceVesionId:item.resVersionId,id:assemblyid})" class="btn btn-info">资源包</a>
+        	 	 <a ui-sref="app.config_component_version_detail({configVersionid:item.configVersionId,id:assemblyid})" class="btn btn-info">配置</a>
+        	 	</td>
+        	 </tr>
+           <tr>
+             <td colspan="5">
+              <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page> 
+             </td>
+           </tr>
+  </tbody>
+  </table>
+	</div>
+</div>

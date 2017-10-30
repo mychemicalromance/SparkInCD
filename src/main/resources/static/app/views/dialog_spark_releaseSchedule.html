@@ -1,0 +1,27 @@
+<div class="dialog-header">
+    <h4>发布进度 {{releaseSchedule.name}}</h4>
+</div>
+<div class="dialog-body">
+    <table class="table table_title" id="applisttable">
+	<thead>
+      <tr>
+         <th>入口函数标志</th>
+         <th>省份</th>
+         <th>进度状态</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="progressItem in releaseSchedule.functionList">
+      	 <td>{{progressItem.functionMark}}</td>
+      	 <td>{{progressItem.configVersion}}</td>
+      	 <td>
+      	 	<span class="label" ng-class="{'label-green':progressItem.status?false:true,'label-primary':progressItem.status=='Submitted'?true:false,'label-info':progressItem.status=='ACCEPTED'?true:false,'label-success':progressItem.status=='RUNNING'?true:false,'label-purple':progressItem.status=='FINISHED'?true:false,'label-danger':progressItem.status=='FAILED'?true:false,'label-warning':progressItem.status=='KILLED'?true:false}" ng-bind="showText(progressItem.status)"></span>
+      	 </td>
+      </tr>
+   </tbody>
+</table>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">关闭</a>
+</div>
+ 

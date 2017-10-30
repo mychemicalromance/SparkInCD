@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+  <body>
+  <div class="dialog-header">
+    <h4>添加SpKafka测试数据</h4>
+  </div>
+	<div class="dialog-body">
+		<div class="form-group">
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">数据库</label> <select
+					id="spkafkaConfig" name="spkafkaConfig" class="form-control"
+					ng-change="selectedDbConfigCli()"
+					ng-model="selectedDb"
+					ng-options="value.info as value.conf for value in confignames">
+					<option value="">请选择配置</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">配置详情</label>
+				<textarea class="form-control" ng-model="dataBaseDetail"  aria-describedby="basic-addon1" placeholder="drive;address;use;password"
+					style="width:320px"></textarea>
+				<a href="" class="btn btn-info pull-left" ng-click="openCreateDataBase()">
+					连接
+				</a>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+
+			<div class="input-group col-xs-12">
+				<label class="input-group-addon">数据库表</label> <select name="type2"
+					class="form-control" 
+					ng-change="selectedTablesClick()" ng-model="selectedTables"
+					ng-options="y.TablesName for (x,y) in tablesnames">
+					<option value="">请选择数据库表</option>
+					</select>
+			</div>
+			<table class="table">
+				<tbody>
+					<tr>
+						<th >字段</th>
+						<th >类型</th>
+						<th >長度</th>
+						<th >默认值</th>
+					</tr>
+					<tr ng-repeat="tableStru in tableStrulist" ng-model="table">
+						<td ><span style="width:100px">{{tableStru.field}}</span></td>
+						<td >{{tableStru.type}}</td>
+						<td >{{tableStru.length}}</td>
+						<td ><input ng-model="$parent.conf[$index]" style="width:80px"  type="text" name="id"></input></td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<p>注：值不设定，则随机生成</p>
+			</div>
+			<div class="dialog-footer">
+				<button type="submit" class="btn btn-info center-block" ng-click="addSpSenderData()">确定</button>
+			</div>
+			
+		</div>
+	</div>
+		
+</body>
+</html>

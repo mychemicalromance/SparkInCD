@@ -1,0 +1,126 @@
+<div class="panel">
+	<div class="panel-body"> 
+       <div class="form-horizontal"> 
+       <form role="form" name="formScale" id="formScale" ng-submit="submitScaleForm(defaultvalue)" novalidate="" class="form-validate form-horizontal">
+           <fieldset>
+	            <div class="form-group">
+	               <label class="col-sm-2 control-label">自动伸缩</label>
+	               <div class="col-sm-6">
+	                    <div class="checkbox c-checkbox">
+		               <label>
+		                  <input type="checkbox" ng-model="scaleoff" ng-click="AutoExtend(scaleoff)" />
+		                  <span class="fa fa-check"></span>
+		               </label>
+		              </div>
+	               </div>
+	            </div>
+          </fieldset>
+          <fieldset>
+	            <div class="form-group">
+	               <label class="col-sm-2 control-label">伸缩模式</label>
+	               <div class="col-sm-10">
+	                    <tabset justified="true" class="bg-white">
+	                      <tab>
+						       <tab-heading>
+						          <em class="fa fa-clock-o fa-fw"></em>计划模式
+						       </tab-heading>
+						       <div class="scaledata"> 
+						            <div class="clearfix mt20">
+						                  <label class="col-lg-2 control-label">默认值</label>
+						                  <div class="col-lg-2">   
+						                     <input type="text" class="form-control" ng-model="defaultvalue.value">
+						                  </div>
+						            </div>
+						            
+						            <div class="clearfix mt20">
+						                  <label class="col-lg-2 control-label">计划值</label>
+						                  <div class="col-sm-10">
+						                      <a href="" class="btn btn-info" ng-click="addScaleRule('scaleplans')">添加计划</a>
+						                  </div>
+						                  
+						            </div>
+						            <div class="scaleplan clearfix mt20" ng-repeat="item in scaleplans track by $index">
+						                  <div class="col-lg-2 col-lg-offset-2">
+						                     <input type="text" class="form-control" ng-model="item.value">
+						                  </div>
+							              <label class="col-lg-2 control-label">时间段</label>
+						                   <div class="col-lg-4">
+							                     <div class="date-and-time">
+							                          <input ruledate  id="timepicker{{$index}}1" type="text" class="form-control timepicker" data-template="dropdown" data-show-seconds="true"  data-show-meridian="false" data-minute-step="1" data-second-step="5" />
+							                          <span>-</span>
+													  <input ruledate  id="timepicker{{$index}}2" type="text" class="form-control timepicker" data-template="dropdown" data-show-seconds="true"  data-show-meridian="false" data-minute-step="1" data-second-step="5" />
+	                                             </div>                                             
+							               </div>
+							               <div class="col-lg-2">
+							                   <a href="" class="text-danger" ng-click="delScaleRule('scaleplans',$index)"><em class="fa fa-trash"></em></a>
+							               </div>
+						            </div>
+						       </div>
+						       
+	                      </tab>
+                          <tab>
+					           <tab-heading>
+					              <em class="fa fa-money fa-fw"></em>自动模式
+					           </tab-heading>
+                               <div>
+                                    <table class="table">
+                         <tr>
+                             <th width="25%">维度</th>                            
+                             <th width="30%">伸缩阈值</th>
+                             <th width="35%">描述</th>
+                             <th width="10%">操作</th>
+                         </tr>
+                         <tr ng-repeat="scale in scalerules track by $index"> 
+                             <td> 
+	                             <select class="form-control"  ng-model="scale.scaleNorm" ng-options="scalenormItem.value as scalenormItem.text for scalenormItem in scaleNorms">
+	                             </select>
+                             </td>
+                             <td>
+                                 <div class="form-inner clearfix">
+	                                 <input type="text" name="startval" required="" ng-model="scale.startval" class="form-control">
+	                                 <span>-</span>
+	                                 <input type="text" name="endval" required="" ng-model="scale.endval" class="form-control">
+                                 </div>
+                                 <span id="meg{{$index}}" class="text-danger hide">请填写伸缩阈值！</span>
+                             </td>
+                             <td>
+                                 <span ng-if="scale.scaleNorm=='CPU'">使用CPU占用所分配CPU百分比，单位%（如：设置50%则直接填写50）</span>
+                                 <span ng-if="scale.scaleNorm=='INSTANCE_NUMBER'">实例个数（伸缩中最大实例数和最小实例数）</span>
+                                 <span ng-if="scale.scaleNorm=='CPU_SCALE_THRESHOLD'">CPU伸缩阈值，为伸缩策略中CPU使用率的百分比，如70表示70%</span>
+                             </td>
+                             <td>
+                                <a href="" class="text-danger" ng-click="delScaleRule('scalerules',$index)"><em class="fa fa-trash"></em></a>
+                             </td>
+                         </tr>
+                      </table>
+                      <a href="" class="btn btn-info" style="margin-left:8px;" ng-click="addScaleRule('scalerules')">添加指标</a>
+                               </div>
+						   </tab>
+						 </tabset>
+	               </div>
+	            </div>
+          </fieldset>
+          <fieldset>
+	            <div class="form-group">
+	               <label class="col-sm-2 control-label">模式选择</label>
+	               <div class="col-sm-6">
+	                    <label class="radio-inline c-radio">
+                          <input id="inlineradio1" type="radio" ng-model="AUTOMATIC" name="i-radio" value="0" checked="checked" />
+                         <span class="fa fa-circle"></span>计划模式</label>
+                         <label class="radio-inline c-radio">
+	                     <input id="inlineradio2" type="radio" ng-model="AUTOMATIC" name="i-radio" value="1" />
+	                     <span class="fa fa-circle"></span>自动模式</label>
+	               </div>
+	            </div>
+          </fieldset>
+          <fieldset>
+	            <div class="form-group">
+	               <div class="col-sm-6 col-sm-offset-2">
+	                    <button class="btn" type="submit" ng-disabled="!formScale.$valid" ng-class="{'btn-default':!formScale.$valid,'btn-info':formScale.$valid}">保存</button>
+	               </div>
+	            </div>
+          </fieldset>
+          </form>
+      </div>
+	</div>
+</div>

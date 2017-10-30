@@ -1,0 +1,152 @@
+<div class="content-heading clearfix">
+
+  <h3 class="pull-left">添加主机</h3>
+  
+  <div class="headbread pull-left">
+      <ol class="breadcrumb">
+	      <li><a ui-sref="app.env_list">环境列表</a>
+	      </li>
+	      <li><a ui-sref="app.env.nodes({clusterid:clusterid})">{{clustername}}</a>
+	      </li>
+	      <li><a ui-sref="app.nodesystem({clustername:clustername,clusterid:clusterid})">选择操作系统</a>
+	      </li>
+	      <li class="active">添加主机
+	      </li>
+      </ol>
+  </div> 
+
+</div>
+
+<form method="post" name="formaddnode" ng-submit="sendnodeFn()" novalidate="" class="form-validate form-horizontal">
+    <div class="panel">
+       <div class="panel-body">
+       		<fieldset>
+             <div class="form-group">
+                <label class="col-sm-2 control-label">主机名称</label>
+                <div class="col-sm-6">
+                   <input type="text" ng-blur="checkNodeName()" name="name" required="" class="form-control" ng-model="formnodeData.name" />
+                   <span ng-show="formaddnode.name.$dirty &amp;&amp; formaddnode.name.$error.required" class="text-danger">主机名称不能为空！</span>
+	               <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset>
+             <div class="form-group">
+                <label class="col-sm-2 control-label">主机IP</label>
+                <div class="col-sm-6">
+                   <input type="text" name="formnodeData.ip" required="" class="form-control" ng-model="formnodeData.ip" ng-pattern ="/^((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))$/" />
+                   <span ng-show="validateInput('formnodeData.ip', 'required')" class="text-danger">IP不能为空！</span>
+                   <span ng-show="validateInput('formnodeData.ip', 'pattern')" class="text-danger">请输入正确的IP格式！</span>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset>
+             <div class="form-group">
+                <label class="col-sm-2 control-label">SSH端口号</label>
+                <div class="col-sm-6">
+                   <input type="text" name="formnodeData.port" required="" class="form-control" ng-model="formnodeData.port" />
+                   <span ng-show="validateInput('formnodeData.port', 'required')" class="text-danger">port不能为空！</span>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">主机标签</label>
+                  <div class="col-sm-6">
+                     <!-- <a href="" class="static-control" ng-click="openaddLabelFn()">
+                     <em class="fa fa-plus-square"></em>
+                     </a> -->
+                     <p>每一个标签为一组 Key / Value 形式的键值对。使用 Label 可以方便你通过标签进行资源管理，过滤等操作。名称由字母数字和点号组成。</p>
+                     <table class="table table-bordered">
+                        <tr style="font-weight: bold">
+                          <th style="width:40%">名称</th>
+                          <th style="width:40%">值</th>
+                          <th style="width:20%">操作</th>
+                        </tr>
+                        <tr ng-repeat="label in labellist">
+                          <td>
+                            <input class="form-control" required="" type="text" placeholder="KEY" ng-model="label.key">
+                          </td>
+                          <td>
+                            <input class="form-control" required="" type="text" placeholder="VAL" ng-model="label.val">
+                          </td>
+                          <td>
+                            <button ng-click="removeLabel($index)" title="Delete" class="btn btn-sm btn-danger">
+                               <em class="fa fa-trash"></em>
+                            </button>
+                          </td>
+                        </tr>
+                    </table>
+                    <a href="#" ng-click="addLabelFn()" class="btn btn-info mt20">添加标签</a>
+                  </div>
+               </div>
+               <input type="text" class="sr-only" ng-model="formnodeData.labels">
+          </fieldset>
+          <fieldset>
+             <div class="form-group">
+                <label class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-6">
+                   <input type="text" name="username" autocomplete="off" required="" class="form-control" ng-model="formnodeData.username" />
+                   <span ng-show="formaddnode.username.$dirty &amp;&amp; formaddnode.username.$error.required" class="text-danger">用户名不能为空！</span>
+                </div>
+                <div class="col-sm-4">
+                   <small class="text-muted">需要 sudo权限</small>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset>
+             <div class="form-group">
+                <label class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-6">
+                   <input type="password" placeholder="密码：由8-16位的数字、字母、特殊字符(不含空格)组成" ng-pattern="/^(?![A-Za-z]+$)(?![A-Z\d]+$)(?![A-Z\W]+$)(?![a-z\d]+$)(?![a-z\W]+$)(?![\d\W]+$)\S{8,16}$/" name="password" autocomplete="off" required="" class="form-control" ng-model="formnodeData.password" />
+                   <span ng-show="formaddnode.password.$dirty &amp;&amp; formaddnode.password.$error.required" class="text-danger">密码不能为空！</span>
+                   <span ng-show="formaddnode.password.$dirty &amp;&amp; formaddnode.password.$error.pattern" class="text-danger">请输入8-16位的数字、字母、特殊字符(不含空格)组成的密码！</span>
+                </div>
+             </div>
+          </fieldset>
+          <fieldset>
+             <div class="form-group">
+                <label class="col-sm-2 control-label">安装路径</label>
+                <div class="col-sm-6">
+                   <input type="text" name="cmd" required="" class="form-control" ng-model="formnodeData.cmd" />
+                   <span ng-show="formaddnode.cmd.$dirty &amp;&amp; formaddnode.cmd.$error.required" class="text-danger">安装路径不能为空！</span>
+                </div>
+             </div>
+          </fieldset>
+          <!-- <fieldset>
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label">链接主机</label>
+                    <div class="col-sm-10">
+                        <div class="linknode">
+                        	<p>节点安装</p>
+                        	<p class="subtext">请登录目标主机,运行以下命令,本操作需要 sudo 权限。</p>
+                        </div>
+                        <div class="linkcode">
+                            <code ng-bind="scripturl+' '+clusterid+' '+formnodeData.name+' '+formnodeData.labels"></code>
+                        </div>
+                        <div class="linknode">
+                        	<p>2.安装Agent</p>
+                        	<p class="subtext">请登录目标主机，运行以下命令，本操作需要 sudo 权限。依据组件不同，可能需要 2~5G 磁盘空间。 </p>
+                        	<p class="subtext">先加入集群的主机将作为集群的 master 安装主控组件，当集群中 master 数量足够之后加入集群的主机才作为计算节点。</p>
+                            <a href="" class="btn btn-success" ng-click="copyContact()">点击复制命令</a>
+                        </div>
+
+                        <div class="loader-demo box-placeholder bg-y" ng-show="link">
+                            <span>等待主机连接</span>
+	                        <div class="ball-pulse">
+				               <div></div>
+				               <div></div>
+				               <div></div>
+				            </div>
+			            </div>
+                    </div>
+                 </div>
+            </fieldset> -->
+       </div>
+       <div class="panel-footer text-center"> 
+          <button type="submit" class="btn btn-default" ng-disabled="!formaddnode.$valid" ng-class="{'btn-default':!formaddnode.$valid,'btn-info':formaddnode.$valid}" disabled="disabled">发送Node安装命令</button> 
+       </div>
+    </div>
+</form>
+
+ 

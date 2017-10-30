@@ -1,0 +1,29 @@
+<div class="dialog-header">
+    <h4>添加用户</h4>
+</div>
+<div class="dialog-body">
+   <div class="form-horizontal">  
+      <form name="addOldUserForm">
+         <div class="form-group">
+           <label class="col-lg-3 control-label text-right" ng-show="hasOldUser">选择已有用户</label>
+           <div class="col-lg-6">
+               <select ng-show="hasOldUser" id="userd" required=""  data-placeholder="选择已有用户"
+                       name="users" ng-model="users" multiple="multiple" class="chosen-select form-control">
+                          
+                </select>
+                <p ng-show="!hasOldUser">没有已创建的用户，请添加新用户！</p>
+              <span ng-show="authMsg" class="text-danger">{{authMsg}}</span>
+           </div>
+           <div class="col-lg-3">
+               <a href="#" class="btn btn-sm btn-info" ng-click="addNewUser(closeThisDialog)">添加新用户</a>
+           </div>
+         </div>
+
+      </form>
+   </div>
+</div>
+<div class="dialog-footer">
+   <a class="btn btn-info" ng-click="closeThisDialog(0)">取消</a>
+   <button type="submit" ng-show="hasOldUser" class="btn btn-primary" ng-click="addOldUserFn()">确定</button>
+</div>
+ 

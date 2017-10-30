@@ -1,0 +1,43 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">应用视图</h3>
+  <a href="" class="btn btn-info pull-right" ng-click="openAddOrUpdateApp()">
+  	<em class="fa fa-plus"></em>
+    添加系统
+  </a>
+</div>
+<div class="tablesearch">
+   <input type="text" ng-keyup="searchApp($event)" class="form-control" placeholder="输入系统名搜索" ng-model="searchval" />
+</div>
+<table class="table table_title" id="applisttable">
+	<thead>
+      <tr>
+         <th>应用系统</th>
+         <th>创建用户</th>
+         <th>操作</th>
+      </tr>
+   </thead>
+   <tbody>
+   	  <tr ng-if="!applistoff">
+         <td colspan="3">
+           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+         </td>
+      </tr>
+      <tr ng-repeat="item in applist.rows">
+      	 <td>{{item.app_name}}</td>
+      	 <td>{{item.userid}}</td>
+      	 <td>
+      	 	<a href="#" ui-sref="app.env_list" class="btn btn-info"  ng-click="setApp(item.app_id,item.app_name,true)">查看环境</a>
+      	 	<a href="#" class="btn btn-info" ng-click="setApp(item.app_id,item.app_name,true);openCreateCluster()">添加环境</a>
+      	 	<a href="#" ui-sref="app.env_guide" class="btn btn-info" ng-click="setApp(item.app_id,item.app_name,true)">环境搭建向导</a>
+      	 	<a href="#" class="btn btn-info" ng-click="setApp(item.app_id,item.app_name,true);openAddOrUpdateApp(item.app_name)">更新系统</a>
+      	 	<a href="#" class="btn btn-info" ng-click="setApp(item.app_id,item.app_name,true);" ui-sref="app.view-app({appname:item.app_name,appid:item.app_id})">查看应用</a>
+            <a href="#" class="btn btn-info" ng-click="setApp(item.app_id,item.app_name,true);" ui-sref="app.view-subApps({appname:item.app_name,appid:item.app_id})" >成员系统管理</a>
+      	 </td>
+      </tr>
+      <tr ng-show="applistoff">
+         <td colspan="3">
+            <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+         </td>
+      </tr>
+   </tbody>
+</table>

@@ -1,0 +1,61 @@
+<div class="content-heading clearfix">
+  <h3 class="pull-left">storm应用管理</h3>
+  <a ui-sref="app.topology_create" class="mb-sm btn btn-info pull-right">添加storm应用</a>
+</div>
+<div class="tablesearch">
+   <input type="text" ng-keyup="searchTask($event)" class="form-control" placeholder="输入应用组件名搜索" ng-model="searchval" />
+</div>
+<table class="table table_title" id="tasklisttable">
+      <thead>
+         <tr>
+            <th check-all="check-all">
+            <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+            </th>
+            <th>应用组件名称</th>
+            <th ng-if="user.roleId=='1'">创建用户</th>
+            <th>更新时间</th>
+            <th>操作</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr ng-if="!tasklistoff">
+	         <td colspan="5">
+	           <p class="noresult"><em class="icon-info"></em> {{warninginfo}}</p>
+	         </td>
+         </tr>
+         <tr ng-repeat="item in tasklist.rows">
+            <td>
+            <div class="checkbox c-checkbox">
+               <label>
+                  <input type="checkbox" id="{{item.uuid}}" save-id="{{item.uuid}}" checkapp-id="checkappId" ng-checked="{{item.ischecked}}" />
+                  <span class="fa fa-check"></span>
+               </label>
+            </div>
+            </td>
+            <td><a ui-sref="app.topology_versionlist({id:item.uuid})" ng-bind="item.name"></a></td>
+            <td ng-if="user.roleId=='1'" ng-bind="item.userName"></td>
+            <td ng-bind="item.updateTime"></td>
+            <td>
+             
+                <a ui-sref="app.topology_versionlist({id:item.uuid})" class="btn btn-sm btn-info" title="编辑">
+                     查看版本
+                </a>
+ 
+                <button type="button" class="btn btn-sm btn-danger" ng-click="delTask($index,item.uuid)" title="删除">
+                  <em class="fa fa-trash-o"></em>
+                </button>
+            </td>
+         </tr>
+         <tr ng-show="tasklistoff">
+            <td colspan="5">
+               <page page-count="pageCount" page-num="pageNum" on-page-change="onPageChange()"></page>
+            </td>
+         </tr>
+          
+      </tbody>
+	</table>

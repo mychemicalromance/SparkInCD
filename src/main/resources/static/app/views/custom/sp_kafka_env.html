@@ -1,0 +1,35 @@
+
+<h3 class="ng-scope">SP-kafka 环境查询</h3>
+<div class="g-wrapper ng-scope">
+	<div class="cont">
+		<div class="head" style="height:20px">
+			<label class="col-sm-2" style="width:60px;margin:0px;padding:0px;">SP版本:</label>
+			<div class="col-sm-4" style="text-align:left;">{{listEnv.sp_ver}}</div>
+			<label class="col-sm-2" style="width:80px;margin:0px;padding:0px;">kafka版本:</label>
+			<div class="col-sm-4" style="text-align:left;">{{listEnv.kafka_ver}}</div>
+
+		</div>
+		<table class="table table-bordered mt20">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th ng-click="col='CoreName';desc=!desc">核心库名称</th>
+					<th ng-click="col='CoreAcc';desc=!desc"
+						ng-show="listEnv.roleid == 1">核心库账号</th>
+					<th ng-click="col='Topic';desc=!desc">Topic</th>
+					<th ng-click="col='Zookeeper';desc=!desc">Zookeeper</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="ng-scope"
+					ng-repeat="list in listEnv.sp_col_list | orderBy:col:desc">
+					<td>{{$index+1}}</td>
+					<td>{{list.CoreName}}</td>
+					<td ng-show="listEnv.roleid == 1">{{list.CoreAcc}}</td>
+					<td>{{list.Topic}}</td>
+					<td>{{list.Zookeeper}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

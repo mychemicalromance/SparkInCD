@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3 class="ng-scope">sp-kafka测试数据</h3>
+	
+	<div class="cont">
+
+		<div class="head">
+			<!-- <a ui-sref="app.sp_create_date()" class="mb-sm btn btn-info pull-right"> 添加数据 </a> -->
+			<a  href="" class="btn btn-info pull-right " ng-click="addSpData()"> 添加数据 </a>
+		</div>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>序号</th>
+					<th>配置信息</th>
+					<th>表</th>
+					<th>操作</th>
+				</tr>
+				<tr ng-repeat="spRunData in spRunDatalist">
+				    <td>{{$index+1}}</td>
+					<td>{{spRunData.dataBaseDetail}}</td>
+					<td>{{spRunData.tableName}}</td>					
+					<td>
+						<button class="btn btn-danger" ng-click="deleteSpData(spRunData)">删除</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="form-group col-md-offset-3">
+		<div class="input-group">
+			<label class="input-group-addon">重复次数</label> 
+			<input type="text" class="form-control" ng-model="SenderCount" style="width: 130px;" placeholder="默认为1"
+				aria-describedby="basic-addon1">
+			<label class="input-group-addon">时间间隔(ms)</label> 
+			<input type="text" class="form-control" ng-model="SendertimeGap" style="width: 130px;" placeholder="默认为0"
+				aria-describedby="basic-addon1">
+		</div>
+	</div>
+<div class="dialog-footer">
+   <button type="submit" class="btn btn-info center-block" ng-click="inSertdataBtn()">生成</button>
+</div>
+</body>
+</html>
