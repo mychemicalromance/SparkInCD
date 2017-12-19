@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -41,6 +43,7 @@ import com.dc.appengine.util.FileUtil;
 import com.dc.appengine.util.FileWorker;
 import com.dc.appengine.util.MD5Util;
 import com.dc.appengine.util.MessageHelper;
+import com.dcits.Common.entity.User;
 
 @Path("spark")
 public class SparkRestService {
@@ -58,6 +61,19 @@ public class SparkRestService {
 	@Path("hello")
 	public String hello(){
 		return "hello,see you again.";
+	}
+	
+	@POST
+	@Path("loginTest")
+	public String loginTest(@FormParam("userName")String userName,
+			@FormParam("pwd")String pwd,@Context HttpServletRequest request,
+			@Context HttpServletResponse response){
+		User user = new User();
+		user.setName(userName);
+		user.setPwd(pwd);
+		user.setId(111111L);
+		request.getSession().setAttribute("user", user);
+		return "success";
 	}
 	
 	@POST
@@ -448,7 +464,9 @@ public class SparkRestService {
 	
 	@GET
 	@Path("getProvince")
-	public String getProvince(){
+	@Produces("text/plain;charset=utf-8")
+	public String getProvince(@Context HttpServletRequest request){
+		HttpSession s = request.getSession();
 		try {
 			// TODO Auto-generated method stub
 			String result = sparkService.getProvince();
